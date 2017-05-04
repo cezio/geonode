@@ -946,6 +946,3 @@ def run_subprocess(*cmd, **kwargs):
             w.write('')
 
     return p.returncode, stdout.getvalue(), stderr.getvalue()
-
-
-
