@@ -114,7 +114,7 @@ setup(name='GeoNode',
         "geonode-user-accounts>=1.0.13",  # (1.0.11 in ppa) FIXME
         "geonode-arcrest>=10.2",
         #"geonode-notification>=1.1.1",
-        "pinax-notifications",
+        "pinax-notifications<4.0",
         "geonode-dialogos>=0.5",
         "gsconfig>=1.0.6",  # (1.0.3 in ppa) FIXME
         "gsimporter>=1.0.0",  # (0.1 in ppa) FIXME
