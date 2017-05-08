@@ -328,7 +328,7 @@ INSTALLED_APPS = (
     'floppyforms',
 
     # Theme
-    "pinax_theme_bootstrap_account",
+    #"pinax_theme_bootstrap_account",
     "pinax_theme_bootstrap",
     'django_forms_bootstrap',
 
@@ -1029,7 +1029,7 @@ if S3_MEDIA_ENABLED:
 
 # pinax.notifications
 # or notification
-NOTIFICATIONS_MODULE = None
+NOTIFICATIONS_MODULE = 'pinax.notifications'
 
 djcelery.setup_loader()
 
