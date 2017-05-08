@@ -1027,6 +1027,9 @@ if S3_MEDIA_ENABLED:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_BUCKET_DOMAIN, MEDIAFILES_LOCATION)
 
+# pinax.notifications
+# or notification
+NOTIFICATIONS_MODULE = None
 
 djcelery.setup_loader()
 

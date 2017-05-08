@@ -17,3 +17,22 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #########################################################################
+import logging
+from django.apps import AppConfig
+from django.utils.translation import ugettext_noop as _
+from geonode.notifications_helper import install_notifications
+
+logger = logging.getLogger(__name__)
+
+notifications = (("user_follow", _("User following you"), _("Another user has started following you"),),
+                 ("account_approve", _("User requested access"), _("A new user has requested access to the site"),),
+                 ("account_active", _("Account activated"), _("This account is now active and can log in the site"),),
+            )
+
+class PeopleAppConfig(AppConfig):
+    name = 'geonode.people'
+
+    def ready(self):
+        install_notifications(notifications, logger, self)
+
+default_app_config = 'geonode.people.PeopleAppConfig'

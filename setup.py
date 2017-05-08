@@ -113,7 +113,8 @@ setup(name='GeoNode',
         "geonode-agon-ratings>=0.3.5",  # (0.3.1 in ppa) FIXME
         "geonode-user-accounts>=1.0.13",  # (1.0.11 in ppa) FIXME
         "geonode-arcrest>=10.2",
-        "geonode-notification>=1.1.1",
+        #"geonode-notification>=1.1.1",
+        "pinax-notifications",
         "geonode-dialogos>=0.5",
         "gsconfig>=1.0.6",  # (1.0.3 in ppa) FIXME
         "gsimporter>=1.0.0",  # (0.1 in ppa) FIXME
