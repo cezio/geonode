@@ -18,21 +18,12 @@
 #
 #########################################################################
 
-import logging
-from django.apps import AppConfig
-
 from django.utils.translation import ugettext_noop as _
-from geonode.notifications_helper import install_notifications
+from geonode.notifications_helper import NotificationsAppConfigBase
 
-logger = logging.getLogger(__name__)
-
-notifications = (("request_download_resourcebase", _("Request to download a resource"),
-                _("A request for downloading a resource was sent")),)
-
-class BaseAppConfig(AppConfig):
+class BaseAppConfig(NotificationsAppConfigBase):
     name = 'geonode.base'
-
-    def ready(self):
-        install_notifications(notifications, logger, self)
+    NOTIFICATIONS = (("request_download_resourcebase", _("Request to download a resource"),
+                    _("A request for downloading a resource was sent")),)
 
 default_app_config = 'geonode.base.BaseAppConfig'

@@ -17,24 +17,17 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #########################################################################
-import logging
-from django.apps import AppConfig
+
 from django.utils.translation import ugettext_noop as _
-from geonode.notifications_helper import install_notifications
+from geonode.notifications_helper import NotificationsAppConfigBase
 
-logger = logging.getLogger(__name__)
-
-notifications = (
-    ("layer_created", _("Layer Created"), _("A Layer was created"),),
-    ("layer_updated", _("Layer Updated"), _("A Layer was updated"),),
-    ("layer_deleted", _("Layer Deleted"), _("A Layer was deleted"),),
-    ("layer_comment", _("Comment on Layer"), _("A layer was commented on"),),
-    ("layer_rated", _("Rating for Layer"), _("A rating was given to a layer"),),)
-
-class LayersAppConfig(AppConfig):
+class LayersAppConfig(NotificationsAppConfigBase):
     name = 'geonode.layers'
-
-    def ready(self):
-        install_notifications(notifications, logger, self)
+    NOTIFICATIONS = (
+        ("layer_created", _("Layer Created"), _("A Layer was created"),),
+        ("layer_updated", _("Layer Updated"), _("A Layer was updated"),),
+        ("layer_deleted", _("Layer Deleted"), _("A Layer was deleted"),),
+        ("layer_comment", _("Comment on Layer"), _("A layer was commented on"),),
+        ("layer_rated", _("Rating for Layer"), _("A rating was given to a layer"),),)
 
 default_app_config = 'geonode.layers.LayersAppConfig'

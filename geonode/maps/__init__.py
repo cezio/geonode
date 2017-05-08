@@ -17,23 +17,15 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #########################################################################
-import logging
-from django.apps import AppConfig
 from django.utils.translation import ugettext_noop as _
-from geonode.notifications_helper import install_notifications
+from geonode.notifications_helper import NotificationsAppConfigBase
 
-logger = logging.getLogger(__name__)
-
-notifications = (("map_updated", _("Map Updated"), _("A Map was updated"),),
-                 ("map_deleted", _("Map Deleted"), _("A Map was deleted"),),
-                 ("map_comment", _("Comment on Map"), _("A map was commented on"),),
-                 ("map_rated", _("Rating for Map"), _("A rating was given to a map"),),
-                )
-
-class MapsAppConfig(AppConfig):
+class MapsAppConfig(NotificationsAppConfigBase):
     name = 'geonode.maps'
-
-    def ready(self):
-        install_notifications(notifications, logger, self)
+    NOTIFICATIONS = (("map_updated", _("Map Updated"), _("A Map was updated"),),
+                     ("map_deleted", _("Map Deleted"), _("A Map was deleted"),),
+                     ("map_comment", _("Comment on Map"), _("A map was commented on"),),
+                     ("map_rated", _("Rating for Map"), _("A rating was given to a map"),),
+                    )
 
 default_app_config = 'geonode.maps.MapsAppConfig'
