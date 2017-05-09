@@ -829,7 +829,7 @@ if has_notifications:
                 #resignals()
                 l.name = 'test notifications 2'
                 l.save()
-                #self.assertTrue(self.check_notification_out('layer_created', self.u))
+                self.assertTrue(self.check_notification_out('layer_updated', self.u))
 
                 from dialogos.models import Comment
                 lct = ContentType.objects.get_for_model(l)
