@@ -325,7 +325,7 @@ class LayersTest(TestCase):
 
 
 if has_notifications:
-    class DocumentNotificationsTestCase(NotificationsTestsHelper, TestCase):
+    class DocumentNotificationsTestCase(NotificationsTestsHelper):
 
         fixtures = ['initial_data.json', 'bobby']
         def setUp(self):
@@ -342,7 +342,8 @@ if has_notifications:
 
 
         def testDocumentNotifications(self):
-            with self.settings(NOTIFICATION_QUEUE_ALL=False):
+            with self.settings(NOTIFICATION_QUEUE_ALL=True):
+                self.clear_notifications_queue()
                 l = Document.objects.create(title='test notifications', owner=self.u)
                 self.assertTrue(self.check_notification_out('document_created', self.u))
                 #resignals()

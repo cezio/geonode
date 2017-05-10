@@ -27,6 +27,7 @@ from django.core.management import call_command
 from django.db.models import signals
 from django.test import TestCase
 from django.core import mail
+from django.conf import settings
 
 from geonode.geoserver.signals import geoserver_post_save
 from geonode.maps.models import Layer
@@ -146,9 +147,13 @@ class TestSetAttributes(TestCase):
             self.assertIn([a.attribute, a.attribute_type], expected_results)
 
 if has_notifications:
+    import pickle
+    import base64
     from pinax.notifications.tests import get_backend_id
     from pinax.notifications.engine import send_all
-    class NotificationsTestsHelper(object):
+    from pinax.notifications.models import NoticeQueueBatch
+
+    class NotificationsTestsHelper(TestCase):
         """
         Helper class for notification tests
         This provides:
@@ -170,22 +175,45 @@ if has_notifications:
                 notices.append(n)
             return notices
 
+        def clear_notifications_queue(self):
+            send_all()
+
         def check_notification_out(self, notification_name, user):
             """
             Return True if user received notification
             """
-            # send all queued before this
-            send_all()
+            # with queued notifications we can detect notification types easier
+            if settings.NOTIFICATION_QUEUE_ALL:
+                self.assertTrue(NoticeQueueBatch.objects.all().count()>0)
 
-            # empty outbox:/
-            if not mail.outbox:
+                notification = user.noticesetting_set.get(notice_type__label=notification_name)
+                # we're looking for specific notification type/user combination, which is probably
+                # at the end
+
+                for queued_batch in NoticeQueueBatch.objects.all():
+                    notices = pickle.loads(base64.b64decode(queued_batch.pickled_data))
+                    for user_id, label, extra_context, sender in notices:
+                        if label == notification_name and user_id == user.pk:
+                            return True
+
+                # clear notifications queue
+                send_all()
                 return False
-            msg = mail.outbox[-1]
-            notification = user.noticesetting_set.get(notice_type__label=notification_name)
+            else:
+                send_all()
+                # empty outbox:/
+                if not mail.outbox:
+                    return False
 
-            # unfortunatelly we can't use description check in subject, because subject is
-            # generated from other template.
+                msg = mail.outbox[-1]
+                notification = user.noticesetting_set.get(notice_type__label=notification_name)
 
-            # and notification.notice_type.description in msg.subject
-            # last email should contain notification
-            return user.email in msg.to 
+                # unfortunatelly we can't use description check in subject, because subject is
+                # generated from other template.
+                # and notification.notice_type.description in msg.subject
+                # last email should contain notification
+                return user.email in msg.to
+
+                
+
+

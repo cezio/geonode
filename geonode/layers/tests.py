@@ -806,7 +806,7 @@ class UnpublishedObjectTests(TestCase):
         layer.save()
 
 if has_notifications:
-    class LayerNotificationsTestCase(NotificationsTestsHelper, TestCase):
+    class LayerNotificationsTestCase(NotificationsTestsHelper):
 
         fixtures = ['initial_data.json', 'bobby']
         def setUp(self):
@@ -824,7 +824,8 @@ if has_notifications:
 
 
         def testLayerNotifications(self):
-            with self.settings(NOTIFICATION_QUEUE_ALL=False):
+            with self.settings(NOTIFICATION_QUEUE_ALL=True):
+                self.clear_notifications_queue()
                 l = Layer.objects.create(name='test notifications')
                 #resignals()
                 l.name = 'test notifications 2'
