@@ -495,11 +495,11 @@ A boolean that specifies whether the uploader should allow the user to upload da
 User Account settings
 =====================
 
-REGISTRATION_OPEN
+ACCOUNT_SIGNUP_OPEN
 -----------------
 Default: ``False``
 
-A boolean that specifies whether users can self-register for an account on your site.
+A boolean that specifies whether users can self-register for an account on your site (effective for ``django-user-accounts`` app).
 
 THEME_ACCOUNT_CONTACT_EMAIL
 ---------------------------
