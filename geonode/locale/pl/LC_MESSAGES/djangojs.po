@@ -1,4 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -19,30 +18,31 @@
 # Translators:
 # Translators:
 # Translators:
-# Andres Alfonso Lemon Gomez <lemon.andres@gmail.com>, 2014
+# Andres Alfonso Lemon Gomez <lemon.andres@gmail.com>, 2014.
+# Cezary Statkiewicz <cezio@thelirium.net>, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-25 02:28-0500\n"
-"PO-Revision-Date: 2016-08-23 11:58+0000\n"
-"Last-Translator: Julien Collaer <julien.collaer@opengeode.be>\n"
-"Language-Team: Polish (http://www.transifex.com/geonode/geonode/language/"
-"pl/)\n"
+"PO-Revision-Date: 2017-12-30 23:24+0100\n"
+"Last-Translator: Cezary Statkiewicz <cezio@thelirium.net>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10"
+" || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: geonode/static/geonode/js/search/search.js:373
 msgid "Enter your text here ..."
-msgstr ""
+msgstr "Wprowadź swój tekst tutaj ..."
 
 #: geonode/static/geonode/js/search/search.js:414
 msgid "Enter your region here ..."
-msgstr ""
+msgstr "Wprowadź swój region tutaj ..."
 
 #: geonode/static/geonode/js/upload/FileType.js:33
 #, javascript-format
@@ -56,11 +56,11 @@ msgstr "ESRI Shapefile"
 #: geonode/static/geonode/js/upload/FileTypes.js:13
 #: geonode/static/geonode/js/upload/FileTypes.js:18
 msgid "GeoTIFF"
-msgstr ""
+msgstr "GeoTIFF"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:24
 msgid "Comma Separated Value"
-msgstr ""
+msgstr "Wartości oddzielone przecinkiem"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:29
 msgid "Google Earth KML"
@@ -72,16 +72,16 @@ msgstr "GeoJSON"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:39
 msgid "Zip Archive"
-msgstr ""
+msgstr "Archiwum ZIP"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:45
 msgid "ERDAS Imagine"
-msgstr ""
+msgstr "ERDAS Imagine"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:50
 #: geonode/static/geonode/js/upload/FileTypes.js:55
 msgid "National Imagery Transmission Format"
-msgstr ""
+msgstr "Format National Imagery Transmission"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:61
 msgid "Controlled Image Base-1 Meter"
@@ -133,7 +133,7 @@ msgstr ""
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:331
 msgid "Layer Info"
-msgstr "Warstwa Info"
+msgstr "Informacja o warstwie"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:332
 msgid "Edit Metadata"
@@ -145,15 +145,15 @@ msgstr "Zarządzanie stylami"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:336
 msgid "The column %1 was renamed to %2 <br/>"
-msgstr ""
+msgstr "Kolumna %1 została przemianowana na %2 <br/>"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:342
 msgid "Your layer was successfully uploaded"
-msgstr "Twoja warstwa została pomyślnie przesłany"
+msgstr "Twoja warstwa została pomyślnie załadowana"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:371
 msgid "Performing Final GeoServer Config Step"
-msgstr "Wykonywanie GeoServer Config Krok końcowy"
+msgstr "Wykonywanie ostatniego kroku konfiguracji GeoServera"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:386
 #: geonode/static/geonode/js/upload/LayerInfo.js:412
@@ -175,24 +175,24 @@ msgstr "Nieoczekiwany błąd"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:438
 msgid "Performing GeoServer Config Step"
-msgstr "Konfiguracja Krok Wykonywanie GeoServer"
+msgstr "Wykonywanie kroku konfiguracji GeoServera"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:516
 msgid "Layer files uploaded, configuring in GeoServer"
-msgstr "Pliki warstwy dodane, konfigurowanie w GeoServer"
+msgstr "Pliki warstwy dodane, konfigurowanie GeoServera"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:532
 msgid "Select or create a Geogig repository."
-msgstr ""
+msgstr "Wybierz lub utwórz repozytorium Geogig."
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:695
 msgid "Remove"
-msgstr "Usunąć"
+msgstr "Usuń"
 
 #: geonode/static/geonode/js/upload/upload.js:125
 #, javascript-format
 msgid "The file %s is an unsupported file type, please select another file."
-msgstr "Plik %s jest nieobsługiwany typ pliku, wybierz inny plik."
+msgstr "Plik %s jest nieobsługiwanego typu, wybierz inny plik."
 
 #: geonode/static/geonode/js/upload/upload.js:285
 msgid ""
@@ -201,6 +201,10 @@ msgid ""
 "\n"
 "Please check for errors in the form!"
 msgstr ""
+"Próbujesz załadować niekompletny zestaw plików albo nie wszystkie wymagane "
+"opcje są prawidłowe.\n"
+"\n"
+"Proszę sprawdzić błędy w formularzu!"
 
 #: geonode/static/lib/js/assets.min.js:2
 msgid "<iframe frameborder='0' width='0' height='0'/>"
@@ -216,7 +220,7 @@ msgstr ""
 
 #: geonode/templates/lang.js:9 geonode/templates/lang.js:236
 msgid "Cancel"
-msgstr "Anulować"
+msgstr "Anuluj"
 
 #: geonode/templates/lang.js:10
 msgid "Save as Copy"
@@ -229,7 +233,7 @@ msgstr "O tej mapie"
 #: geonode/templates/lang.js:12 geonode/templates/lang.js:96
 #: geonode/templates/lang.js:165
 msgid "Abstract"
-msgstr "Abstrakcyjny"
+msgstr "Streszczenie"
 
 #: geonode/templates/lang.js:13
 msgid "Save"
@@ -255,7 +259,7 @@ msgstr "Szczegóły ..."
 
 #: geonode/templates/lang.js:28 geonode/templates/lang.js:31
 msgid "Add Layers"
-msgstr "Dodaj Layers"
+msgstr "Dodaj Warstwy"
 
 #: geonode/templates/lang.js:29
 msgid "Area"
@@ -279,7 +283,7 @@ msgstr "Wysokość"
 
 #: geonode/templates/lang.js:36
 msgid "Get Feature Info"
-msgstr "Get Feature Info"
+msgstr "Pobierz informacje o obiekcie"
 
 #: geonode/templates/lang.js:37 geonode/templates/lang.js:122
 msgid "Large"
@@ -287,7 +291,7 @@ msgstr "Duży"
 
 #: geonode/templates/lang.js:38
 msgid "or add a new server."
-msgstr "lub dodać nowy serwer."
+msgstr "lub dodaj nowy serwer."
 
 #: geonode/templates/lang.js:39
 msgid "Map Layers"
@@ -319,11 +323,11 @@ msgstr "Ładowanie mapy ..."
 
 #: geonode/templates/lang.js:46 geonode/templates/lang.js:123
 msgid "Map Size"
-msgstr "Mapa Rozmiar"
+msgstr "Rozmiar Mapy"
 
 #: geonode/templates/lang.js:47
 msgid "Measure"
-msgstr "Działanie"
+msgstr "Pomiar"
 
 #: geonode/templates/lang.js:48 geonode/templates/lang.js:97
 #: geonode/templates/lang.js:163
@@ -340,15 +344,15 @@ msgstr "Mini"
 
 #: geonode/templates/lang.js:51
 msgid "Pan Map"
-msgstr "Pan Mapa"
+msgstr "Przesuń mapę"
 
 #: geonode/templates/lang.js:52
 msgid "Zoom to Next Extent"
-msgstr "Przybliża Następny wyciągnięcie"
+msgstr "Przybliż do następnego stopnia"
 
 #: geonode/templates/lang.js:53
 msgid "Zoom to Previous Extent"
-msgstr "Powiększyć do poprzedniego wyciągnięcie"
+msgstr "Przybliż do poprzedniego stopnia"
 
 #: geonode/templates/lang.js:54
 msgid "This map has not yet been saved."
@@ -356,11 +360,11 @@ msgstr "Ta mapa nie została jeszcze zapisana."
 
 #: geonode/templates/lang.js:56 geonode/templates/lang.js:125
 msgid "Premium"
-msgstr "Premia"
+msgstr "Płatne"
 
 #: geonode/templates/lang.js:57
 msgid "Print Map"
-msgstr "Drukuj Mapa"
+msgstr "Drukuj Mapę"
 
 #: geonode/templates/lang.js:58
 msgid "Print Preview"
@@ -372,7 +376,7 @@ msgstr "Właściwości"
 
 #: geonode/templates/lang.js:60 geonode/templates/lang.js:126
 msgid "Publish Map"
-msgstr "Publikowanie Mapa"
+msgstr "Opublikuj Mapę"
 
 #: geonode/templates/lang.js:61 geonode/templates/lang.js:62
 msgid "Remove Layer"
@@ -380,7 +384,7 @@ msgstr "Usuń warstwę"
 
 #: geonode/templates/lang.js:63
 msgid "Sorry, your map could not be saved."
-msgstr "Niestety, Twoja mapa nie może zostać zapisany."
+msgstr "Niestety, Twoja mapa nie może zostać zapisana."
 
 #: geonode/templates/lang.js:64
 msgid "Error While Saving"
@@ -388,7 +392,7 @@ msgstr "Błąd podczas zapisywania"
 
 #: geonode/templates/lang.js:65
 msgid "Save Map"
-msgstr "Zapisz Mapa"
+msgstr "Zapisz Mapę"
 
 #: geonode/templates/lang.js:66
 msgid "You must be logged in to save this map."
@@ -402,23 +406,24 @@ msgstr "Mały"
 msgid ""
 "Error contacting server.\n"
 " Please check the url and try again."
-msgstr "Błąd kontaktując serwer. Sprawdź adres URL i spróbuj ponownie."
+msgstr ""
+"Błąd podczas komunikacji z serwerem. Sprawdź adres URL i spróbuj ponownie."
 
 #: geonode/templates/lang.js:69
 msgid "Layer Properties"
-msgstr "Właściwości warstw"
+msgstr "Właściwości warstwy"
 
 #: geonode/templates/lang.js:70
 msgid "Change layer format and style"
-msgstr "Zmień styl warstwy i formacie"
+msgstr "Zmień styl warstwy i format"
 
 #: geonode/templates/lang.js:71
 msgid "Edit Styles"
-msgstr "Edytuj Style"
+msgstr "Zmodyfikuj Styl"
 
 #: geonode/templates/lang.js:72
 msgid "Edit layer styles"
-msgstr "Edit layer style"
+msgstr "Zmodyfikuj style warstwy"
 
 #: geonode/templates/lang.js:73
 msgid "Switch to Google Earth 3D Viewer"
@@ -429,11 +434,12 @@ msgid ""
 "The map that you are trying to load does not exist.  Creating a new map "
 "instead."
 msgstr ""
-"Mapa, że ​​próbujesz załadować nie istnieje. Tworzenie nowej mapy zamiast."
+"Mapa, którą ​​próbujesz załadować nie istnieje. Zamiast tego, utworzono nową"
+" mapę."
 
 #: geonode/templates/lang.js:75
 msgid "Unknown Map"
-msgstr "Nieznane Mapa"
+msgstr "Nieznana Mapa"
 
 #: geonode/templates/lang.js:76 geonode/templates/lang.js:129
 msgid "Width"
@@ -441,39 +447,39 @@ msgstr "Szerokość"
 
 #: geonode/templates/lang.js:77
 msgid "Zoom In"
-msgstr "Powiększ"
+msgstr "Przybliż"
 
 #: geonode/templates/lang.js:78
 msgid "Zoom Out"
-msgstr "Oddalanie"
+msgstr "Oddal"
 
 #: geonode/templates/lang.js:79
 msgid "Zoom level"
-msgstr "Poziom zoomu"
+msgstr "Stopień przybliżenia"
 
 #: geonode/templates/lang.js:80
 msgid "Zoom Level"
-msgstr "Poziom powiększenia"
+msgstr "Stopień Przybliżenia"
 
 #: geonode/templates/lang.js:81
 msgid "Zoom to Layer Extent"
-msgstr "Powiększ do warstwy Zakres"
+msgstr "Przybliż do obszaru warstwy"
 
 #: geonode/templates/lang.js:82
 msgid "Zoom to Visible Extent"
-msgstr "Widoczne wyciągnięcie zbliżeniem"
+msgstr "Przybliż do widocznego obszaru"
 
 #: geonode/templates/lang.js:88
 msgid "Zoom Level {zoom}"
-msgstr "Poziom zoom zoom} {"
+msgstr "Przybliż do stopnia {zoom}"
 
 #: geonode/templates/lang.js:94
 msgid "Create Map"
-msgstr "Tworzenie mapy"
+msgstr "Utwórz mapę"
 
 #: geonode/templates/lang.js:95
 msgid "Export Map"
-msgstr "Eksport Mapa"
+msgstr "Eksportuj Mapę"
 
 #: geonode/templates/lang.js:98
 msgid "Map"
@@ -493,7 +499,7 @@ msgstr "Nazwa"
 
 #: geonode/templates/lang.js:108
 msgid "Queryable"
-msgstr "Queryable"
+msgstr "Przeszukiwalne"
 
 #: geonode/templates/lang.js:115
 msgid "No background"
@@ -504,7 +510,7 @@ msgid ""
 "Your map is ready to be published to the web!  Simply copy the following "
 "HTML to embed the map in your website:"
 msgstr ""
-"Twoja mapa jest gotowy do publikacji w internecie! Wystarczy skopiować "
+"Twoja mapa jest gotowa do publikacji w internecie! Wystarczy skopiować "
 "poniższy kod HTML, aby umieścić mapę na swojej stronie:"
 
 #: geonode/templates/lang.js:136 geonode/templates/lang.js:202
@@ -513,19 +519,19 @@ msgstr "Streszczenie:"
 
 #: geonode/templates/lang.js:137 geonode/templates/lang.js:204
 msgid "No attribution information is provided for this layer."
-msgstr "Brak jest informacji o uznanie dla tej warstwy."
+msgstr "Brak jest informacji o autorstwie tej warstwy."
 
 #: geonode/templates/lang.js:138 geonode/templates/lang.js:205
 msgid "Provided by:"
-msgstr "Zapewnione przez:"
+msgstr "Dostarczone przez:"
 
 #: geonode/templates/lang.js:139 geonode/templates/lang.js:206
 msgid "Download:"
-msgstr "Download:"
+msgstr "Pobieranie:"
 
 #: geonode/templates/lang.js:140 geonode/templates/lang.js:208
 msgid "No keywords are listed for this layer."
-msgstr "Brak słów kluczowych są wyświetlane na tej warstwie."
+msgstr "Brak słów kluczowych powiązanych z tą warstwa."
 
 #: geonode/templates/lang.js:141 geonode/templates/lang.js:209
 msgid "Keywords:"
@@ -533,11 +539,11 @@ msgstr "Słowa kluczowe:"
 
 #: geonode/templates/lang.js:142 geonode/templates/lang.js:210
 msgid "No metadata URLs are defined for this layer."
-msgstr "Brak URL metadanych są zdefiniowane dla tej warstwy."
+msgstr "Brak URL do metadanych dla tej warstwy."
 
 #: geonode/templates/lang.js:143 geonode/templates/lang.js:211
 msgid "Metadata Links:"
-msgstr "Metadanych Linki:"
+msgstr "Linki do Metadanych:"
 
 #: geonode/templates/lang.js:149
 msgid "Paper size:"
@@ -549,11 +555,11 @@ msgstr "Rozdzielczość:"
 
 #: geonode/templates/lang.js:151
 msgid "Print"
-msgstr "Druk"
+msgstr "Drukuj"
 
 #: geonode/templates/lang.js:152
 msgid "Enter map title here."
-msgstr "Wprowadź tytuł mapę tutaj."
+msgstr "Wprowadź tytuł mapy tutaj."
 
 #: geonode/templates/lang.js:153
 msgid "Include legend?"
@@ -561,7 +567,7 @@ msgstr "Dołącz legendę?"
 
 #: geonode/templates/lang.js:154
 msgid "Enter comments here."
-msgstr "Wpisz tutaj komentarzy."
+msgstr "Wpisz tutaj komentarze."
 
 #: geonode/templates/lang.js:155
 msgid "Creating PDF..."
@@ -573,11 +579,11 @@ msgstr "Ostatnia modyfikacja"
 
 #: geonode/templates/lang.js:167 geonode/templates/lang.js:188
 msgid "Prev"
-msgstr "Poprzednia"
+msgstr "Poprzednie"
 
 #: geonode/templates/lang.js:168 geonode/templates/lang.js:189
 msgid "Next"
-msgstr "Następny"
+msgstr "Następne"
 
 #: geonode/templates/lang.js:169 geonode/templates/lang.js:190
 msgid "of"
@@ -585,15 +591,15 @@ msgstr "z"
 
 #: geonode/templates/lang.js:170 geonode/templates/lang.js:191
 msgid "Your search did not match any items."
-msgstr "Wyszukiwanie nie dało żadnych przedmiotów."
+msgstr "Wyszukiwanie nie dało żadnych wyników."
 
 #: geonode/templates/lang.js:171
 msgid "Search Maps"
-msgstr "Szukaj Mapy"
+msgstr "Szukaj Map"
 
 #: geonode/templates/lang.js:172 geonode/templates/lang.js:192
 msgid "Search"
-msgstr "Poszukiwanie"
+msgstr "Przeszukiwanie"
 
 #: geonode/templates/lang.js:173 geonode/templates/lang.js:193
 msgid "Showing"
@@ -609,7 +615,7 @@ msgstr "permalink"
 
 #: geonode/templates/lang.js:182
 msgid "Select"
-msgstr "Wybierać"
+msgstr "Wybierz"
 
 #: geonode/templates/lang.js:185
 msgid "Select:"
@@ -621,7 +627,7 @@ msgstr "Wszystko"
 
 #: geonode/templates/lang.js:187
 msgid "None"
-msgstr "Żaden"
+msgstr "Nic"
 
 #: geonode/templates/lang.js:194
 msgid "Loading..."
@@ -637,11 +643,11 @@ msgstr "Dane te są przechowywane w zdalnym serwerze"
 
 #: geonode/templates/lang.js:203
 msgid "No abstract is provided for this layer."
-msgstr "Nie abstrakcyjne jest dla tej warstwy."
+msgstr "Nie podano streszczenia dla tej warstwy."
 
 #: geonode/templates/lang.js:207
 msgid "No download URLs are definied for this layer."
-msgstr "Brak pobieranie adresy są przepisami określonymi dla tej warstwy."
+msgstr "Brak adresu URL do pobieranie dla tej warstwy."
 
 #: geonode/templates/lang.js:217
 msgid "Selected Layers"
@@ -649,7 +655,7 @@ msgstr "Wybrane warstwy"
 
 #: geonode/templates/lang.js:218
 msgid "No Layers Selected"
-msgstr "Brak Warstwy Wybrany"
+msgstr "Nie wybrano warstw"
 
 #: geonode/templates/lang.js:220
 msgid "Clear Selected"
@@ -665,7 +671,7 @@ msgstr "Operacja nie powiodła się"
 
 #: geonode/templates/lang.js:228
 msgid "No layers are currently selected."
-msgstr "Brak warstwy są aktualnie wybrany."
+msgstr "Nie wybrano aktualnie żadnych warstw"
 
 #: geonode/templates/lang.js:235
 msgid "Downloading..."
