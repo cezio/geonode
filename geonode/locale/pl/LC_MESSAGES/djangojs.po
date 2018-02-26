@@ -19,13 +19,13 @@
 # Translators:
 # Translators:
 # Andres Alfonso Lemon Gomez <lemon.andres@gmail.com>, 2014.
-# Cezary Statkiewicz <cezio@thelirium.net>, 2017.
+# Cezary Statkiewicz <cezio@thelirium.net>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-25 02:28-0500\n"
-"PO-Revision-Date: 2017-12-30 23:24+0100\n"
+"PO-Revision-Date: 2018-02-26 13:51+0100\n"
 "Last-Translator: Cezary Statkiewicz <cezio@thelirium.net>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
