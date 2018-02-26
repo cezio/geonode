@@ -36,8 +36,8 @@ from geonode.geoserver.ows import wcs_links, wfs_links, wms_links
 from geonode.geoserver.helpers import cascading_delete, set_attributes_from_geoserver
 from geonode.geoserver.helpers import set_styles, gs_catalog
 from geonode.geoserver.helpers import ogc_server_settings
-from geonode.geoserver.helpers import geoserver_upload
 from geonode.geoserver.helpers import create_gs_thumbnail
+from geonode.geoserver.upload import geoserver_upload
 from geonode.base.models import ResourceBase
 from geonode.base.models import Link
 from geonode.people.models import Profile
@@ -448,8 +448,12 @@ def geoserver_post_save_local(instance, *args, **kwargs):
                                )
                                )
 
-    logger.info("Creating Thumbnail for Layer [%s]" % (instance.alternate))
-    create_gs_thumbnail(instance, overwrite=False)
+    # some thumbnail generators will update thumbnail_url.  If so, don't
+    # immediately re-generate the thumbnail here.  use layer#save(update_fields=['thumbnail_url'])
+    if not ('update_fields' in kwargs and kwargs['update_fields'] is not None and
+            'thumbnail_url' in kwargs['update_fields']):
+        logger.info("Creating Thumbnail for Layer [%s]" % (instance.alternate))
+        create_gs_thumbnail(instance, overwrite=True)
 
     legend_url = ogc_server_settings.PUBLIC_LOCATION + \
         'wms?request=GetLegendGraphic&format=image/png&WIDTH=20&HEIGHT=20&LAYER=' + \

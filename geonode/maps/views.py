@@ -165,8 +165,8 @@ def map_detail(request, mapid, snapshot=None, template='maps/map_detail.html'):
 
     context_dict["preview"] = getattr(
         settings,
-        'LAYER_PREVIEW_LIBRARY',
-        '')
+        'GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY',
+        'geoext')
     context_dict["crs"] = getattr(
         settings,
         'DEFAULT_MAP_CRS',
@@ -315,7 +315,7 @@ def map_metadata(request, mapid, template='maps/map_metadata.html'):
     if settings.ADMIN_MODERATE_UPLOADS:
         if not request.user.is_superuser:
             map_form.fields['is_published'].widget.attrs.update({'disabled': 'true'})
-        if not request.user.is_superuser or not request.user.is_staff:
+
             can_change_metadata = request.user.has_perm(
                 'change_resourcebase_metadata',
                 map_obj.get_self_resource())
@@ -335,7 +335,7 @@ def map_metadata(request, mapid, template='maps/map_metadata.html'):
         "author_form": author_form,
         "category_form": category_form,
         "layers": layers,
-        "preview": getattr(settings, 'LAYER_PREVIEW_LIBRARY', 'leaflet'),
+        "preview": getattr(settings, 'GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY', 'geoext'),
         "crs": getattr(settings, 'DEFAULT_MAP_CRS', 'EPSG:900913'),
         "metadata_author_groups": metadata_author_groups,
         "GROUP_MANDATORY_RESOURCES": getattr(settings, 'GROUP_MANDATORY_RESOURCES', False),
@@ -421,7 +421,7 @@ def map_embed(
 
 
 def map_embed_widget(request, mapid,
-                     template='leaflet_maps/map_embed_widget.html'):
+                     template='leaflet/maps/map_embed_widget.html'):
     """Display code snippet for embedding widget.
 
     :param request: The request from the frontend.
@@ -544,8 +544,8 @@ def map_view(request, mapid, snapshot=None, layer_name=None, template='maps/map_
         'map': map_obj,
         'preview': getattr(
             settings,
-            'LAYER_PREVIEW_LIBRARY',
-            '')
+            'GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY',
+            'geoext')
     }))
 
 
@@ -653,8 +653,8 @@ def map_edit(request, mapid, snapshot=None, template='maps/map_edit.html'):
         'map': map_obj,
         'preview': getattr(
             settings,
-            'LAYER_PREVIEW_LIBRARY',
-            '')
+            'GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY',
+            'geoext')
     }))
 
 
@@ -684,14 +684,15 @@ def clean_config(conf):
 
 
 def new_map(request, template='maps/map_new.html'):
-    config = new_map_config(request)
+    map_obj, config = new_map_config(request)
     context_dict = {
         'config': config,
+        'map': map_obj
     }
     context_dict["preview"] = getattr(
         settings,
-        'LAYER_PREVIEW_LIBRARY',
-        '')
+        'GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY',
+        'geoext')
     if isinstance(config, HttpResponse):
         return config
     else:
@@ -703,7 +704,7 @@ def new_map(request, template='maps/map_new.html'):
 def new_map_json(request):
 
     if request.method == 'GET':
-        config = new_map_config(request)
+        map_obj, config = new_map_config(request)
         if isinstance(config, HttpResponse):
             return config
         else:
@@ -764,6 +765,7 @@ def new_map_config(request):
     else:
         access_token = None
 
+    map_obj = None
     if request.method == 'GET' and 'copy' in request.GET:
         mapid = request.GET['copy']
         map_obj = _resolve_map(request, mapid, 'base.view_resourcebase')
@@ -790,7 +792,7 @@ def new_map_config(request):
             config = add_layers_to_map_config(request, map_obj, params.getlist('layer'))
         else:
             config = DEFAULT_MAP_CONFIG
-    return json.dumps(config)
+    return map_obj, json.dumps(config)
 
 
 def add_layers_to_map_config(request, map_obj, layer_names, add_base_layers=True):

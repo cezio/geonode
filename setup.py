@@ -113,11 +113,11 @@ setup(name='GeoNode',
             "dj-database-url<=0.4.2",  # , python-dj-database-url (0.4.1 in ppa)
             "Pinax<=0.9a2",  # python-pinax (0.9a2 in our ppa)
             # pinax-comments==0.1.1
-            "pinax-notifications<=4.0.0",  # (4.0.0 in ppa)
+            "pinax-notifications==4.1.0",  # (4.0.0 in ppa) FIXME
             "pinax-theme-bootstrap<=8.0.1",  # python-pinax-theme-bootstrap (8.0.1 in our ppa)
-            "django-bootstrap-form<=3.3",  # python-django-bootstrap-form (3.3 in our ppa)
             "django-forms-bootstrap<=3.1.0",  # python-django-forms-bootstrap (3.1.0 in our ppa)
             "django-friendly-tag-loader<=1.2.1",  # python-django-friendly-tag-loader (1.2.1 in our ppa)
+            "django-allauth<=0.34.0",  # TODO
             "django-activity-stream<=0.6.4",  # python-django-activity-stream (0.6.3 in ppa) FIXME
             "django-appconf<=1.0.2",  # (1.0.2 in ppa)
             "django-autocomplete-light>=2.3.3,<3.0a0",  # (2.3.3.1 in ppa)
@@ -128,14 +128,14 @@ setup(name='GeoNode',
             "django-modeltranslation>=0.11,<=0.12.1",  # python-django-modeltranslation (0.12 Debian)
             "django-import-export<=0.5.1",  # missing from ppa FIXME
             "django-utils<=0.0.2",  # missing from ppa FIXME
+            "django-basic-authentication-decorator==0.9",  # missing from ppa FIXME
 
             # GeoNode org maintained apps.
-            "django-geoexplorer>=4.0.0,<5.0",  # python-django-geoexplorer (4.0.37 in our ppa)
-            "geonode-user-messages<=0.1.11",  # python-geonode-user-messages (0.1.11 in our ppa)
+            "django-geoexplorer>=4.0.0,<5.0",  # python-django-geoexplorer (4.0.37 in our ppa) FIXME
+            "geonode-user-messages<=0.1.12",  # python-geonode-user-messages (0.1.11 in our ppa) FIXME
             "geonode-avatar<=2.1.6",  # python-geonode-avatar (2.1.6 in our ppa)
             "geonode-announcements<=1.0.9",  # python-geonode-announcements (1.0.9 in our ppa)
             "geonode-agon-ratings<=0.3.5",  # python-geonode-agon-ratings (0.3.5 in our ppa)
-            "geonode-user-accounts==1.0.15",  # python-geonode-user-accounts (1.0.15 in our ppa)
             "geonode-arcrest>=10.0",  # python-geonode-arcrest (10.2 in our ppa)
             "geonode-dialogos>=0.5",  # python-geonode-dialogos (0.7 in our ppa)
             "gsconfig<2.0.0",  # python-gsconfig (1.0.8 in our ppa)
@@ -152,6 +152,9 @@ setup(name='GeoNode',
 
             # AWS S3 dependencies
             "django-storages<=1.6.5",  # python-django-storages (1.6.5 in our ppa)
+
+            # DJango Caches
+            "python-memcached<=1.59",  # missing from ppa FIXME
 
             # Contribs
             "et-xmlfile<=1.0.1",  # python-et-xmlfile (1.0.1 in our ppa)
