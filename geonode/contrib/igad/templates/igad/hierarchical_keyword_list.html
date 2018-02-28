@@ -1,0 +1,20 @@
+{% extends "igad/base.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load static %}
+{% load pagination_tags %}
+
+{% block body %}
+<div class="menu">
+
+<ul class="nav">
+    <li class="home"><span><a href="{% url 'home' %}">{% trans 'Home' %}</a></span></li>
+    {% for hkeyword in object_list %}
+   <li class="home"><span><a href="{% url 'hkeyword_view' hkeyword.slug %}">{{ hkeyword }}</a></span></li>
+
+    {% endfor %}
+
+</ul>
+</div>
+
+{% endblock %}

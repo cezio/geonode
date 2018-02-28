@@ -10,6 +10,6 @@ from geonode.contrib.igad.models import HierarchicalKeywordMeta
 
 @admin.register(HierarchicalKeywordMeta)
 class HierarchicalKeywordMetaAdmin(admin.ModelAdmin):
-    list_display = ('title', 'hkeyword',)
+    list_display = ('title', 'hkeyword', 'icon', 'url',)
     #fields = ('hkeyword', 'hkeyword__name', 'title', 'icon', 'description', 'url',)
     #raw_id_fields = ('hkeyword',)

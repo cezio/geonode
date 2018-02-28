@@ -18,9 +18,11 @@
 #
 #########################################################################
 
+from urllib import urlencode
 from django import template
 
 from agon_ratings.models import Rating
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
@@ -306,3 +308,11 @@ def fullurl(context, url):
         return ''
     r = context['request']
     return r.build_absolute_uri(url)
+
+
+@register.simple_tag(takes_context=True)
+def searchurl(context, **params):
+    base = reverse('layer_browse') #, kwargs=dict(api_name='api', resource_name='layers'))
+    q = urlencode(params)
+    return '{}?{}'.format(base, q)
+

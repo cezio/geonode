@@ -212,6 +212,11 @@ if 'geonode.contrib.ows_api' in settings.INSTALLED_APPS:
                             url('^', include('geonode.contrib.ows_api.urls')),
                             )
 
+if 'geonode.contrib.igad' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+                           url('hkeywords/', include('geonode.contrib.igad.urls')),
+                           )
+
 # Set up proxy
 urlpatterns += geonode.proxy.urls.urlpatterns
 
