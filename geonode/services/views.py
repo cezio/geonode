@@ -21,7 +21,6 @@
 import logging
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.urlresolvers import reverse
@@ -30,12 +29,16 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.template import RequestContext, loader
+from django.template import loader
 from django.utils.translation import ugettext as _
-
+from django.views.decorators.csrf import requires_csrf_token
+from django.views.decorators.cache import cache_control
+from geonode.decorators import superuser_only
 from geonode.security.views import _perms_info_json
 from geonode.layers.models import Layer
+from geonode.proxy.views import proxy
+from urlparse import urljoin
+from urllib import quote
 from .serviceprocessors import get_service_handler
 from . import enumerations
 from . import forms
@@ -46,7 +49,21 @@ from . import tasks
 logger = logging.getLogger("geonode.core.layers.views")
 
 
-@login_required
+@requires_csrf_token
+@cache_control(public=True, must_revalidate=True, max_age=604800)
+def service_proxy(request, service_id):
+    service = get_object_or_404(Service, pk=service_id)
+    if not service.proxy_base:
+        service_url = service.base_url
+    else:
+        service_url = "{ows_url}?{ows_request}".format(
+            ows_url=service.base_url, ows_request=request.META['QUERY_STRING'])
+        if urljoin(settings.SITEURL, reverse('proxy')) != service.proxy_base:
+            service_url = "{proxy_base}?url={service_url}".format(proxy_base=service.proxy_base,
+                                                                  service_url=quote(service_url, safe=''))
+    return proxy(request, url=service_url, sec_chk_hosts=False)
+
+
 def services(request):
     """This view shows the list of all registered services"""
     return render(
@@ -56,7 +73,7 @@ def services(request):
     )
 
 
-@login_required
+@superuser_only
 def register_service(request):
     service_register_template = "services/service_register.html"
     if request.method == "POST":
@@ -102,13 +119,14 @@ def _get_service_handler(request, service):
 
     """
 
-    service_handler = get_service_handler(service.base_url, service.type)
+    service_handler = get_service_handler(
+        service.base_url, service.proxy_base, service.type)
     request.session[service.base_url] = service_handler
     logger.debug("Added handler to the session")
     return service_handler
 
 
-@login_required()
+@superuser_only
 def harvest_resources(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
     try:
@@ -121,9 +139,9 @@ def harvest_resources(request, service_id):
     is_sync = getattr(settings, "CELERY_TASK_ALWAYS_EAGER", False)
     if request.method == "GET":
         already_harvested = HarvestJob.objects.values_list(
-            "resource_id", flat=True).filter(service=service)
+            "resource_id", flat=True).filter(service=service, status=enumerations.PROCESSED)
         not_yet_harvested = [
-            r for r in available_resources if r.id not in already_harvested]
+            r for r in available_resources if str(r.id) not in already_harvested]
         not_yet_harvested.sort(key=lambda resource: resource.id)
         paginator = Paginator(
             not_yet_harvested, getattr(settings, "CLIENT_RESULTS_LIMIT", 100))
@@ -152,9 +170,9 @@ def harvest_resources(request, service_id):
             logger.debug("id: {}".format(id))
             harvest_job, created = HarvestJob.objects.get_or_create(
                 service=service,
-                resource_id=id,
+                resource_id=id
             )
-            if created:
+            if created or harvest_job.status != enumerations.PROCESSED:
                 resources_to_harvest.append(id)
                 tasks.harvest_resource.apply_async((harvest_job.id,))
             else:
@@ -177,7 +195,7 @@ def harvest_resources(request, service_id):
     return result
 
 
-@login_required()
+@superuser_only
 def harvest_single_resource(request, service_id, resource_id):
     service = get_object_or_404(Service, pk=service_id)
     handler = _get_service_handler(request, service)
@@ -206,14 +224,14 @@ def harvest_single_resource(request, service_id, resource_id):
 
 
 def _gen_harvestable_ids(requested_ids, available_resources):
-    available_resource_ids = [r.id for r in available_resources]
+    available_resource_ids = [str(r.id) for r in available_resources]
     for id in requested_ids:
         identifier = str(id)
         if identifier in available_resource_ids:
             yield identifier
 
 
-@login_required
+@superuser_only
 def rescan_service(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
     try:
@@ -224,7 +242,7 @@ def rescan_service(request, service_id):
             "services/remote_service_unavailable.html",
             {"service": service}
         )
-    print("Finished rescaning service. About to redirect back...")
+    logger.debug("Finished rescaning service. About to redirect back...")
     messages.add_message(
         request, messages.SUCCESS, _("Service rescanned successfully"))
     return redirect(
@@ -241,7 +259,7 @@ def service_detail(request, service_id):
     )
     resources_being_harvested = HarvestJob.objects.filter(
         service=service, status__in=job_statuses)
-    already_imported_layers = Layer.objects.filter(service=service)
+    already_imported_layers = Layer.objects.filter(remote_service=service)
     service_list = service.service_set.all()
     all_resources = (list(resources_being_harvested) +
                      list(already_imported_layers) + list(service_list))
@@ -284,7 +302,7 @@ def service_detail(request, service_id):
     )
 
 
-@login_required
+@superuser_only
 def edit_service(request, service_id):
     """
     Edit an existing Service
@@ -305,24 +323,22 @@ def edit_service(request, service_id):
         service_form = forms.ServiceForm(
             instance=service_obj, prefix="service")
 
-    return render_to_response("services/service_edit.html",
-                              RequestContext(request,
-                                             {"service": service_obj,
-                                              "service_form": service_form}))
+    return render(request,
+                  "services/service_edit.html",
+                  context={"service": service_obj, "service_form": service_form})
 
 
-@login_required
+@superuser_only
 def remove_service(request, service_id):
     """Delete a service and its constituent layers"""
     service = get_object_or_404(Service, pk=service_id)
     if not request.user.has_perm('maps.delete_service', obj=service):
         return HttpResponse(
             loader.render_to_string(
-                '401.html', RequestContext(
-                    request, {
+                '401.html', context={
                         'error_message': _(
                             "You are not permitted to remove this service."
-                        )})), status=401)
+                        )}, request=request), status=401)
     if request.method == 'GET':
         return render(request, "services/service_remove.html",
                       {"service": service})

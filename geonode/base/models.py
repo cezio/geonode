@@ -36,6 +36,7 @@ from urlparse import urljoin, urlsplit
 from django.db import models
 from django.core import serializers
 from django.db.models import Q, signals
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.conf import settings
@@ -47,6 +48,7 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.core.files.storage import default_storage as storage
 from django.core.files.base import ContentFile
 from django.contrib.gis.geos import GEOSGeometry
+from django.utils.timezone import now
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -183,26 +185,30 @@ class Region(MPTTModel):
     # This is useful for spatial searches and for generating thumbnail images
     # and metadata records.
     bbox_x0 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_x1 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_y0 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_y1 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
-    srid = models.CharField(max_length=255, default='EPSG:4326')
+    srid = models.CharField(
+        max_length=30,
+        blank=False,
+        null=False,
+        default='EPSG:4326')
 
     def __unicode__(self):
         return self.name
@@ -546,7 +552,7 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
     alternate = models.CharField(max_length=128, null=True, blank=True)
     date = models.DateTimeField(
         _('date'),
-        default=datetime.datetime.now,
+        default=now,
         help_text=date_help_text)
     date_type = models.CharField(
         _('date type'),
@@ -672,26 +678,30 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
     # This is useful for spatial searches and for generating thumbnail images
     # and metadata records.
     bbox_x0 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_x1 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_y0 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
     bbox_y1 = models.DecimalField(
-        max_digits=19,
-        decimal_places=10,
+        max_digits=30,
+        decimal_places=15,
         blank=True,
         null=True)
-    srid = models.CharField(max_length=255, default='EPSG:4326')
+    srid = models.CharField(
+        max_length=30,
+        blank=False,
+        null=False,
+        default='EPSG:4326')
 
     # CSW specific fields
     csw_typename = models.CharField(
@@ -743,7 +753,7 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
         help_text=_('Should this resource be published and searchable?'))
     is_approved = models.BooleanField(
         _("Approved"),
-        default=False,
+        default=True,
         help_text=_('Is this resource validated from a publisher or editor?'))
 
     # fields necessary for the apis
@@ -753,6 +763,9 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
 
     def __unicode__(self):
         return self.title
+
+    def get_upload_session(self):
+        raise NotImplementedError()
 
     @property
     def group_name(self):
@@ -868,15 +881,6 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
         else:
             return ''
 
-    def set_latlon_bounds(self, box):
-        """
-        Set the four bounds in lat lon projection
-        """
-        self.bbox_x0 = box[0]
-        self.bbox_x1 = box[1]
-        self.bbox_y0 = box[2]
-        self.bbox_y1 = box[3]
-
     def set_bounds_from_center_and_zoom(self, center_x, center_y, zoom):
         """
         Calculate zoom level and center coordinates in mercator.
@@ -918,7 +922,7 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
         self.bbox_y0 = lat - distance_y_degrees
         self.bbox_y1 = lat + distance_y_degrees
 
-    def set_bounds_from_bbox(self, bbox):
+    def set_bounds_from_bbox(self, bbox, srid):
         """
         Calculate zoom level and center coordinates in mercator.
 
@@ -927,7 +931,19 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
             [xmin, xmax, ymin, ymax]
         :type bbox: list
         """
-        self.set_latlon_bounds(bbox)
+        if not bbox or len(bbox) < 4:
+            raise ValidationError(
+                'Bounding Box cannot be empty %s for a given resource' %
+                self.name)
+        if not srid:
+            raise ValidationError(
+                'Projection cannot be empty %s for a given resource' %
+                self.name)
+        self.bbox_x0 = bbox[0]
+        self.bbox_x1 = bbox[1]
+        self.bbox_y0 = bbox[2]
+        self.bbox_y1 = bbox[3]
+        self.srid = srid
 
         minx, maxx, miny, maxy = [float(c) for c in bbox]
         x = (minx + maxx) / 2
@@ -1163,7 +1179,8 @@ class ResourceBase(PolymorphicModel, PermissionLevelMixin, ItemBase):
         return the_ma
 
     def handle_moderated_uploads(self):
-        if settings.ADMIN_MODERATE_UPLOADS:
+        if settings.RESOURCE_PUBLISHING or settings.ADMIN_MODERATE_UPLOADS:
+            self.is_approved = False
             self.is_published = False
 
     metadata_author = property(_get_metadata_author, _set_metadata_author)
@@ -1193,7 +1210,7 @@ class LinkManager(models.Manager):
         return self.get_queryset().filter(link_type='image')
 
     def download(self):
-        return self.get_queryset().filter(link_type__in=['image', 'data'])
+        return self.get_queryset().filter(link_type__in=['image', 'data', 'original'])
 
     def metadata(self):
         return self.get_queryset().filter(link_type='metadata')
@@ -1258,17 +1275,23 @@ def resourcebase_post_save(instance, *args, **kwargs):
                 link.delete()
 
     try:
+        # set default License if no specified
+        if instance.license is None:
+            license = License.objects.filter(name="Not Specified")
+
+            if license and len(license) > 0:
+                instance.license = license[0]
+
         ResourceBase.objects.filter(id=instance.id).update(
             thumbnail_url=instance.get_thumbnail_url(),
             detail_url=instance.get_absolute_url(),
-            csw_insert_date=datetime.datetime.now())
+            csw_insert_date=now(),
+            license=instance.license)
+        instance.refresh_from_db()
     except BaseException:
-        pass
-
-    try:
-        instance.thumbnail_url = instance.get_thumbnail_url()
-        instance.detail_url = instance.get_absolute_url()
-        instance.csw_insert_date = datetime.datetime.now()
+        tb = traceback.format_exc()
+        if tb:
+            logger.debug(tb)
     finally:
         instance.set_missing_info()
 
@@ -1325,13 +1348,6 @@ def resourcebase_post_save(instance, *args, **kwargs):
         if tb:
             logger.debug(tb)
 
-    # set default License if no specified
-    if instance.license is None:
-        no_license = License.objects.filter(name="Not Specified")
-
-        if no_license and len(no_license) > 0:
-            instance.license = no_license[0]
-
 
 def rating_post_save(instance, *args, **kwargs):
     """
@@ -1363,7 +1379,7 @@ def do_login(sender, user, request, **kwargs):
             AccessToken.objects.get_or_create(
                 user=user,
                 application=app,
-                expires=datetime.datetime.now() +
+                expires=datetime.datetime.now(timezone.get_current_timezone()) +
                 datetime.timedelta(
                     days=1),
                 token=token)

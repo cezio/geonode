@@ -47,6 +47,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import pre_delete
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from geoserver.catalog import Catalog, FailedRequestError
 from geoserver.resource import FeatureType, Coverage
@@ -184,8 +185,11 @@ def _style_name(resource):
 def extract_name_from_sld(gs_catalog, sld, sld_file=None):
     try:
         if sld:
+            if isfile(sld):
+                sld = open(sld, "r").read()
             dom = etree.XML(sld)
         elif sld_file and isfile(sld_file):
+            sld = open(sld_file, "r").read()
             dom = etree.parse(sld_file)
     except Exception:
         logger.exception("The uploaded SLD file is not valid XML")
@@ -239,11 +243,13 @@ def get_sld_for(gs_catalog, layer):
     # polygons, hope this doesn't happen for rasters  though)
     if layer.default_style is None:
         gs_catalog._cache.clear()
-        layer = gs_catalog.get_layer(layer.name)
-    name = layer.default_style.name if layer.default_style is not None else "raster"
+        gs_layer = gs_catalog.get_layer(layer.name)
+        name = gs_layer.default_style.name if gs_layer.default_style is not None else "raster"
+    else:
+        name = layer.default_style.name if layer.default_style is not None else "raster"
 
     # Detect geometry type if it is a FeatureType
-    if layer.resource.resource_type == 'featureType':
+    if layer.resource and layer.resource.resource_type == 'featureType':
         res = layer.resource
         res.fetch()
         ft = res.store.get_resources(res.name)
@@ -299,8 +305,20 @@ def fixup_style(cat, resource, style):
 
 def set_layer_style(saved_layer, title, sld, base_file=None):
     # Check SLD is valid
-    extract_name_from_sld(gs_catalog, sld, sld_file=base_file)
+    try:
+        if sld:
+            if isfile(sld):
+                sld = open(sld, "r").read()
+            etree.XML(sld)
+        elif base_file and isfile(base_file):
+            sld = open(base_file, "r").read()
+            etree.parse(base_file)
+    except Exception:
+        logger.exception("The uploaded SLD file is not valid XML")
+        raise Exception(
+            "The uploaded SLD file is not valid XML")
 
+    # Check Layer's available styles
     match = None
     styles = list(saved_layer.styles.all()) + [
         saved_layer.default_style]
@@ -376,7 +394,7 @@ def cascading_delete(cat, layer_name):
                    'to save information for layer "%s"' % (
                        ogc_server_settings.LOCATION, layer_name)
                    )
-            logger.warn(msg, e)
+            logger.warn(msg)
             return None
         else:
             raise e
@@ -577,14 +595,14 @@ def gs_slurp(
         'layers': [],
         'deleted_layers': []
     }
-    start = datetime.datetime.now()
+    start = datetime.datetime.now(timezone.get_current_timezone())
     for i, resource in enumerate(resources):
         name = resource.name
         the_store = resource.store
         workspace = the_store.workspace
         try:
-            layer, created = Layer.objects.get_or_create(name=name, defaults={
-                "workspace": workspace.name,
+            layer, created = Layer.objects.get_or_create(name=name, workspace=workspace.name, defaults={
+                # "workspace": workspace.name,
                 "store": the_store.name,
                 "storeType": the_store.resource_type,
                 "alternate": "%s:%s" % (workspace.name.encode('utf-8'), resource.name.encode('utf-8')),
@@ -592,10 +610,11 @@ def gs_slurp(
                 "abstract": resource.abstract or unicode(_('No abstract provided')).encode('utf-8'),
                 "owner": owner,
                 "uuid": str(uuid.uuid4()),
-                "bbox_x0": Decimal(resource.latlon_bbox[0]),
-                "bbox_x1": Decimal(resource.latlon_bbox[1]),
-                "bbox_y0": Decimal(resource.latlon_bbox[2]),
-                "bbox_y1": Decimal(resource.latlon_bbox[3])
+                "bbox_x0": Decimal(resource.native_bbox[0]),
+                "bbox_x1": Decimal(resource.native_bbox[1]),
+                "bbox_y0": Decimal(resource.native_bbox[2]),
+                "bbox_y1": Decimal(resource.native_bbox[3]),
+                "srid": resource.projection
             })
 
             # sync permissions in GeoFence
@@ -751,7 +770,7 @@ def gs_slurp(
             if verbosity > 0:
                 print >> console, msg
 
-    finish = datetime.datetime.now()
+    finish = datetime.datetime.now(timezone.get_current_timezone())
     td = finish - start
     output['stats']['duration_sec'] = td.microseconds / \
         1000000 + td.seconds + td.days * 24 * 3600
@@ -778,9 +797,9 @@ def set_attributes_from_geoserver(layer, overwrite=False):
     then store in GeoNode database using Attribute model
     """
     attribute_map = []
-    server_url = ogc_server_settings.LOCATION if layer.storeType != "remoteStore" else layer.service.base_url
+    server_url = ogc_server_settings.LOCATION if layer.storeType != "remoteStore" else layer.remote_service.service_url
 
-    if layer.storeType == "remoteStore" and layer.service.ptype == "gxp_arcrestsource":
+    if layer.storeType == "remoteStore" and layer.remote_service.ptype == "gxp_arcrestsource":
         dft_url = server_url + ("%s?f=json" % layer.alternate)
         try:
             # The code below will fail if http_client cannot be imported
@@ -789,11 +808,10 @@ def set_attributes_from_geoserver(layer, overwrite=False):
                              for n in body["fields"] if n.get("name") and n.get("type")]
         except Exception:
             attribute_map = []
-
     elif layer.storeType in ["dataStore", "remoteStore", "wmsStore"]:
         dft_url = re.sub("\/wms\/?$",
                          "/",
-                         server_url) + "wfs?" + urllib.urlencode({"service": "wfs",
+                         server_url) + "ows?" + urllib.urlencode({"service": "wfs",
                                                                   "version": "1.0.0",
                                                                   "request": "DescribeFeatureType",
                                                                   "typename": layer.alternate.encode('utf-8'),
@@ -805,7 +823,6 @@ def set_attributes_from_geoserver(layer, overwrite=False):
             doc = etree.fromstring(body)
             path = ".//{xsd}extension/{xsd}sequence/{xsd}element".format(
                 xsd="{http://www.w3.org/2001/XMLSchema}")
-
             attribute_map = [[n.attrib["name"], n.attrib["type"]] for n in doc.findall(
                 path) if n.attrib.get("name") and n.attrib.get("type")]
         except Exception:
@@ -1085,7 +1102,7 @@ def _create_db_featurestore(name, data, overwrite=False, charset="UTF-8", worksp
     """
     cat = gs_catalog
     db = ogc_server_settings.datastore_db
-    dsname = db['NAME']
+    dsname = ogc_server_settings.DATASTORE
 
     ds_exists = False
     try:

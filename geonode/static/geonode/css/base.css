@@ -5224,7 +5224,6 @@ a.thumbnail.active {
   background-color: #fff;
   border: 1px solid #ddd;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
@@ -7899,6 +7898,31 @@ form-inline {
   height: 1px;
 }
 #missing-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}g-values {
+  color: #bd362f;
+  font-style: italic;
+}c;
+}g-values {
   color: #bd362f;
   font-style: italic;
 }

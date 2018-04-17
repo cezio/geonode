@@ -26,6 +26,7 @@ from lxml import etree
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.conf import settings
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from geonode.base.models import ResourceBase
 from geonode.catalogue import get_catalogue
@@ -33,6 +34,7 @@ from geonode.catalogue import get_catalogue
 logger = logging.getLogger("geonode.contrib.metadataxsl")
 
 
+@xframe_options_exempt
 def prefix_xsl_line(req, id):
     resource = get_object_or_404(ResourceBase, pk=id)
 
@@ -43,7 +45,7 @@ def prefix_xsl_line(req, id):
         record = catalogue.get_record(resource.uuid)
     except Exception, err:
         msg = 'Could not connect to catalogue to save information for layer "%s"' % str(resource.title)
-        logger.warn(msg, err)
+        logger.warn(msg)
         raise err
 
     try:

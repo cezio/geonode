@@ -21,12 +21,11 @@
 import uuid
 import logging
 
-from datetime import datetime
-
 from django.db import models
 from django.db.models import signals
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.core.files.storage import FileSystemStorage
@@ -150,7 +149,7 @@ class Layer(ResourceBase):
         null=True,
         blank=True)
     styles = models.ManyToManyField(Style, related_name='layer_styles')
-    service = models.ForeignKey("services.Service", null=True, blank=True)
+    remote_service = models.ForeignKey("services.Service", null=True, blank=True)
 
     charset = models.CharField(max_length=255, default='UTF-8')
 
@@ -158,6 +157,9 @@ class Layer(ResourceBase):
 
     def is_vector(self):
         return self.storeType == 'dataStore'
+
+    def get_upload_session(self):
+        return self.upload_session
 
     @property
     def display_type(self):
@@ -184,8 +186,8 @@ class Layer(ResourceBase):
 
     @property
     def ows_url(self):
-        if self.service is not None and self.service.method == INDEXED:
-            result = self.service.base_url
+        if self.remote_service is not None and self.remote_service.method == INDEXED:
+            result = self.remote_service.service_url
         else:
             result = "{base}ows".format(
                 base=settings.OGC_SERVER['default']['PUBLIC_LOCATION'],
@@ -194,12 +196,12 @@ class Layer(ResourceBase):
 
     @property
     def ptype(self):
-        return self.service.ptype if self.service else "gxp_wmscsource"
+        return self.remote_service.ptype if self.remote_service else "gxp_wmscsource"
 
     @property
     def service_typename(self):
-        if self.service is not None and self.service.method == INDEXED:
-            return "%s:%s" % (self.service.name, self.alternate)
+        if self.remote_service is not None and self.remote_service.method == INDEXED:
+            return "%s:%s" % (self.remote_service.name, self.alternate)
         else:
             return self.alternate
 
@@ -470,7 +472,7 @@ class Attribute(models.Model):
         null=True,
         blank=True,
         default='NA')
-    last_stats_updated = models.DateTimeField(_('last modified'), default=datetime.now, help_text=_(
+    last_stats_updated = models.DateTimeField(_('last modified'), default=now, help_text=_(
         'date when attribute statistics were last updated'))  # passing the method itself, not
 
     objects = AttributeManager()
@@ -484,9 +486,9 @@ class Attribute(models.Model):
 
 
 def _get_alternate_name(instance):
-    if instance.service is not None and instance.service.method == INDEXED:
+    if instance.remote_service is not None and instance.remote_service.method == INDEXED:
         result = instance.name
-    elif instance.service is not None and instance.service.method == CASCADED:
+    elif instance.remote_service is not None and instance.remote_service.method == CASCADED:
         result = "{}:{}".format(
             getattr(settings, "CASCADE_WORKSPACE", _DEFAULT_CASCADE_WORKSPACE),
             instance.name
@@ -507,6 +509,7 @@ def pre_save_layer(instance, sender, **kwargs):
         instance.bbox_x1 = instance.resourcebase_ptr.bbox_x1
         instance.bbox_y0 = instance.resourcebase_ptr.bbox_y0
         instance.bbox_y1 = instance.resourcebase_ptr.bbox_y1
+        instance.srid = instance.resourcebase_ptr.srid
 
     if instance.abstract == '' or instance.abstract is None:
         instance.abstract = unicode(_('No abstract provided'))
@@ -556,7 +559,7 @@ def pre_save_layer(instance, sender, **kwargs):
         instance.bbox_y0,
         instance.bbox_y1]
 
-    instance.set_bounds_from_bbox(bbox)
+    instance.set_bounds_from_bbox(bbox, instance.srid)
 
 
 def pre_delete_layer(instance, sender, **kwargs):
@@ -564,8 +567,8 @@ def pre_delete_layer(instance, sender, **kwargs):
     Remove any associated style to the layer, if it is not used by other layers.
     Default style will be deleted in post_delete_layer
     """
-    if instance.service is not None and instance.service.method == INDEXED:
-        # we need to delete the maplayers here because in the post save layer.service is not available anymore
+    if instance.remote_service is not None and instance.remote_service.method == INDEXED:
+        # we need to delete the maplayers here because in the post save layer.remote_service is not available anymore
         # REFACTOR
         from geonode.maps.models import MapLayer
         logger.debug(
@@ -598,7 +601,7 @@ def post_delete_layer(instance, sender, **kwargs):
     Removed the layer from any associated map, if any.
     Remove the layer default style.
     """
-    if instance.service is not None and instance.service.method == INDEXED:
+    if instance.remote_service is not None and instance.remote_service.method == INDEXED:
         return
 
     from geonode.maps.models import MapLayer
