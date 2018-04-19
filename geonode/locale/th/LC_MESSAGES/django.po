@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-26 13:30+0100\n"
+"POT-Creation-Date: 2018-04-17 21:40+0200\n"
 "PO-Revision-Date: 2016-08-23 13:57+0000\n"
 "Last-Translator: Julien Collaer <julien.collaer@opengeode.be>\n"
 "Language-Team: Thai (http://www.transifex.com/geonode/geonode/language/th/)\n"
@@ -209,7 +209,7 @@ msgstr "ข้อมูลมีการปรับปรุงทุก 3 เ
 msgid "No information provided"
 msgstr "ไม่มีการให้ข้อมูล"
 
-#: geonode/base/forms.py:261
+#: geonode/base/forms.py:269
 #: geonode/base/templates/base/_resourcebase_info_panel.html:62
 #: geonode/catalogue/templates/geonode_metadata_full.html:145
 #: geonode/documents/templates/documents/document_metadata_advanced.html:58
@@ -222,19 +222,19 @@ msgstr "ไม่มีการให้ข้อมูล"
 msgid "Category"
 msgstr "หมวด"
 
-#: geonode/base/forms.py:272
+#: geonode/base/forms.py:280
 msgid "Category is required."
 msgstr "หมวดเป็นสิ่งที่จำเป็น"
 
-#: geonode/base/forms.py:281
+#: geonode/base/forms.py:289
 msgid "Keywords from Thesauri"
 msgstr ""
 
-#: geonode/base/forms.py:283
+#: geonode/base/forms.py:291
 msgid "List of keywords from Thesauri"
 msgstr ""
 
-#: geonode/base/forms.py:303 geonode/base/models.py:540
+#: geonode/base/forms.py:322 geonode/base/models.py:546
 #: geonode/base/templates/base/_resourcebase_contact_snippet.html:10
 #: geonode/base/templates/base/_resourcebase_info_panel.html:84
 #: geonode/catalogue/templates/geonode_metadata_full.html:72
@@ -242,7 +242,7 @@ msgstr ""
 msgid "Owner"
 msgstr "เจ้าของ"
 
-#: geonode/base/forms.py:322
+#: geonode/base/forms.py:329
 #: geonode/base/templates/base/_resourcebase_info_panel.html:34
 #: geonode/catalogue/templates/geonode_metadata_full.html:58
 #: geonode/contrib/exif/templates/exif/_exif_document_detail.html:13
@@ -251,52 +251,52 @@ msgstr "เจ้าของ"
 msgid "Date"
 msgstr "วันที่"
 
-#: geonode/base/forms.py:328 geonode/base/models.py:642
+#: geonode/base/forms.py:335 geonode/base/models.py:648
 msgid "temporal extent start"
 msgstr "การเริ่มต้นในระดับโลก"
 
-#: geonode/base/forms.py:335 geonode/base/models.py:647
+#: geonode/base/forms.py:342 geonode/base/models.py:653
 msgid "temporal extent end"
 msgstr "สิ้นสุดขอบเขตชั่วขณะ"
 
-#: geonode/base/forms.py:343 geonode/base/forms.py:351
+#: geonode/base/forms.py:350 geonode/base/forms.py:358
 msgid "Person outside GeoNode (fill form)"
 msgstr ""
 
-#: geonode/base/forms.py:344
+#: geonode/base/forms.py:351
 #: geonode/base/templates/base/_resourcebase_contact_snippet.html:14
 #: geonode/base/templates/base/_resourcebase_info_panel.html:89
 #: geonode/catalogue/templates/geonode_metadata_full.html:75
-#: geonode/documents/templates/documents/document_metadata.html:43
-#: geonode/documents/templates/documents/document_metadata.html:67
+#: geonode/documents/templates/documents/document_metadata.html:42
+#: geonode/documents/templates/documents/document_metadata.html:66
 #: geonode/documents/templates/documents/document_metadata_advanced.html:33
 #: geonode/documents/templates/documents/document_metadata_advanced.html:82
-#: geonode/layers/templates/layers/layer_metadata.html:54
-#: geonode/layers/templates/layers/layer_metadata.html:85
+#: geonode/layers/templates/layers/layer_metadata.html:53
+#: geonode/layers/templates/layers/layer_metadata.html:84
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:44
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:124
-#: geonode/maps/templates/maps/map_metadata.html:69
+#: geonode/maps/templates/maps/map_metadata.html:68
 #: geonode/maps/templates/maps/map_metadata_advanced.html:82
 msgid "Point of Contact"
 msgstr "ที่อยู่สำหรับติดต่อ"
 
-#: geonode/base/forms.py:352
+#: geonode/base/forms.py:359
 #: geonode/base/templates/base/_resourcebase_contact_snippet.html:18
-#: geonode/documents/templates/documents/document_metadata.html:39
+#: geonode/documents/templates/documents/document_metadata.html:38
 #: geonode/documents/templates/documents/document_metadata_advanced.html:29
-#: geonode/layers/templates/layers/layer_metadata.html:50
+#: geonode/layers/templates/layers/layer_metadata.html:49
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:40
 #: geonode/templates/metadata_detail.html:338
 msgid "Metadata Author"
 msgstr "ผู้เขียนคำอธิบายข้อมูล"
 
-#: geonode/base/forms.py:359
+#: geonode/base/forms.py:366
 #, fuzzy
 #| msgid "Keywords"
 msgid "Free-text Keywords"
 msgstr "คำสำคัญ"
 
-#: geonode/base/forms.py:361
+#: geonode/base/forms.py:368
 #, fuzzy
 #| msgid "A space or comma-separated list of keywords"
 msgid ""
@@ -304,7 +304,7 @@ msgid ""
 "Hierarchical tree."
 msgstr "แยกคำสำคัญแต่ละคำด้วยการเว้นวรรคหรือจุลภาค"
 
-#: geonode/base/forms.py:373
+#: geonode/base/forms.py:380
 #: geonode/base/templates/base/_resourcebase_info_panel.html:72
 #: geonode/catalogue/templates/geonode_metadata_full.html:149
 #: geonode/templates/metadata_detail.html:98
@@ -312,57 +312,57 @@ msgstr "แยกคำสำคัญแต่ละคำด้วยการ
 msgid "Regions"
 msgstr "ภูมิภาค"
 
-#: geonode/base/management/commands/updategeoip.py:44
+#: geonode/base/management/commands/updategeoip.py:46
 msgid "Write result to file, default GEOIP_PATH: {}"
 msgstr ""
 
-#: geonode/base/management/commands/updategeoip.py:46
+#: geonode/base/management/commands/updategeoip.py:48
 msgid ""
 "Fetch database from specific url. If nothing provided, default {} will be "
 "used"
 msgstr ""
 
-#: geonode/base/management/commands/updategeoip.py:48
+#: geonode/base/management/commands/updategeoip.py:50
 msgid "Overwrite file if exists"
 msgstr ""
 
-#: geonode/base/models.py:86 geonode/services/models.py:178
+#: geonode/base/models.py:88 geonode/services/models.py:197
 msgid "function performed by the responsible party"
 msgstr "ฟังก์ชั่นดำเนินการโดยบุคคลที่รับผิดชอบ"
 
-#: geonode/base/models.py:497
+#: geonode/base/models.py:503
 msgid "reference date for the cited resource"
 msgstr "วันที่อ้างอิงสำหรับแหล่งที่มา"
 
-#: geonode/base/models.py:498
+#: geonode/base/models.py:504
 msgid "identification of when a given event occurred"
 msgstr "ระบุเมื่อมีเหตุการณ์ที่เกิดขึ้นให้"
 
-#: geonode/base/models.py:499
+#: geonode/base/models.py:505
 msgid "version of the cited resource"
 msgstr "รุ่นของแหล่งที่มา"
 
-#: geonode/base/models.py:501
+#: geonode/base/models.py:507
 msgid "brief narrative summary of the content of the resource(s)"
 msgstr "คำบรรยายสั้นๆเกี่ยวกับเนื้อหาของแหล่งข้อมูล"
 
-#: geonode/base/models.py:503
+#: geonode/base/models.py:509
 msgid "summary of the intentions with which the resource(s) was developed"
 msgstr "วัตถุประสงค์ในการสร้างแหล่งข้อมูลโดยสรุป"
 
-#: geonode/base/models.py:505
+#: geonode/base/models.py:511
 msgid ""
 "frequency with which modifications and deletions are made to the data after "
 "it is first produced"
 msgstr "ความถี่ในการแก้ไขและลบที่กระทำต่อข้อมูลหลังจากจัดทำครั้งแรก"
 
-#: geonode/base/models.py:508
+#: geonode/base/models.py:514
 msgid ""
 "commonly used word(s) or formalised word(s) or phrase(s) used to describe "
 "the subject (space or comma-separated"
 msgstr "คำที่ใช้ทั่วไป หรือคำทางการ หรือวลี ที่ใช้อธิบายหัวเรื่อง (เว้นวรรค หรือคั่นด้วยจุลภาพ)"
 
-#: geonode/base/models.py:511
+#: geonode/base/models.py:517
 #, fuzzy
 #| msgid ""
 #| "commonly used word(s) or formalised word(s) or phrase(s) used to describe "
@@ -372,101 +372,101 @@ msgid ""
 "subject (space or comma-separated"
 msgstr "คำที่ใช้ทั่วไป หรือคำทางการ หรือวลี ที่ใช้อธิบายหัวเรื่อง (เว้นวรรค หรือคั่นด้วยจุลภาพ)"
 
-#: geonode/base/models.py:513
+#: geonode/base/models.py:519
 msgid "keyword identifies a location"
 msgstr "คำสำคัญที่ระบุตำแหน่ง"
 
-#: geonode/base/models.py:515
+#: geonode/base/models.py:521
 msgid "limitation(s) placed upon the access or use of the data."
 msgstr "ข้อจำกัดขึ้นอยู่กับการเข้าถึงหรือใช้งานข้อมูล"
 
-#: geonode/base/models.py:517
+#: geonode/base/models.py:523
 msgid ""
 "other restrictions and legal prerequisites for accessing and using the "
 "resource or metadata"
 msgstr "เงื่อนไขอื่นๆและข้อกำหนดเบื้องต้นตามกฎหมายสำหรับการเข้าถึงและใช้งานแหล่งข้อมูลและคำอธิบายข้อมูล"
 
-#: geonode/base/models.py:519
+#: geonode/base/models.py:525
 msgid "license of the dataset"
 msgstr "ใบอนุญาตของชุดข้อมูล"
 
-#: geonode/base/models.py:520
+#: geonode/base/models.py:526
 msgid "language used within the dataset"
 msgstr "ภาษาที่ใช้ในชุดข้อมูล"
 
-#: geonode/base/models.py:522
+#: geonode/base/models.py:528
 msgid ""
 "high-level geographic data thematic classification to assist in the grouping "
 "and search of available geographic data sets."
 msgstr "ระดับสูงการจัดหมวดหมู่ข้อมูลทางภูมิศาสตร์ใจเพื่อช่วยในการจัดกลุ่มและการค้นหาของชุดข้อมูลทางภูมิศาสตร์ที่มีอยู่"
 
-#: geonode/base/models.py:525
+#: geonode/base/models.py:531
 msgid "method used to represent geographic information in the dataset."
 msgstr "วิธีการที่ใช้ในการแสดงข้อมูลทางภูมิศาสตร์ในชุดข้อมูลที่"
 
-#: geonode/base/models.py:527
+#: geonode/base/models.py:533
 msgid "time period covered by the content of the dataset (start)"
 msgstr "ระยะเวลาการคุ้มครองโดยเนื้อหาของชุดข้อมูล (เริ่มต้น)"
 
-#: geonode/base/models.py:529
+#: geonode/base/models.py:535
 msgid "time period covered by the content of the dataset (end)"
 msgstr "ระยะเวลาการคุ้มครองโดยเนื้อหาของชุดข้อมูล (สิ้นสุด)"
 
-#: geonode/base/models.py:531
+#: geonode/base/models.py:537
 msgid ""
 "general explanation of the data producer's knowledge about the lineage of a "
 "dataset"
 msgstr "คำอธิบายทั่วไปของความรู้ผลิตข้อมูลเกี่ยวกับเชื้อสายของชุดข้อมูล"
 
-#: geonode/base/models.py:544
+#: geonode/base/models.py:550
 msgid "title"
 msgstr "ชื่อเรื่อง"
 
-#: geonode/base/models.py:545
+#: geonode/base/models.py:551
 msgid "name by which the cited resource is known"
 msgstr "ชื่อของแหล่งข้อมูลที่เป็นที่รู้จักกัน"
 
-#: geonode/base/models.py:548
+#: geonode/base/models.py:554
 msgid "date"
 msgstr "วันที่"
 
-#: geonode/base/models.py:552
+#: geonode/base/models.py:558
 msgid "date type"
 msgstr "ชนิดของวันที่"
 
-#: geonode/base/models.py:558
+#: geonode/base/models.py:564
 msgid "edition"
 msgstr "รุ่น"
 
-#: geonode/base/models.py:564
+#: geonode/base/models.py:570
 msgid "abstract"
 msgstr "บทคัดย่อ"
 
-#: geonode/base/models.py:569
+#: geonode/base/models.py:575
 msgid "purpose"
 msgstr "วัตถุประสงค์"
 
-#: geonode/base/models.py:575
+#: geonode/base/models.py:581
 msgid "maintenance frequency"
 msgstr "ความถี่ในการดูแลรักษา"
 
-#: geonode/base/models.py:583 geonode/people/models.py:100
+#: geonode/base/models.py:589 geonode/people/models.py:100
 msgid "keywords"
 msgstr "คำสำคัญ"
 
-#: geonode/base/models.py:594
+#: geonode/base/models.py:600
 msgid "keywords region"
 msgstr "ภูมิภาคคำหลัก"
 
-#: geonode/base/models.py:600
+#: geonode/base/models.py:606
 msgid "restrictions"
 msgstr "ข้อจำกัด"
 
-#: geonode/base/models.py:608
+#: geonode/base/models.py:614
 msgid "restrictions other"
 msgstr "ข้อจำกัดอื่นๆ"
 
-#: geonode/base/models.py:614
+#: geonode/base/models.py:620
 #: geonode/base/templates/base/_resourcebase_info_panel.html:16
 #: geonode/base/templates/base/_resourcebase_info_panel.html:114
 #: geonode/catalogue/templates/geonode_metadata_full.html:98
@@ -475,95 +475,95 @@ msgstr "ข้อจำกัดอื่นๆ"
 msgid "License"
 msgstr "ใบอนุญาต"
 
-#: geonode/base/models.py:617 geonode/people/models.py:104
+#: geonode/base/models.py:623 geonode/people/models.py:104
 msgid "language"
 msgstr "ภาษา"
 
-#: geonode/base/models.py:637
+#: geonode/base/models.py:643
 msgid "spatial representation type"
 msgstr "รูปแบบการแสดงข้อมูลเชิงพื้นที่"
 
-#: geonode/base/models.py:653
+#: geonode/base/models.py:659
 msgid "supplemental information"
 msgstr "ข้อมูลเพิ่มเติม"
 
-#: geonode/base/models.py:656
+#: geonode/base/models.py:662
 msgid "any other descriptive information about the dataset"
 msgstr "รายละเอียดอื่น ๆ เกี่ยวกับชุดข้อมูล"
 
-#: geonode/base/models.py:660
+#: geonode/base/models.py:666
 msgid "data quality statement"
 msgstr "คำแถลงเกี่ยวคุณภาพข้อมูล"
 
-#: geonode/base/models.py:698
+#: geonode/base/models.py:708
 msgid "CSW typename"
 msgstr "ชื่อชนิด CSW"
 
-#: geonode/base/models.py:703
+#: geonode/base/models.py:713
 msgid "CSW schema"
 msgstr "CSW schema"
 
-#: geonode/base/models.py:709
+#: geonode/base/models.py:719
 msgid "CSW source"
 msgstr "แหล่งข้อมูล CSW"
 
-#: geonode/base/models.py:714
+#: geonode/base/models.py:724
 msgid "CSW insert date"
 msgstr "วันที่แทรก CSW"
 
-#: geonode/base/models.py:716
+#: geonode/base/models.py:726
 msgid "CSW type"
 msgstr "ชนิด CSW"
 
-#: geonode/base/models.py:721
+#: geonode/base/models.py:731
 msgid "CSW anytext"
 msgstr "ข้อความอื่นๆ CSW"
 
-#: geonode/base/models.py:723
+#: geonode/base/models.py:733
 msgid "CSW WKT geometry"
 msgstr "CSW WKT geometry"
 
-#: geonode/base/models.py:738 geonode/templates/metadata_detail.html:108
+#: geonode/base/models.py:748 geonode/templates/metadata_detail.html:108
 msgid "Featured"
 msgstr "ฟีเจอร์"
 
-#: geonode/base/models.py:739
+#: geonode/base/models.py:749
 msgid "Should this resource be advertised in home page?"
 msgstr "ควรให้แหล่งข้อมูลนี้แสดงบนหน้าหลักหรือไม่?"
 
-#: geonode/base/models.py:741
+#: geonode/base/models.py:751
 msgid "Is Published"
 msgstr "ที่มีการเผยแพร่"
 
-#: geonode/base/models.py:743
+#: geonode/base/models.py:753
 msgid "Should this resource be published and searchable?"
 msgstr "ควรให้แหล่งข้อมูลนี้ถูกเผยแพร่และค้นหาได้หรือไม่?"
 
-#: geonode/base/models.py:745 geonode/templates/metadata_detail.html:102
+#: geonode/base/models.py:755 geonode/templates/metadata_detail.html:102
 #, fuzzy
 #| msgid "Not provided"
 msgid "Approved"
 msgstr "ไม่มีการระบุ"
 
-#: geonode/base/models.py:747
+#: geonode/base/models.py:757
 msgid "Is this resource validated from a publisher or editor?"
 msgstr ""
 
-#: geonode/base/models.py:1230
+#: geonode/base/models.py:1247
 msgid "For example \"kml\""
 msgstr "ตัวอย่าง เช่น \"kml\""
 
-#: geonode/base/models.py:1235
+#: geonode/base/models.py:1252
 msgid "For example \"View in Google Earth\""
 msgstr "ตัวอย่าง เช่น \"ดูใน Google Earth\""
 
-#: geonode/base/models.py:1237
+#: geonode/base/models.py:1254
 msgid "For example \"text/xml\""
 msgstr "ตัวอย่าง เช่น \"text/xml\""
 
 #: geonode/base/templates/base/_resourcebase_contact_snippet.html:3
-#: geonode/templates/500.html:152 geonode/templates/base.html:91
-#: geonode/templates/base.html.py:246
+#: geonode/templates/500.html:198 geonode/templates/base.html:93
+#: geonode/templates/base.html:260
 msgid "About"
 msgstr "เกี่ยวกับ"
 
@@ -573,10 +573,10 @@ msgstr "เจ้าของ, ที่อยู่สำหรับติด�
 
 #: geonode/base/templates/base/_resourcebase_info_panel.html:6
 #: geonode/catalogue/templates/geonode_metadata_full.html:55
-#: geonode/groups/models.py:74
+#: geonode/groups/models.py:73
 #: geonode/qgis_server/templates/qgis_server/forms/qml_style.html:20
-#: geonode/services/forms.py:109
-#: geonode/templates/announcements/announcement_list.html:20
+#: geonode/services/forms.py:112
+#: geonode/templates/announcements/announcement_list.html:19
 #: geonode/templates/metadata_detail.html:43
 msgid "Title"
 msgstr "ชื่อเรื่อง"
@@ -588,21 +588,21 @@ msgstr ""
 
 #: geonode/base/templates/base/_resourcebase_info_panel.html:29
 #: geonode/catalogue/templates/geonode_metadata_full.html:61
-#: geonode/services/forms.py:127 geonode/templates/metadata_detail.html:48
+#: geonode/services/forms.py:130 geonode/templates/metadata_detail.html:48
 msgid "Abstract"
 msgstr "บทคัดย่อ"
 
 #: geonode/base/templates/base/_resourcebase_info_panel.html:45
 #: geonode/catalogue/templates/geonode_metadata_full.html:91
-#: geonode/layers/templates/layers/layer_detail.html:663
+#: geonode/layers/templates/layers/layer_detail.html:668
 #: geonode/templates/metadata_detail.html:76
 msgid "Type"
 msgstr "ชนิด"
 
 #: geonode/base/templates/base/_resourcebase_info_panel.html:50
 #: geonode/catalogue/templates/geonode_metadata_full.html:142
-#: geonode/groups/models.py:84
-#: geonode/people/templates/people/profile_detail.html:105
+#: geonode/groups/models.py:83
+#: geonode/people/templates/people/profile_detail.html:106
 #: geonode/templates/metadata_detail.html:81
 #: geonode/templates/metadata_detail.html:149
 #: geonode/templates/metadata_detail.html:291
@@ -651,7 +651,7 @@ msgstr "วัตถุประสงค์"
 
 #: geonode/base/templates/base/_resourcebase_info_panel.html:151
 #: geonode/catalogue/templates/geonode_metadata_full.html:101
-#: geonode/templates/500.html:155 geonode/templates/base.html:248
+#: geonode/templates/500.html:200 geonode/templates/base.html:262
 #: geonode/templates/metadata_detail.html:237
 msgid "Language"
 msgstr "ภาษา"
@@ -679,14 +679,32 @@ msgstr "ข้อมูลเพิ่มเติม"
 msgid "Spatial Representation Type"
 msgstr "รูปแบบการแสดงข้อมูลเชิงพื้นที่"
 
-#: geonode/base/templates/base/_resourcebase_snippet.html:50
-#: geonode/layers/templates/layers/layer_detail.html:580
+#: geonode/base/templates/base/_resourcebase_snippet.html:46
+#: geonode/base/templates/base/_resourcebase_snippet.html:47
+#: geonode/layers/templates/layers/layer_detail.html:40
+#, fuzzy
+#| msgid "Services"
+msgid "Service is"
+msgstr "เซอร์วิส"
+
+#: geonode/base/templates/base/_resourcebase_snippet.html:46
+#: geonode/layers/templates/layers/layer_detail.html:40
+msgid "online"
+msgstr ""
+
+#: geonode/base/templates/base/_resourcebase_snippet.html:47
+#: geonode/layers/templates/layers/layer_detail.html:40
+msgid "offline"
+msgstr ""
+
+#: geonode/base/templates/base/_resourcebase_snippet.html:63
+#: geonode/layers/templates/layers/layer_detail.html:585
 #: geonode/templates/search/_search_content.html:16
 msgid "Create a Map"
 msgstr "สร้างแผนที่"
 
-#: geonode/base/templates/base/batch_edit.html:7
-#: geonode/base/templates/base/batch_edit.html:13
+#: geonode/base/templates/base/batch_edit.html:6
+#: geonode/base/templates/base/batch_edit.html:12
 msgid "Batch Edit"
 msgstr ""
 
@@ -702,11 +720,12 @@ msgstr "ผู้ดูแลระบบ GeoNode"
 msgid "Upload QML Style"
 msgstr "อัพโหลดชั้นข้อมูล"
 
-#: geonode/client/templates/leaflet/maps/map_base.html:5
-#: geonode/client/templates/leaflet/maps/map_list.html:11
-#: geonode/maps/templates/maps/map_list.html:11
+#: geonode/client/templates/leaflet/maps/map_base.html:4
+#: geonode/client/templates/leaflet/maps/map_list.html:10
+#: geonode/maps/templates/maps/map_list.html:10
 #: geonode/maps/templates/maps/map_metadata_advanced.html:16
-#: geonode/templates/base.html:83 geonode/templates/base.html.py:222
+#: geonode/templates/500.html:171 geonode/templates/base.html:85
+#: geonode/templates/base.html:233
 msgid "Explore Maps"
 msgstr "สำรวจแผนที่"
 
@@ -715,64 +734,65 @@ msgstr "สำรวจแผนที่"
 msgid "GeoExplorer"
 msgstr "GeoExplorer"
 
-#: geonode/client/templates/leaflet/maps/map_list.html:10
+#: geonode/client/templates/leaflet/maps/map_list.html:9
 #: geonode/maps/templates/maps/map_detail.html:224
-#: geonode/maps/templates/maps/map_list.html:10
+#: geonode/maps/templates/maps/map_list.html:9
 msgid "Create a New Map"
 msgstr "สร้างแผนที่ใหม่"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:7
-#: geonode/templates/base.html:72 geonode/templates/base.html.py:212
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:6
+#: geonode/templates/500.html:159 geonode/templates/base.html:72
+#: geonode/templates/base.html:221
 #, fuzzy
 #| msgid "Create a Map"
 msgid "Create Layer"
 msgstr "สร้างแผนที่"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:20
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:19
 #: geonode/layers/templates/layers/layer_granule_remove.html:8
-#: geonode/layers/templates/layers/layer_list.html:6
-#: geonode/layers/templates/layers/layer_list.html:13
+#: geonode/layers/templates/layers/layer_list.html:5
+#: geonode/layers/templates/layers/layer_list.html:12
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:16
-#: geonode/layers/templates/layers/layer_metadata_upload.html:25
+#: geonode/layers/templates/layers/layer_metadata_upload.html:24
 #: geonode/layers/templates/layers/layer_remove.html:8
-#: geonode/layers/templates/layers/layer_style_upload.html:25
+#: geonode/layers/templates/layers/layer_style_upload.html:24
 #: geonode/layers/templates/upload/layer_upload.html:17
-#: geonode/layers/templates/upload/layer_upload_base.html:162
-#: geonode/layers/templates/upload/layer_upload_metadata_base.html:11
+#: geonode/layers/templates/upload/layer_upload_base.html:161
+#: geonode/layers/templates/upload/layer_upload_metadata_base.html:10
 msgid "Explore Layers"
 msgstr "สำรวจชั้นข้อมูล"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:21
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:20
 #, fuzzy
 #| msgid "Create a map using this layer"
 msgid "Create an empty layer"
 msgstr "สร้างแผนที่ด้วยชั้นข้อมูลนี้"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:39
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:38
 #, fuzzy
 #| msgid "Attribute"
 msgid "Add Attribute"
 msgstr "แอตทริบิวต์"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:42
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:41
 #: geonode/groups/templates/groups/group_create.html:26
 #: geonode/services/templates/services/service_register.html:18
 msgid "Create"
 msgstr "สร้าง"
 
-#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:51
-#: geonode/documents/templates/documents/document_detail.html:219
+#: geonode/contrib/createlayer/templates/createlayer/layer_create.html:50
+#: geonode/documents/templates/documents/document_detail.html:218
 #: geonode/documents/templates/documents/document_thumb_upload.html:70
 #: geonode/documents/templates/documents/document_upload.html:30
 #: geonode/groups/templates/groups/group_detail.html:73
-#: geonode/layers/templates/layers/layer_detail.html:652
-#: geonode/layers/templates/layers/layer_metadata_upload.html:101
-#: geonode/layers/templates/layers/layer_metadata_upload.html:110
+#: geonode/layers/templates/layers/layer_detail.html:657
+#: geonode/layers/templates/layers/layer_metadata_upload.html:100
+#: geonode/layers/templates/layers/layer_metadata_upload.html:109
 #: geonode/layers/templates/layers/layer_replace.html:96
-#: geonode/layers/templates/layers/layer_style_upload.html:101
-#: geonode/layers/templates/layers/layer_style_upload.html:110
+#: geonode/layers/templates/layers/layer_style_upload.html:100
+#: geonode/layers/templates/layers/layer_style_upload.html:109
 #: geonode/layers/templates/upload/layer_upload.html:114
-#: geonode/maps/templates/maps/map_detail.html:214 geonode/people/admin.py:55
+#: geonode/maps/templates/maps/map_detail.html:214 geonode/people/admin.py:56
 msgid "Permissions"
 msgstr "สิทธิ์"
 
@@ -865,13 +885,13 @@ msgstr "รายการโปรดของ"
 
 #: geonode/contrib/geosites/site_template/templates/site_index.html:9
 #: geonode/contrib/geosites/templates/master_index.html:10
-#: geonode/templates/index.html:15
+#: geonode/templates/index.html:19
 msgid "Welcome"
 msgstr "ยินดีต้อนรับ"
 
 #: geonode/contrib/geosites/site_template/templates/site_index.html:10
 #: geonode/contrib/geosites/templates/master_index.html:11
-#: geonode/templates/index.html:17
+#: geonode/templates/index.html:21
 msgid ""
 "GeoNode is an open source platform for sharing geospatial data and maps."
 msgstr "GeoNode เป็นแพลทฟอร์มโอเพ่นซอร์สสำหรับแบ่งปันข้อมูลเชิงพื้นที่และแผนที่"
@@ -899,8 +919,8 @@ msgstr "เริ่มต้นการใช้งาน"
 #: geonode/contrib/geosites/templates/master_index.html:35
 #: geonode/contrib/geosites/templates/master_index.html:45
 #: geonode/layers/templates/upload/layer_upload_time.html:43
-#: geonode/templates/index.html:250 geonode/templates/index.html.py:260
-#: geonode/templates/index.html:270 geonode/templates/index.html.py:280
+#: geonode/templates/index.html:260 geonode/templates/index.html:270
+#: geonode/templates/index.html:280 geonode/templates/index.html:290
 #: geonode/templates/metadata_detail.html:103
 #: geonode/templates/metadata_detail.html:106
 #: geonode/templates/metadata_detail.html:109
@@ -908,16 +928,16 @@ msgid "No"
 msgstr "ไม่มี"
 
 #: geonode/contrib/geosites/templates/master_index.html:25
-#: geonode/contrib/monitoring/models.py:147
-#: geonode/layers/templates/layers/layer_detail.html:482
-#: geonode/templates/index.html:250
+#: geonode/contrib/monitoring/models.py:161
+#: geonode/layers/templates/layers/layer_detail.html:487
+#: geonode/templates/index.html:260
 #: geonode/templates/pinax/notifications/request_download_resourcebase/full.txt:7
 msgid "Layer"
 msgid_plural "Layers"
 msgstr[0] "ชั้นข้อมูล"
 
 #: geonode/contrib/geosites/templates/master_index.html:26
-#: geonode/templates/index.html:251
+#: geonode/templates/index.html:261
 msgid ""
 "Click to search for geospatial data published by other users, organizations "
 "and public sources. Download data in standard formats."
@@ -926,19 +946,19 @@ msgstr ""
 "สามารถดาวน์โหลดข้อมูลได้ในรูปแบบมาตรฐาน"
 
 #: geonode/contrib/geosites/templates/master_index.html:28
-#: geonode/templates/index.html:253
+#: geonode/templates/index.html:263
 msgid "Add layers"
 msgstr "เพิ่มชั้นข้อมูล"
 
 #: geonode/contrib/geosites/templates/master_index.html:30
-#: geonode/templates/index.html:255
+#: geonode/templates/index.html:265
 msgid "Explore layers"
 msgstr "สำรวจชั้นข้อมูล"
 
 #: geonode/contrib/geosites/templates/master_index.html:35
-#: geonode/contrib/monitoring/models.py:148
+#: geonode/contrib/monitoring/models.py:162
 #: geonode/maps/templates/maps/map_detail.html:160
-#: geonode/maps/templates/maps/map_view.html:7 geonode/templates/index.html:260
+#: geonode/maps/templates/maps/map_view.html:7 geonode/templates/index.html:270
 msgid "Map"
 msgid_plural "Maps"
 msgstr[0] "แผนที่"
@@ -952,17 +972,17 @@ msgstr ""
 "นำมารวมและใส่สไตล์สร้างเป็นแผนที่ซึ่งสามารถเผยแพร่สู่สาธารณะหรือเฉพาะผู้ใช้ที่เลือกเท่านั้น"
 
 #: geonode/contrib/geosites/templates/master_index.html:38
-#: geonode/templates/index.html:263
+#: geonode/templates/index.html:273
 msgid "Create maps"
 msgstr "สร้างแผนที่"
 
 #: geonode/contrib/geosites/templates/master_index.html:40
-#: geonode/templates/index.html:265
+#: geonode/templates/index.html:275
 msgid "Explore maps"
 msgstr "สำรวจแผนที่"
 
 #: geonode/contrib/geosites/templates/master_index.html:45
-#: geonode/templates/index.html:280
+#: geonode/templates/index.html:290
 #: geonode/templates/pinax/notifications/account_approve/full.txt:1
 msgid "User"
 msgid_plural "Users"
@@ -977,24 +997,24 @@ msgstr ""
 "shapefile และ GeoTiff"
 
 #: geonode/contrib/geosites/templates/master_index.html:47
-#: geonode/templates/index.html:282
+#: geonode/templates/index.html:292
 msgid "See users"
 msgstr "ดูผู้ใช้"
 
-#: geonode/contrib/geosites/views.py:126 geonode/geoserver/views.py:604
-#: geonode/geoserver/views.py:660
+#: geonode/contrib/geosites/views.py:126 geonode/geoserver/views.py:610
+#: geonode/geoserver/views.py:666
 msgid "Bad HTTP Authorization Credentials."
 msgstr "อนุญาต HTTP Bad ข้อมูลประจำตัว"
 
-#: geonode/contrib/monitoring/__init__.py:35
+#: geonode/contrib/monitoring/__init__.py:42
 msgid "Monitoring alert"
 msgstr ""
 
-#: geonode/contrib/monitoring/__init__.py:36
+#: geonode/contrib/monitoring/__init__.py:43
 msgid "Alert situation reported by monitoring"
 msgstr ""
 
-#: geonode/contrib/monitoring/collector.py:992
+#: geonode/contrib/monitoring/collector.py:991
 msgid "GeoNode Monitoring on {} reports errors: {}"
 msgstr ""
 
@@ -1078,120 +1098,123 @@ msgstr "วันที่อ้างอิงสำหรับแหล่ง
 msgid "Show data for specific label"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:87 geonode/templates/500.html:150
-#: geonode/templates/base.html:245
+#: geonode/contrib/monitoring/models.py:91 geonode/templates/500.html:197
+#: geonode/templates/base.html:259
 msgid "GeoNode"
 msgstr "GeoNode"
 
-#: geonode/contrib/monitoring/models.py:88
+#: geonode/contrib/monitoring/models.py:92
 #: geonode/people/templates/people/profile_detail.html:160
-#: geonode/templates/500.html:232
+#: geonode/templates/500.html:276
 msgid "GeoServer"
 msgstr "GeoServer"
 
-#: geonode/contrib/monitoring/models.py:89
+#: geonode/contrib/monitoring/models.py:93
 #, fuzzy
 #| msgid "GeoServer"
 msgid "Host (GeoServer)"
 msgstr "GeoServer"
 
-#: geonode/contrib/monitoring/models.py:90
+#: geonode/contrib/monitoring/models.py:94
 #, fuzzy
 #| msgid "About GeoNode"
 msgid "Host (GeoNode)"
 msgstr "เกี่ยวกับ GeoNode"
 
-#: geonode/contrib/monitoring/models.py:146
+#: geonode/contrib/monitoring/models.py:160
 #, fuzzy
 #| msgid "Resources"
 msgid "No resource"
 msgstr "แหล่งข้อมูล"
 
-#: geonode/contrib/monitoring/models.py:149
-#: geonode/documents/templates/documents/document_detail.html:149
-#: geonode/templates/index.html:270
+#: geonode/contrib/monitoring/models.py:163
+#: geonode/documents/templates/documents/document_detail.html:148
+#: geonode/templates/index.html:280
 #: geonode/templates/pinax/notifications/request_download_resourcebase/full.txt:9
+#, fuzzy
+#| msgid "Document"
 msgid "Document"
-msgstr "เอกสาร"
+msgid_plural "Documents"
+msgstr[0] "เอกสาร"
 
-#: geonode/contrib/monitoring/models.py:150
+#: geonode/contrib/monitoring/models.py:164
 #, fuzzy
 #| msgid "Styles"
 msgid "Style"
 msgstr "สไตล์"
 
-#: geonode/contrib/monitoring/models.py:151
-#: geonode/people/templates/people/profile_detail.html:163
-#: geonode/templates/500.html:235
+#: geonode/contrib/monitoring/models.py:165
+#: geonode/people/templates/people/profile_detail.html:161
+#: geonode/templates/500.html:277
 msgid "Admin"
 msgstr "ผู้ดูแลระบบ"
 
-#: geonode/contrib/monitoring/models.py:152
-#: geonode/contrib/monitoring/models.py:262
+#: geonode/contrib/monitoring/models.py:166
+#: geonode/contrib/monitoring/models.py:292
 msgid "Other"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:169
-#: geonode/contrib/monitoring/models.py:205
+#: geonode/contrib/monitoring/models.py:188
+#: geonode/contrib/monitoring/models.py:224
 msgid "Rate"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:170
-#: geonode/contrib/monitoring/models.py:207
+#: geonode/contrib/monitoring/models.py:189
+#: geonode/contrib/monitoring/models.py:226
 #, fuzzy
 #| msgid "count"
 msgid "Count"
 msgstr "นับจำนวน"
 
-#: geonode/contrib/monitoring/models.py:171
+#: geonode/contrib/monitoring/models.py:190
 msgid "Value"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:172
+#: geonode/contrib/monitoring/models.py:191
 msgid "Value numeric"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:196
+#: geonode/contrib/monitoring/models.py:215
 msgid "Bytes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:197
+#: geonode/contrib/monitoring/models.py:216
 msgid "Kilobytes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:198
+#: geonode/contrib/monitoring/models.py:217
 msgid "Megabytes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:199
+#: geonode/contrib/monitoring/models.py:218
 msgid "Gigabytes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:200
+#: geonode/contrib/monitoring/models.py:219
 msgid "Bytes per second"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:201
+#: geonode/contrib/monitoring/models.py:220
 msgid "Kilobytes per second"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:202
+#: geonode/contrib/monitoring/models.py:221
 msgid "Megabytes per second"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:203
+#: geonode/contrib/monitoring/models.py:222
 msgid "Gigabytes per second"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:204
+#: geonode/contrib/monitoring/models.py:223
 msgid "Seconds"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:206
+#: geonode/contrib/monitoring/models.py:225
 msgid "Percentage"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:262
+#: geonode/contrib/monitoring/models.py:292
 #: geonode/groups/templates/groups/activity.html:25
 #: geonode/groups/templates/groups/group_members.html:13
 #: geonode/social/templates/social/activity_list.html:20
@@ -1199,91 +1222,91 @@ msgstr ""
 msgid "All"
 msgstr "ทั้งหมด"
 
-#: geonode/contrib/monitoring/models.py:316
+#: geonode/contrib/monitoring/models.py:347
 #, fuzzy
 #| msgid "List of resources using this document:"
 msgid "List of resources affected"
 msgstr "รายชื่อแหล่งข้อมูลที่ใช้เอกสารนี้:"
 
-#: geonode/contrib/monitoring/models.py:322
+#: geonode/contrib/monitoring/models.py:354
 msgid "Response processing time in ms"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:695
+#: geonode/contrib/monitoring/models.py:797
 msgid "1 minute"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:696
+#: geonode/contrib/monitoring/models.py:798
 msgid "5 minutes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:697
+#: geonode/contrib/monitoring/models.py:799
 msgid "10 minutes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:698
+#: geonode/contrib/monitoring/models.py:800
 msgid "30 minutes"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:699
+#: geonode/contrib/monitoring/models.py:801
 msgid "1 hour"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:706
+#: geonode/contrib/monitoring/models.py:808
 msgid "Warning"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:707
+#: geonode/contrib/monitoring/models.py:809
 msgid "Error"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:708
+#: geonode/contrib/monitoring/models.py:810
 msgid "Fatal"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:714
+#: geonode/contrib/monitoring/models.py:824
 msgid "Expected min/max values for user configuration"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:716
+#: geonode/contrib/monitoring/models.py:832
 msgid "Marker of last delivery"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:718
+#: geonode/contrib/monitoring/models.py:834
 msgid "Minimum time between subsequent notifications"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:723
+#: geonode/contrib/monitoring/models.py:839
 msgid "How severe would be error from this notification"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:724
+#: geonode/contrib/monitoring/models.py:844
 msgid "Is it active"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:731
+#: geonode/contrib/monitoring/models.py:851
 msgid "{}: {}"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:982
+#: geonode/contrib/monitoring/models.py:1114
 msgid "Value must be above"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:983
+#: geonode/contrib/monitoring/models.py:1115
 msgid "Value must be below"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:984
+#: geonode/contrib/monitoring/models.py:1117
 msgid "Last update must not be older than"
 msgstr ""
 
-#: geonode/contrib/monitoring/models.py:1100
+#: geonode/contrib/monitoring/models.py:1262
 msgid "Max timeout for given metric before error should be raised"
 msgstr ""
 
-#: geonode/contrib/monitoring/templates/monitoring/index.html:5
-#: geonode/contrib/monitoring/templates/monitoring/non_superuser.html:5
-#: geonode/templates/base.html:152
+#: geonode/contrib/monitoring/templates/monitoring/index.html:4
+#: geonode/contrib/monitoring/templates/monitoring/non_superuser.html:4
+#: geonode/templates/base.html:155
 msgid "Monitoring"
 msgstr ""
 
@@ -1417,99 +1440,99 @@ msgstr "URL ของเอกสาร ถ้าหากมาจากภา�
 msgid "URL"
 msgstr "URL"
 
-#: geonode/documents/templates/documents/document_detail.html:44
+#: geonode/documents/templates/documents/document_detail.html:43
 msgid "External Resource"
 msgstr "แหล่งที่มาภายนอก"
 
-#: geonode/documents/templates/documents/document_detail.html:73
+#: geonode/documents/templates/documents/document_detail.html:72
 msgid "Rate this document"
 msgstr "ให้คะแนนเอกสารนี้"
 
-#: geonode/documents/templates/documents/document_detail.html:77
+#: geonode/documents/templates/documents/document_detail.html:76
 #: geonode/layers/templates/layers/layer_detail.html:245
 #: geonode/maps/templates/maps/map_detail.html:83
 msgid "Average Rating"
 msgstr "ความนิยมเฉลี่ย"
 
-#: geonode/documents/templates/documents/document_detail.html:97
-#: geonode/layers/templates/layers/layer_detail.html:424
+#: geonode/documents/templates/documents/document_detail.html:96
+#: geonode/layers/templates/layers/layer_detail.html:429
 #: geonode/maps/templates/maps/map_detail.html:103
 msgid "Metadata Detail"
 msgstr ""
 
-#: geonode/documents/templates/documents/document_detail.html:105
-#: geonode/documents/templates/documents/document_detail.html:107
-#: geonode/documents/templates/documents/document_detail.html:109
+#: geonode/documents/templates/documents/document_detail.html:104
+#: geonode/documents/templates/documents/document_detail.html:106
+#: geonode/documents/templates/documents/document_detail.html:108
 msgid "Download Document"
 msgstr "ดาวน์โหลดเอกสาร"
 
-#: geonode/documents/templates/documents/document_detail.html:113
-#: geonode/layers/templates/layers/layer_detail.html:264
+#: geonode/documents/templates/documents/document_detail.html:112
+#: geonode/layers/templates/layers/layer_detail.html:269
 msgid "Request Download"
 msgstr "ร้องขอการดาวน์โหลด"
 
-#: geonode/documents/templates/documents/document_detail.html:119
-#: geonode/documents/templates/documents/document_detail.html:126
+#: geonode/documents/templates/documents/document_detail.html:118
+#: geonode/documents/templates/documents/document_detail.html:125
 msgid "Edit Document"
 msgstr "แก้ไขเอกสาร"
 
-#: geonode/documents/templates/documents/document_detail.html:134
-#: geonode/documents/templates/documents/document_metadata.html:18
-#: geonode/layers/templates/layers/layer_detail.html:444
-#: geonode/layers/templates/layers/layer_metadata.html:20
+#: geonode/documents/templates/documents/document_detail.html:133
+#: geonode/documents/templates/documents/document_metadata.html:17
+#: geonode/layers/templates/layers/layer_detail.html:449
+#: geonode/layers/templates/layers/layer_metadata.html:19
 #: geonode/maps/templates/maps/map_detail.html:145
-#: geonode/maps/templates/maps/map_metadata.html:21
+#: geonode/maps/templates/maps/map_metadata.html:20
 #: geonode/templates/metadata_detail.html:32
 msgid "Metadata"
 msgstr "คำอธิบายข้อมูล"
 
-#: geonode/documents/templates/documents/document_detail.html:135
-#: geonode/layers/templates/layers/layer_detail.html:445
+#: geonode/documents/templates/documents/document_detail.html:134
+#: geonode/layers/templates/layers/layer_detail.html:450
 #: geonode/maps/templates/maps/map_detail.html:146
 msgid "Wizard"
 msgstr ""
 
-#: geonode/documents/templates/documents/document_detail.html:136
-#: geonode/layers/templates/layers/layer_detail.html:446
+#: geonode/documents/templates/documents/document_detail.html:135
+#: geonode/layers/templates/layers/layer_detail.html:451
 #: geonode/maps/templates/maps/map_detail.html:147
 msgid "Advanced Edit"
 msgstr ""
 
-#: geonode/documents/templates/documents/document_detail.html:142
-#: geonode/layers/templates/layers/layer_detail.html:475
+#: geonode/documents/templates/documents/document_detail.html:141
+#: geonode/layers/templates/layers/layer_detail.html:480
 #: geonode/layers/templates/layouts/panels.html:260
 #: geonode/maps/templates/layouts/map_panels.html:59
 #: geonode/maps/templates/maps/map_detail.html:153
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: geonode/documents/templates/documents/document_detail.html:143
-#: geonode/layers/templates/layers/layer_detail.html:476
+#: geonode/documents/templates/documents/document_detail.html:142
+#: geonode/layers/templates/layers/layer_detail.html:481
 #: geonode/maps/templates/maps/map_detail.html:154
 msgid "Set"
 msgstr "กำหนด"
 
-#: geonode/documents/templates/documents/document_detail.html:151
-#: geonode/layers/templates/layers/layer_detail.html:484
+#: geonode/documents/templates/documents/document_detail.html:150
+#: geonode/layers/templates/layers/layer_detail.html:489
 msgid "Replace"
 msgstr "แทนที่"
 
-#: geonode/documents/templates/documents/document_detail.html:154
+#: geonode/documents/templates/documents/document_detail.html:153
 #: geonode/groups/templates/groups/group_members.html:33
 #: geonode/groups/templates/groups/group_members.html:59
 #: geonode/groups/templates/groups/group_members.html:86
-#: geonode/layers/templates/layers/layer_detail.html:490
+#: geonode/layers/templates/layers/layer_detail.html:495
 #: geonode/maps/templates/maps/map_detail.html:162
 #: geonode/templates/account/email.html:36
 #: geonode/templates/socialaccount/connections.html:33
 msgid "Remove"
 msgstr "ลบ"
 
-#: geonode/documents/templates/documents/document_detail.html:161
-#: geonode/documents/templates/documents/document_detail.html:197
-#: geonode/layers/templates/layers/layer_detail.html:408
-#: geonode/layers/templates/layers/layer_detail.html:497
-#: geonode/layers/templates/layers/layer_detail.html:543
+#: geonode/documents/templates/documents/document_detail.html:160
+#: geonode/documents/templates/documents/document_detail.html:196
+#: geonode/layers/templates/layers/layer_detail.html:413
+#: geonode/layers/templates/layers/layer_detail.html:502
+#: geonode/layers/templates/layers/layer_detail.html:548
 #: geonode/maps/templates/maps/map_detail.html:124
 #: geonode/maps/templates/maps/map_detail.html:168
 #: geonode/maps/templates/maps/map_detail.html:288
@@ -1518,93 +1541,93 @@ msgstr "ลบ"
 msgid "Close"
 msgstr "ปิด"
 
-#: geonode/documents/templates/documents/document_detail.html:168
-#: geonode/documents/templates/documents/document_detail.html:175
-#: geonode/layers/templates/layers/layer_detail.html:505
-#: geonode/layers/templates/layers/layer_detail.html:513
+#: geonode/documents/templates/documents/document_detail.html:167
+#: geonode/documents/templates/documents/document_detail.html:174
+#: geonode/layers/templates/layers/layer_detail.html:510
+#: geonode/layers/templates/layers/layer_detail.html:518
 msgid "Download Metadata"
 msgstr "ดาวน์โหลดคำอธิบายข้อมูล"
 
-#: geonode/documents/templates/documents/document_detail.html:204
+#: geonode/documents/templates/documents/document_detail.html:203
 #, fuzzy
 #| msgid "Resource using this document"
 msgid "Resources using this document"
 msgstr "แหล่งข้อมูลที่ใช้เอกสารนี้"
 
-#: geonode/documents/templates/documents/document_detail.html:206
+#: geonode/documents/templates/documents/document_detail.html:205
 msgid "List of resources using this document:"
 msgstr "รายชื่อแหล่งข้อมูลที่ใช้เอกสารนี้:"
 
-#: geonode/documents/templates/documents/document_detail.html:212
+#: geonode/documents/templates/documents/document_detail.html:211
 msgid "This document is not related to any maps or layers"
 msgstr "เอกสารนี้ไม่มีเกี่ยวข้องกับแผนที่หรือชั้นข้อมูลใดๆ"
 
-#: geonode/documents/templates/documents/document_detail.html:220
+#: geonode/documents/templates/documents/document_detail.html:219
 msgid "Click the button below to change the permissions of this document."
 msgstr "คลิกปุ่มด้านล่างเพื่อเปลี่ยนแปลงสิทธิ์ของเอกสารนี้"
 
-#: geonode/documents/templates/documents/document_detail.html:221
+#: geonode/documents/templates/documents/document_detail.html:220
 msgid "Change Document Permissions"
 msgstr "เปลี่ยนแปลงสิทธิ์เอกสาร"
 
-#: geonode/documents/templates/documents/document_list.html:6
-#: geonode/documents/templates/documents/document_list.html:13
+#: geonode/documents/templates/documents/document_list.html:5
+#: geonode/documents/templates/documents/document_list.html:12
 #: geonode/documents/templates/documents/document_metadata_advanced.html:16
 #: geonode/documents/templates/documents/document_thumb_upload.html:18
-#: geonode/documents/templates/documents/document_upload_base.html:14
+#: geonode/documents/templates/documents/document_upload_base.html:13
 msgid "Explore Documents"
 msgstr "สำรวจเอกสาร"
 
-#: geonode/documents/templates/documents/document_list.html:12
-#: geonode/documents/templates/documents/document_upload_base.html:15
+#: geonode/documents/templates/documents/document_list.html:11
+#: geonode/documents/templates/documents/document_upload_base.html:14
 msgid "Upload Documents"
 msgstr "อัพโหลดเอกสาร"
 
-#: geonode/documents/templates/documents/document_metadata.html:18
+#: geonode/documents/templates/documents/document_metadata.html:17
 #, python-format
 msgid "for %(document_title)s"
 msgstr ""
 
-#: geonode/documents/templates/documents/document_metadata.html:36
+#: geonode/documents/templates/documents/document_metadata.html:35
 #: geonode/documents/templates/documents/document_metadata_advanced.html:26
-#: geonode/layers/templates/layers/layer_metadata.html:47
+#: geonode/layers/templates/layers/layer_metadata.html:46
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:37
-#: geonode/maps/templates/maps/map_metadata.html:45
+#: geonode/maps/templates/maps/map_metadata.html:44
 #: geonode/maps/templates/maps/map_metadata_advanced.html:34
 msgid "Error updating metadata.  Please check the following fields: "
 msgstr "เกิดข้อผิดพลาดในการแก้ไขคำอธิบายข้อมูล โปรดตรวจสอบฟิลด์ดังต่อไปนี้:"
 
-#: geonode/documents/templates/documents/document_metadata.html:72
+#: geonode/documents/templates/documents/document_metadata.html:71
 #: geonode/documents/templates/documents/document_metadata_advanced.html:87
-#: geonode/layers/templates/layers/layer_metadata.html:90
+#: geonode/layers/templates/layers/layer_metadata.html:89
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:129
-#: geonode/maps/templates/maps/map_metadata.html:74
+#: geonode/maps/templates/maps/map_metadata.html:73
 #: geonode/maps/templates/maps/map_metadata_advanced.html:87
 msgid "Metadata Provider"
 msgstr "ผู้ให้คำอธิบายข้อมูล"
 
-#: geonode/documents/templates/documents/document_metadata.html:78
-#: geonode/layers/templates/layers/layer_metadata.html:98
-#: geonode/maps/templates/maps/map_metadata.html:80
+#: geonode/documents/templates/documents/document_metadata.html:77
+#: geonode/layers/templates/layers/layer_metadata.html:97
+#: geonode/maps/templates/maps/map_metadata.html:79
 msgid "<< Back"
 msgstr ""
 
-#: geonode/documents/templates/documents/document_metadata.html:79
+#: geonode/documents/templates/documents/document_metadata.html:78
 #: geonode/documents/templates/documents/document_metadata_advanced.html:48
 #: geonode/documents/templates/documents/document_metadata_advanced.html:92
 #: geonode/groups/templates/groups/group_update.html:26
-#: geonode/layers/templates/layers/layer_metadata.html:99
+#: geonode/layers/templates/layers/layer_metadata.html:98
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:69
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:137
-#: geonode/maps/templates/maps/map_metadata.html:81
+#: geonode/maps/templates/maps/map_metadata.html:80
 #: geonode/maps/templates/maps/map_metadata_advanced.html:49
 #: geonode/maps/templates/maps/map_metadata_advanced.html:93
 msgid "Update"
 msgstr "แก้ไข"
 
-#: geonode/documents/templates/documents/document_metadata.html:80
-#: geonode/layers/templates/layers/layer_metadata.html:100
-#: geonode/maps/templates/maps/map_metadata.html:82
+#: geonode/documents/templates/documents/document_metadata.html:79
+#: geonode/layers/templates/layers/layer_metadata.html:99
+#: geonode/maps/templates/maps/map_metadata.html:81
 #, fuzzy
 #| msgid "Next"
 msgid "Next >>"
@@ -1670,9 +1693,9 @@ msgstr "แทนที่"
 
 #: geonode/documents/templates/documents/document_replace.html:27
 #: geonode/documents/templates/documents/document_thumb_upload.html:61
-#: geonode/layers/templates/layers/layer_metadata_upload.html:89
+#: geonode/layers/templates/layers/layer_metadata_upload.html:88
 #: geonode/layers/templates/layers/layer_replace.html:86
-#: geonode/layers/templates/layers/layer_style_upload.html:89
+#: geonode/layers/templates/layers/layer_style_upload.html:88
 #: geonode/layers/templates/upload/layer_upload.html:107
 #: geonode/templates/search/_search_content.html:24
 msgid "Clear"
@@ -1686,32 +1709,32 @@ msgid "Upload Document's Thumbnail"
 msgstr "อัพโหลดเอกสาร"
 
 #: geonode/documents/templates/documents/document_thumb_upload.html:38
-#: geonode/layers/templates/layers/layer_metadata_upload.html:67
+#: geonode/layers/templates/layers/layer_metadata_upload.html:66
 #: geonode/layers/templates/layers/layer_replace.html:55
-#: geonode/layers/templates/layers/layer_style_upload.html:67
+#: geonode/layers/templates/layers/layer_style_upload.html:66
 #: geonode/layers/templates/upload/layer_upload.html:73
 msgid "Drop files here"
 msgstr "วางไฟล์ที่นี่"
 
 #: geonode/documents/templates/documents/document_thumb_upload.html:41
-#: geonode/layers/templates/layers/layer_metadata_upload.html:70
+#: geonode/layers/templates/layers/layer_metadata_upload.html:69
 #: geonode/layers/templates/layers/layer_replace.html:58
-#: geonode/layers/templates/layers/layer_style_upload.html:70
+#: geonode/layers/templates/layers/layer_style_upload.html:69
 #: geonode/layers/templates/upload/layer_upload.html:76
 msgid " or select them one by one:"
 msgstr "หรือเลือกทีละไฟล์:"
 
 #: geonode/documents/templates/documents/document_thumb_upload.html:52
-#: geonode/layers/templates/layers/layer_metadata_upload.html:80
+#: geonode/layers/templates/layers/layer_metadata_upload.html:79
 #: geonode/layers/templates/layers/layer_replace.html:68
-#: geonode/layers/templates/layers/layer_style_upload.html:80
+#: geonode/layers/templates/layers/layer_style_upload.html:79
 #: geonode/layers/templates/upload/layer_upload.html:86
 msgid "Files to be uploaded"
 msgstr "ไฟล์ที่ต้องการอัพโหลด"
 
 #: geonode/documents/templates/documents/document_thumb_upload.html:62
-#: geonode/layers/templates/layers/layer_metadata_upload.html:90
-#: geonode/layers/templates/layers/layer_style_upload.html:90
+#: geonode/layers/templates/layers/layer_metadata_upload.html:89
+#: geonode/layers/templates/layers/layer_style_upload.html:89
 #: geonode/layers/templates/upload/layer_upload.html:108
 msgid "Upload files"
 msgstr "อัพโหลดไฟล์"
@@ -1721,7 +1744,7 @@ msgid "Upload Document"
 msgstr "อัพโหลดเอกสาร"
 
 #: geonode/documents/templates/documents/document_upload.html:21
-#: geonode/layers/templates/layers/layer_detail.html:458
+#: geonode/layers/templates/layers/layer_detail.html:463
 #: geonode/qgis_server/templates/qgis_server/forms/qml_style.html:58
 #, fuzzy
 #| msgid "uploaded"
@@ -1748,103 +1771,103 @@ msgstr "คุณไม่มีสิทธิ์แก้ไขคำอธิ
 msgid "You are not permitted to view this document"
 msgstr "คุณไม่มีสิทธิ์ดูเอกสารนี้"
 
-#: geonode/documents/views.py:101 geonode/documents/views.py:172
+#: geonode/documents/views.py:99 geonode/documents/views.py:170
 msgid "You are not allowed to view this document."
 msgstr "คุณไม่ได้รับอนุญาตให้ดูเอกสารนี้"
 
-#: geonode/documents/views.py:363 geonode/documents/views.py:552
+#: geonode/documents/views.py:360 geonode/documents/views.py:555
 msgid "You are not allowed to edit this document."
 msgstr "คุณไม่ได้รับอนุญาตให้แก้ไขเอกสารนี้"
 
-#: geonode/documents/views.py:413 geonode/layers/views.py:764
+#: geonode/documents/views.py:410 geonode/layers/views.py:918
 msgid "You must set a point of contact for this resource"
 msgstr "คุณจะต้องเพิ่มที่อยู่สำหรับติดต่อให้กับทรัพยากรนี้"
 
-#: geonode/documents/views.py:430 geonode/layers/views.py:781
+#: geonode/documents/views.py:427 geonode/layers/views.py:935
 msgid "You must set an author for this resource"
 msgstr "คุณต้องเพิ่มผู้จัดทำให้กับทรัพยากรนี้"
 
-#: geonode/geoserver/__init__.py:27
+#: geonode/geoserver/__init__.py:48
 msgid "Layer Uploaded"
 msgstr "อัพโหลดชั้นข้อมูลเสร็จแล้ว"
 
-#: geonode/geoserver/__init__.py:27
+#: geonode/geoserver/__init__.py:48
 msgid "A layer was uploaded"
 msgstr "อัพโหลดชั้นข้อมูลเสร็จแล้ว"
 
-#: geonode/geoserver/__init__.py:28 geonode/layers/__init__.py:33
+#: geonode/geoserver/__init__.py:49 geonode/layers/__init__.py:33
 msgid "Comment on Layer"
 msgstr "แสดงความคิดเห็นเกี่ยวกับชั้นข้อมูล"
 
-#: geonode/geoserver/__init__.py:28 geonode/layers/__init__.py:33
+#: geonode/geoserver/__init__.py:49 geonode/layers/__init__.py:33
 msgid "A layer was commented on"
 msgstr "ชั้นข้อมูลได้รับการแสดงความคิดเห็น"
 
-#: geonode/geoserver/__init__.py:29 geonode/layers/__init__.py:34
+#: geonode/geoserver/__init__.py:50 geonode/layers/__init__.py:34
 msgid "Rating for Layer"
 msgstr "ให้คะแนนชั้นข้อมูล"
 
-#: geonode/geoserver/__init__.py:29 geonode/layers/__init__.py:34
+#: geonode/geoserver/__init__.py:50 geonode/layers/__init__.py:34
 msgid "A rating was given to a layer"
 msgstr "ชั้นข้อมูลได้รับการให้คะแนนแล้ว"
 
-#: geonode/geoserver/helpers.py:592 geonode/layers/models.py:512
+#: geonode/geoserver/helpers.py:610 geonode/layers/models.py:515
 msgid "No abstract provided"
 msgstr ""
 
-#: geonode/geoserver/helpers.py:1126
+#: geonode/geoserver/helpers.py:1143
 msgid "An exception occurred loading data to PostGIS"
 msgstr "เกิดข้อผิดพลาดระหว่างโหลดข้อมูลไปยัง PostGIS"
 
-#: geonode/geoserver/helpers.py:1131
+#: geonode/geoserver/helpers.py:1148
 msgid " Additionally an error occured during database cleanup"
 msgstr "เกิดข้อผิดพลาดในระหว่างการทำความสะอาดฐานข้อมูล"
 
-#: geonode/geoserver/ows.py:45
+#: geonode/geoserver/ows.py:66
 msgid "GZIP"
 msgstr ""
 
-#: geonode/geoserver/ows.py:46
+#: geonode/geoserver/ows.py:67
 msgid "GeoTIFF"
 msgstr "GeoTIFF"
 
-#: geonode/geoserver/ows.py:69
+#: geonode/geoserver/ows.py:104
 msgid "Zipped Shapefile"
 msgstr "Zipped Shapefile"
 
-#: geonode/geoserver/ows.py:70
+#: geonode/geoserver/ows.py:105
 msgid "GML 2.0"
 msgstr "GML 2.0"
 
-#: geonode/geoserver/ows.py:71
+#: geonode/geoserver/ows.py:106
 msgid "GML 3.1.1"
 msgstr "GML 3.1.1"
 
-#: geonode/geoserver/ows.py:72
+#: geonode/geoserver/ows.py:107
 msgid "CSV"
 msgstr "CSV"
 
-#: geonode/geoserver/ows.py:73
+#: geonode/geoserver/ows.py:108
 msgid "Excel"
 msgstr "Excel"
 
-#: geonode/geoserver/ows.py:74
+#: geonode/geoserver/ows.py:109
 msgid "GeoJSON"
 msgstr "GeoJSON"
 
-#: geonode/geoserver/ows.py:98
+#: geonode/geoserver/ows.py:147
 msgid "JPEG"
 msgstr "JPEG"
 
-#: geonode/geoserver/ows.py:99
+#: geonode/geoserver/ows.py:148
 msgid "PDF"
 msgstr "PDF"
 
-#: geonode/geoserver/ows.py:100
+#: geonode/geoserver/ows.py:149
 msgid "PNG"
 msgstr "PNG"
 
-#: geonode/geoserver/views.py:489
+#: geonode/geoserver/views.py:499
 msgid "You don't have permissions to change style for this layer"
 msgstr "คุณไม่มีสิทธิ์แก้ไขสไตล์ของชั้นข้อมูลนี้"
 
@@ -1872,25 +1895,25 @@ msgid ""
 "The following are not valid usernames: %(errors)s; not added to the group"
 msgstr ""
 
-#: geonode/groups/models.py:42 geonode/templates/base.html:95
+#: geonode/groups/models.py:41 geonode/templates/base.html:97
 #, fuzzy
 #| msgid "Categories"
 msgid "Group Categories"
 msgstr "หมวด"
 
-#: geonode/groups/models.py:60
+#: geonode/groups/models.py:59
 msgid "Public"
 msgstr "สาธารณะ"
 
-#: geonode/groups/models.py:61
+#: geonode/groups/models.py:60
 msgid "Public (invite-only)"
 msgstr "สาธารณะ (เฉพาะที่ได้รับเชิญ)"
 
-#: geonode/groups/models.py:62
+#: geonode/groups/models.py:61
 msgid "Private"
 msgstr "ส่วนบุคคล"
 
-#: geonode/groups/models.py:65
+#: geonode/groups/models.py:64
 msgid ""
 "Public: Any registered user can view and join a public group.<br>Public "
 "(invite-only):Any registered user can view the group.  Only invited users "
@@ -1903,49 +1926,49 @@ msgstr ""
 "ผู้ใช้ที่ลงทะเบียนไม่สามารถเห็นรายละเอียดใดๆเกี่ยวกับกลุ่ม รวมทั้งการเป็นสมาชิก "
 "เฉพาะผู้ใช้ที่ได้รับเชิญเท่านั้นที่สามารถเข้าร่วมได้"
 
-#: geonode/groups/models.py:70
+#: geonode/groups/models.py:69
 msgid ""
 "Email used to contact one or all group members, such as a mailing list, "
 "shared email, or exchange group."
 msgstr ""
 "อีเมล์ที่สามารถใช้ติดต่อสมาชิกหรือทุกคนในกลุ่ม เช่น เมลลิงลิสต์ อีเมล์ที่ใช้ร่วมกัน หรือกลุ่มแลกเปลี่ยน"
 
-#: geonode/groups/models.py:76
+#: geonode/groups/models.py:75
 msgid "Logo"
 msgstr "โลโก้"
 
-#: geonode/groups/models.py:77
+#: geonode/groups/models.py:76
 #: geonode/layers/templates/layers/layer_detail.html:175
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:108
 #: geonode/layers/templates/layouts/panels.html:520
-#: geonode/people/templates/people/profile_detail.html:100
-#: geonode/services/forms.py:119
-#: geonode/services/templates/services/service_resources_harvest.html:28
+#: geonode/people/templates/people/profile_detail.html:101
+#: geonode/services/forms.py:122
+#: geonode/services/templates/services/service_resources_harvest.html:29
 msgid "Description"
 msgstr "คำอธิบาย"
 
-#: geonode/groups/models.py:79
-#: geonode/people/templates/people/profile_detail.html:66
+#: geonode/groups/models.py:78
+#: geonode/people/templates/people/profile_detail.html:67
 #: geonode/templates/invitations/forms/_invite.html:14
 msgid "Email"
 msgstr "อีเมล์"
 
-#: geonode/groups/models.py:85 geonode/people/forms.py:82
+#: geonode/groups/models.py:84 geonode/people/forms.py:82
 msgid "A space or comma-separated list of keywords"
 msgstr "แยกคำสำคัญแต่ละคำด้วยการเว้นวรรคหรือจุลภาค"
 
-#: geonode/groups/models.py:88
+#: geonode/groups/models.py:87
 msgid "Access"
 msgstr "การเข้าถึง"
 
-#: geonode/groups/models.py:200
+#: geonode/groups/models.py:199
 #: geonode/groups/templates/groups/group_members.html:28
 #: geonode/groups/templates/groups/group_members.html:54
 #: geonode/groups/templates/groups/group_members.html:81
 msgid "Manager"
 msgstr "ผู้ดูแล"
 
-#: geonode/groups/models.py:201
+#: geonode/groups/models.py:200
 msgid "Member"
 msgstr "สมาชิก"
 
@@ -1959,22 +1982,22 @@ msgstr "ฟีดกิจกรรมสำหรับ"
 #: geonode/groups/templates/groups/activity.html:26
 #: geonode/people/templates/people/_profile_filters.html:5
 #: geonode/social/templates/social/activity_list.html:21
-#: geonode/templates/500.html:56 geonode/templates/base.html:65
-#: geonode/templates/base.html.py:206
+#: geonode/templates/500.html:56 geonode/templates/500.html:152
+#: geonode/templates/base.html:65 geonode/templates/base.html:214
 msgid "Layers"
 msgstr "ชั้นข้อมูล"
 
 #: geonode/groups/templates/groups/activity.html:27
 #: geonode/people/templates/people/_profile_filters.html:6
 #: geonode/social/templates/social/activity_list.html:22
-#: geonode/templates/500.html:59 geonode/templates/base.html:81
-#: geonode/templates/base.html.py:87
+#: geonode/templates/500.html:59 geonode/templates/base.html:83
+#: geonode/templates/base.html:89
 msgid "Maps"
 msgstr "แผนที่"
 
 #: geonode/groups/templates/groups/activity.html:28
 #: geonode/social/templates/social/activity_list.html:23
-#: geonode/templates/_actions.html:17 geonode/templates/_comments.html:12
+#: geonode/templates/_actions.html:17 geonode/templates/_comments.html:10
 msgid "Comments"
 msgstr "ความคิดเห็น"
 
@@ -2003,29 +2026,30 @@ msgstr "สำรวจกลุ่ม"
 msgid "Create a New Group Category"
 msgstr "สร้างกลุ่ม"
 
-#: geonode/groups/templates/groups/group_base.html:13
+#: geonode/groups/templates/groups/group_base.html:12
 #: geonode/groups/templates/groups/group_list.html:5
 #: geonode/groups/templates/groups/group_list.html:14
 msgid "Explore Groups"
 msgstr "สำรวจกลุ่ม"
 
-#: geonode/groups/templates/groups/group_base.html:14
+#: geonode/groups/templates/groups/group_base.html:13
 #: geonode/groups/templates/groups/group_create.html:11
 msgid "Create a Group"
 msgstr "สร้างกลุ่ม"
 
-#: geonode/groups/templates/groups/group_base.html:16
+#: geonode/groups/templates/groups/group_base.html:15
 #: geonode/groups/templates/groups/group_update.html:11
 msgid "Update Group"
 msgstr "แก้ไขกลุ่ม"
 
-#: geonode/groups/templates/groups/group_base.html:17
+#: geonode/groups/templates/groups/group_base.html:16
 msgid "Remove Group"
 msgstr "ลบกลุ่ม"
 
 #: geonode/groups/templates/groups/group_create.html:5
 #: geonode/groups/templates/groups/group_update.html:5
-#: geonode/templates/base.html:103 geonode/templates/base.html.py:239
+#: geonode/templates/500.html:188 geonode/templates/base.html:105
+#: geonode/templates/base.html:250
 msgid "Create Group"
 msgstr "สร้างกลุ่ม"
 
@@ -2138,8 +2162,8 @@ msgid "Edit Group Category Details"
 msgstr "แก้ไขรายละเอียดกลุ่ม"
 
 #: geonode/groups/templates/groups/groupcategory_detail.html:31
-#: geonode/templates/500.html:70 geonode/templates/base.html:94
-#: geonode/templates/base.html.py:232
+#: geonode/templates/500.html:70 geonode/templates/500.html:181
+#: geonode/templates/base.html:96 geonode/templates/base.html:243
 msgid "Groups"
 msgstr "กลุ่ม"
 
@@ -2166,7 +2190,7 @@ msgstr "สร้างกลุ่ม"
 #: geonode/layers/templates/layouts/panels.html:269
 #: geonode/maps/templates/layouts/map_panels.html:68
 #: geonode/services/templates/services/service_edit.html:21
-#: geonode/templates/announcements/announcement_form.html:27
+#: geonode/templates/announcements/announcement_form.html:26
 msgid "Save"
 msgstr "บันทึก"
 
@@ -2191,12 +2215,12 @@ msgstr ""
 msgid "E-mail"
 msgstr "อีเมล์"
 
-#: geonode/invitations/views.py:68
+#: geonode/invitations/views.py:70
 #, python-format
 msgid "Invitations succefully sent to '%(email)s'"
 msgstr ""
 
-#: geonode/invitations/views.py:75
+#: geonode/invitations/views.py:77
 #, python-format
 msgid ""
 "Sorry, it was not possible to invite '%(email)s' due to the following isse: "
@@ -2251,153 +2275,153 @@ msgstr "ลบชั้นข้อมูลเสร็จแล้ว"
 msgid "A Layer was deleted"
 msgstr "ชั้นข้อมูลถูกลบแล้ว"
 
-#: geonode/layers/models.py:54
+#: geonode/layers/models.py:53
 msgid "YYYYMMDD"
 msgstr ""
 
-#: geonode/layers/models.py:55
+#: geonode/layers/models.py:54
 msgid "YYYYMMDD'T'hhmmss"
 msgstr ""
 
-#: geonode/layers/models.py:56
+#: geonode/layers/models.py:55
 msgid "YYYYMMDD'T'hhmmss'Z'"
 msgstr ""
 
-#: geonode/layers/models.py:74 geonode/qgis_server/models.py:192
+#: geonode/layers/models.py:73 geonode/qgis_server/models.py:194
 msgid "style name"
 msgstr "ชื่อสไตล์"
 
-#: geonode/layers/models.py:76
+#: geonode/layers/models.py:75
 msgid "sld text"
 msgstr "ข้อความ sld"
 
-#: geonode/layers/models.py:78
+#: geonode/layers/models.py:77
 msgid "sld version"
 msgstr "รุ่นของ sld"
 
-#: geonode/layers/models.py:82
+#: geonode/layers/models.py:81
 msgid "sld url"
 msgstr "url ของ sld"
 
-#: geonode/layers/models.py:238
+#: geonode/layers/models.py:240
 msgid "File cannot be opened, maybe check the encoding"
 msgstr "ไม่สามารถเปิดไฟล์ได้ ให้ลองตรวจสอบ encoding"
 
-#: geonode/layers/models.py:381
+#: geonode/layers/models.py:383
 msgid "attribute name"
 msgstr "ชื่อแอตทริบิวต์"
 
-#: geonode/layers/models.py:382
+#: geonode/layers/models.py:384
 msgid "name of attribute as stored in shapefile/spatial database"
 msgstr "ชื่อของแอตทริบิวต์ที่เก็บอยู่ใน shapefile/spatial database"
 
-#: geonode/layers/models.py:388
+#: geonode/layers/models.py:390
 msgid "attribute description"
 msgstr "คำอธิบายแอตทริบิวต์"
 
-#: geonode/layers/models.py:389
+#: geonode/layers/models.py:391
 msgid "description of attribute to be used in metadata"
 msgstr "คำอธิบายของแอตทริบิวต์ที่ใช้ในคำอธิบายข้อมูล"
 
-#: geonode/layers/models.py:394
+#: geonode/layers/models.py:396
 msgid "attribute label"
 msgstr "ป้ายชื่อแอตทริบิวต์"
 
-#: geonode/layers/models.py:395
+#: geonode/layers/models.py:397
 msgid "title of attribute as displayed in GeoNode"
 msgstr "ชื่อของแอตทริบิวต์ที่แสดงใน GeoNode"
 
-#: geonode/layers/models.py:401
+#: geonode/layers/models.py:403
 msgid "attribute type"
 msgstr "ชนิดของแอตทริบิวต์"
 
-#: geonode/layers/models.py:402
+#: geonode/layers/models.py:404
 msgid "the data type of the attribute (integer, string, geometry, etc)"
 msgstr "ชนิดข้อมูลของแอตทริบิวต์ (integer, string, geometry, อื่นๆ)"
 
-#: geonode/layers/models.py:409
+#: geonode/layers/models.py:411
 msgid "visible?"
 msgstr "สามารถมองเห็นได้?"
 
-#: geonode/layers/models.py:410
+#: geonode/layers/models.py:412
 msgid "specifies if the attribute should be displayed in identify results"
 msgstr "ระบุถ้าแอตทริบิวต์ควรถูกแสดงในการระบุผล"
 
-#: geonode/layers/models.py:412
+#: geonode/layers/models.py:414
 msgid "display order"
 msgstr "ลำดับการแสดงผล"
 
-#: geonode/layers/models.py:413
+#: geonode/layers/models.py:415
 msgid ""
 "specifies the order in which attribute should be displayed in identify "
 "results"
 msgstr "ระบุลำดับที่แอตทริบิวต์ควรถูกแสดงในการระบุผล"
 
-#: geonode/layers/models.py:417
+#: geonode/layers/models.py:419
 msgid "count"
 msgstr "นับจำนวน"
 
-#: geonode/layers/models.py:418
+#: geonode/layers/models.py:420
 msgid "count value for this field"
 msgstr "ค่าจำนวนของฟิลด์นี้"
 
-#: geonode/layers/models.py:421
+#: geonode/layers/models.py:423
 msgid "min"
 msgstr "ค่าต่ำสุด"
 
-#: geonode/layers/models.py:422
+#: geonode/layers/models.py:424
 msgid "minimum value for this field"
 msgstr "ค่าต่ำสุดของฟิลด์นี้"
 
-#: geonode/layers/models.py:429
+#: geonode/layers/models.py:431
 msgid "max"
 msgstr "ค่าสูงสุด"
 
-#: geonode/layers/models.py:430
+#: geonode/layers/models.py:432
 msgid "maximum value for this field"
 msgstr "ค่าสูงสุดของฟิลด์นี้"
 
-#: geonode/layers/models.py:437
+#: geonode/layers/models.py:439
 msgid "average"
 msgstr "เฉลี่ย"
 
-#: geonode/layers/models.py:438
+#: geonode/layers/models.py:440
 msgid "average value for this field"
 msgstr "ค่าเฉลี่ยของฟิลด์นี้"
 
-#: geonode/layers/models.py:445
+#: geonode/layers/models.py:447
 msgid "median"
 msgstr "มัธยฐาน"
 
-#: geonode/layers/models.py:446
+#: geonode/layers/models.py:448
 msgid "median value for this field"
 msgstr "ค่ามัธยฐานของฟิลด์นี้"
 
-#: geonode/layers/models.py:453
+#: geonode/layers/models.py:455
 msgid "standard deviation"
 msgstr "ค่าเบี่ยงเบนมาตรฐาน"
 
-#: geonode/layers/models.py:454
+#: geonode/layers/models.py:456
 msgid "standard deviation for this field"
 msgstr "ค่าเบี่ยงเบนมาตรฐานของฟิลด์นี้"
 
-#: geonode/layers/models.py:461
+#: geonode/layers/models.py:463
 msgid "sum"
 msgstr "ผลรวม"
 
-#: geonode/layers/models.py:462
+#: geonode/layers/models.py:464
 msgid "sum value for this field"
 msgstr "ค่าผลรวมของฟิลด์นี้"
 
-#: geonode/layers/models.py:469
+#: geonode/layers/models.py:471
 msgid "unique values for this field"
 msgstr "ค่าที่ไม่ซ้ำกันของฟิลด์นี้"
 
-#: geonode/layers/models.py:473
+#: geonode/layers/models.py:475
 msgid "last modified"
 msgstr "แก้ไขครั้งล่าสุด"
 
-#: geonode/layers/models.py:474
+#: geonode/layers/models.py:476
 msgid "date when attribute statistics were last updated"
 msgstr "วันที่สถิติเกี่ยวกับแอตทริบิวต์มีการปรับปรุงล่าสุด"
 
@@ -2502,161 +2526,165 @@ msgid "Rate this layer"
 msgstr "ให้คะแนนชั้นข้อมูลนี้"
 
 #: geonode/layers/templates/layers/layer_detail.html:261
-#: geonode/layers/templates/layers/layer_detail.html:274
+msgid "Analyze with"
+msgstr ""
+
+#: geonode/layers/templates/layers/layer_detail.html:266
+#: geonode/layers/templates/layers/layer_detail.html:279
 msgid "Download Layer"
 msgstr "ดาวน์โหลดชั้นข้อมูล"
 
-#: geonode/layers/templates/layers/layer_detail.html:308
+#: geonode/layers/templates/layers/layer_detail.html:313
 #, fuzzy
 #| msgid "Are you sure you want to log out?"
 msgid "Do you want to filter it?"
 msgstr "คุณแน่ใจแล้วหรือว่าต้องการออกจากระบบ?"
 
-#: geonode/layers/templates/layers/layer_detail.html:311
+#: geonode/layers/templates/layers/layer_detail.html:316
 msgid "Loading..."
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_detail.html:315
+#: geonode/layers/templates/layers/layer_detail.html:320
 #, fuzzy
 #| msgid "Select an attribute"
 msgid "Filter by attributes"
 msgstr "เลือกแอตทริบิวต์"
 
-#: geonode/layers/templates/layers/layer_detail.html:322
+#: geonode/layers/templates/layers/layer_detail.html:327
 msgid "Match"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_detail.html:337
+#: geonode/layers/templates/layers/layer_detail.html:342
 #, fuzzy
 #| msgid "the following map"
 msgid "of the following:"
 msgstr "แผนที่ดังต่อไปนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:344
+#: geonode/layers/templates/layers/layer_detail.html:349
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:106
 #: geonode/layers/templates/layouts/panels.html:518
 msgid "Attribute"
 msgstr "แอตทริบิวต์"
 
-#: geonode/layers/templates/layers/layer_detail.html:361
+#: geonode/layers/templates/layers/layer_detail.html:366
 msgid "Operator"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_detail.html:395
+#: geonode/layers/templates/layers/layer_detail.html:400
 msgid "Pick your download format:"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_detail.html:430
-#: geonode/layers/templates/layers/layer_detail.html:437
+#: geonode/layers/templates/layers/layer_detail.html:435
+#: geonode/layers/templates/layers/layer_detail.html:442
 msgid "Edit Layer"
 msgstr "แก้ไขชั้นข้อมูล"
 
-#: geonode/layers/templates/layers/layer_detail.html:447
+#: geonode/layers/templates/layers/layer_detail.html:452
 #, fuzzy
 #| msgid "Download Metadata"
 msgid "Upload Metadata"
 msgstr "ดาวน์โหลดคำอธิบายข้อมูล"
 
-#: geonode/layers/templates/layers/layer_detail.html:454
-#: geonode/layers/templates/layers/layer_detail.html:467
-#: geonode/layers/templates/layers/layer_detail.html:613
+#: geonode/layers/templates/layers/layer_detail.html:459
+#: geonode/layers/templates/layers/layer_detail.html:472
+#: geonode/layers/templates/layers/layer_detail.html:618
 msgid "Styles"
 msgstr "สไตล์"
 
-#: geonode/layers/templates/layers/layer_detail.html:456
-#: geonode/layers/templates/layers/layer_detail.html:468
+#: geonode/layers/templates/layers/layer_detail.html:461
+#: geonode/layers/templates/layers/layer_detail.html:473
 #: geonode/layers/templates/layouts/panels.html:275
 #: geonode/maps/templates/layouts/map_panels.html:74
 #: geonode/maps/templates/maps/map_detail.html:161
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: geonode/layers/templates/layers/layer_detail.html:459
+#: geonode/layers/templates/layers/layer_detail.html:464
 #: geonode/services/templates/services/service_detail.html:139
-#: geonode/services/templates/services/service_resources_harvest.html:113
+#: geonode/services/templates/services/service_resources_harvest.html:115
 msgid "Manage"
 msgstr "จัดการ"
 
-#: geonode/layers/templates/layers/layer_detail.html:487
+#: geonode/layers/templates/layers/layer_detail.html:492
 msgid "Edit data"
 msgstr "แก้ไขข้อมูล"
 
-#: geonode/layers/templates/layers/layer_detail.html:551
+#: geonode/layers/templates/layers/layer_detail.html:556
 msgid "Legend"
 msgstr "สัญลักษณ์"
 
-#: geonode/layers/templates/layers/layer_detail.html:565
+#: geonode/layers/templates/layers/layer_detail.html:570
 msgid "Maps using this layer"
 msgstr "แผนที่ที่ใช้ชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:567
+#: geonode/layers/templates/layers/layer_detail.html:572
 msgid "List of maps using this layer:"
 msgstr "รายชื่อแผนที่ที่ใช้ชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:573
+#: geonode/layers/templates/layers/layer_detail.html:578
 msgid "This layer is not currently used in any maps."
 msgstr "ชั้นข้อมูลนี้ยังไม่ถูกนำไปใช้ในแผนที่ใดๆในขณะนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:578
+#: geonode/layers/templates/layers/layer_detail.html:583
 msgid "Create a map using this layer"
 msgstr "สร้างแผนที่ด้วยชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:579
+#: geonode/layers/templates/layers/layer_detail.html:584
 msgid "Click the button below to generate a new map based on this layer."
 msgstr "คลิกปุ่มด้านล่างเพื่อสร้างแผนที่ใหม่โดยใช้ชั้นข้อมูลนี้เป็นฐาน"
 
-#: geonode/layers/templates/layers/layer_detail.html:584
+#: geonode/layers/templates/layers/layer_detail.html:589
 msgid "Add the layer to an existing map"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_detail.html:592
+#: geonode/layers/templates/layers/layer_detail.html:597
 #, fuzzy
 #| msgid "Click the button below to change the permissions of this layer."
 msgid "Click the button below to add the layer to the selected map."
 msgstr "คลิกปุ่มด้านล่างเพื่อเปลี่ยนแปลงสิทธิ์ในชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:594
+#: geonode/layers/templates/layers/layer_detail.html:599
 #, fuzzy
 #| msgid "Edit Map"
 msgid "Add to Map"
 msgstr "แก้ไขแผนที่"
 
-#: geonode/layers/templates/layers/layer_detail.html:601
+#: geonode/layers/templates/layers/layer_detail.html:606
 msgid "Documents related to this layer"
 msgstr "เอกสารที่เกี่ยวข้องกับชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:602
+#: geonode/layers/templates/layers/layer_detail.html:607
 msgid "List of documents related to this layer:"
 msgstr "รายชื่อเอกสารที่เกี่ยวข้องกับชั้นข้อมูลนี้:"
 
-#: geonode/layers/templates/layers/layer_detail.html:614
+#: geonode/layers/templates/layers/layer_detail.html:619
 msgid ""
 "The following styles are associated with this layer. Choose a style to view "
 "it in the preview map."
 msgstr "สไตล์ดังต่อไปนี้คือสไตล์ที่ใช้ร่วมกับชั้นข้อมูลนี้ เลือกสไตล์เพื่อดูในแผนที่ตัวอย่าง"
 
-#: geonode/layers/templates/layers/layer_detail.html:628
-#: geonode/layers/templates/layers/layer_detail.html:642
+#: geonode/layers/templates/layers/layer_detail.html:633
+#: geonode/layers/templates/layers/layer_detail.html:647
 msgid "No styles associated with this layer"
 msgstr "ไม่มีสไตล์ที่ใช้ร่วมกับชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:653
-#: geonode/layers/templates/layers/layer_metadata_upload.html:102
-#: geonode/layers/templates/layers/layer_style_upload.html:102
+#: geonode/layers/templates/layers/layer_detail.html:658
+#: geonode/layers/templates/layers/layer_metadata_upload.html:101
+#: geonode/layers/templates/layers/layer_style_upload.html:101
 msgid "Click the button below to change the permissions of this layer."
 msgstr "คลิกปุ่มด้านล่างเพื่อเปลี่ยนแปลงสิทธิ์ในชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_detail.html:654
-#: geonode/layers/templates/layers/layer_metadata_upload.html:103
-#: geonode/layers/templates/layers/layer_style_upload.html:103
+#: geonode/layers/templates/layers/layer_detail.html:659
+#: geonode/layers/templates/layers/layer_metadata_upload.html:102
+#: geonode/layers/templates/layers/layer_style_upload.html:102
 msgid "Change Layer Permissions"
 msgstr "เปลี่ยนแปลงสิทธิ์ชั้นข้อมูล"
 
-#: geonode/layers/templates/layers/layer_detail.html:661
+#: geonode/layers/templates/layers/layer_detail.html:666
 msgid "External service layer"
 msgstr "ชั้นข้อมูลเซอร์วิสภายนอก"
 
-#: geonode/layers/templates/layers/layer_detail.html:662
+#: geonode/layers/templates/layers/layer_detail.html:667
 msgid "Source"
 msgstr "แหล่ง"
 
@@ -2683,19 +2711,19 @@ msgstr "การกระทำนี้ส่งผลต่อแผนที
 msgid "No maps are using this layer"
 msgstr "ไม่มีแผนที่ใดใช้ชั้นข้อมูลนี้"
 
-#: geonode/layers/templates/layers/layer_list.html:12
+#: geonode/layers/templates/layers/layer_list.html:11
 #: geonode/layers/templates/upload/layer_upload.html:18
-#: geonode/layers/templates/upload/layer_upload_base.html:163
-#: geonode/templates/500.html:217
+#: geonode/layers/templates/upload/layer_upload_base.html:162
+#: geonode/templates/500.html:262
 msgid "Upload Layers"
 msgstr "อัพโหลดชั้นข้อมูล"
 
-#: geonode/layers/templates/layers/layer_metadata.html:20
+#: geonode/layers/templates/layers/layer_metadata.html:19
 #, python-format
 msgid "for %(layer_title)s"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_metadata.html:38
+#: geonode/layers/templates/layers/layer_metadata.html:37
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:28
 msgid ""
 "Note: this layer's orginal metadata was populated and preserved by importing "
@@ -2703,7 +2731,7 @@ msgid ""
 "          This metadata cannot be edited."
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_metadata.html:41
+#: geonode/layers/templates/layers/layer_metadata.html:40
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:31
 msgid ""
 "Note: this layer's orginal metadata was populated by importing a metadata "
@@ -2716,18 +2744,18 @@ msgstr ""
 "คำอธิบายข้อมูลของ GeoNode รองรับบางส่วนของมาตรฐาน ISO, FGDC, และ Dublin Core "
 "อาจจะทำให้มีบางส่วนของคำอธิบายต้นฉบับของคุณสูญเสียไป"
 
-#: geonode/layers/templates/layers/layer_metadata.html:63
+#: geonode/layers/templates/layers/layer_metadata.html:62
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:53
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:102
 #: geonode/templates/_actions.html:5
 msgid "Attributes"
 msgstr "แอตทริบิวต์"
 
-#: geonode/layers/templates/layers/layer_metadata.html:97
+#: geonode/layers/templates/layers/layer_metadata.html:96
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:68
 #: geonode/layers/templates/layers/layer_metadata_advanced.html:136
-#: geonode/layers/templates/layers/layer_metadata_upload.html:26
-#: geonode/layers/templates/layers/layer_style_upload.html:26
+#: geonode/layers/templates/layers/layer_metadata_upload.html:25
+#: geonode/layers/templates/layers/layer_style_upload.html:25
 #: geonode/templates/metadata_detail.html:28
 msgid "Return to Layer"
 msgstr ""
@@ -2747,86 +2775,86 @@ msgstr ""
 msgid "Display Order"
 msgstr "ลำดับการแสดงผล"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:12
-#: geonode/layers/templates/layers/layer_metadata_upload.html:27
-#: geonode/layers/templates/layers/layer_style_upload.html:12
-#: geonode/layers/templates/upload/layer_upload_metadata_base.html:12
+#: geonode/layers/templates/layers/layer_metadata_upload.html:11
+#: geonode/layers/templates/layers/layer_metadata_upload.html:26
+#: geonode/layers/templates/layers/layer_style_upload.html:11
+#: geonode/layers/templates/upload/layer_upload_metadata_base.html:11
 #, fuzzy
 #| msgid "Upload Layer"
 msgid "Upload Layer Metadata"
 msgstr "อัพโหลดชั้นข้อมูล"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:27
+#: geonode/layers/templates/layers/layer_metadata_upload.html:26
 msgid "(XML - ISO, FGDC, ebRIM, Dublin Core)"
 msgstr ""
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:34
+#: geonode/layers/templates/layers/layer_metadata_upload.html:33
 #: geonode/layers/templates/layers/layer_replace.html:23
-#: geonode/layers/templates/layers/layer_style_upload.html:34
+#: geonode/layers/templates/layers/layer_style_upload.html:33
 #: geonode/layers/templates/upload/layer_upload.html:40
 msgid "Incomplete Uploads"
 msgstr "อัพโหลดไม่สมบูรณ์"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:35
+#: geonode/layers/templates/layers/layer_metadata_upload.html:34
 #: geonode/layers/templates/layers/layer_replace.html:24
-#: geonode/layers/templates/layers/layer_style_upload.html:35
+#: geonode/layers/templates/layers/layer_style_upload.html:34
 #: geonode/layers/templates/upload/layer_upload.html:41
 msgid "You have the following incomplete uploads"
 msgstr "คุณมีไฟล์ที่อัพโหลดไม่เสร็จดังต่อไปนี้"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:38
+#: geonode/layers/templates/layers/layer_metadata_upload.html:37
 #: geonode/layers/templates/layers/layer_replace.html:27
-#: geonode/layers/templates/layers/layer_style_upload.html:38
+#: geonode/layers/templates/layers/layer_style_upload.html:37
 #: geonode/layers/templates/upload/layer_upload.html:44
 msgid "last updated on"
 msgstr "แก้ไขครั้งสุดท้ายเมื่อ"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:40
+#: geonode/layers/templates/layers/layer_metadata_upload.html:39
 #: geonode/layers/templates/layers/layer_replace.html:29
-#: geonode/layers/templates/layers/layer_style_upload.html:40
+#: geonode/layers/templates/layers/layer_style_upload.html:39
 #: geonode/layers/templates/upload/layer_upload.html:46
 msgid "Resume"
 msgstr "ประวัติย่อ"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:41
-#: geonode/layers/templates/layers/layer_metadata_upload.html:48
+#: geonode/layers/templates/layers/layer_metadata_upload.html:40
+#: geonode/layers/templates/layers/layer_metadata_upload.html:47
 #: geonode/layers/templates/layers/layer_replace.html:30
 #: geonode/layers/templates/layers/layer_replace.html:38
-#: geonode/layers/templates/layers/layer_style_upload.html:41
-#: geonode/layers/templates/layers/layer_style_upload.html:48
+#: geonode/layers/templates/layers/layer_style_upload.html:40
+#: geonode/layers/templates/layers/layer_style_upload.html:47
 #: geonode/layers/templates/upload/layer_upload.html:47
 #: geonode/layers/templates/upload/layer_upload.html:54
-#: geonode/templates/announcements/announcement_confirm_delete.html:22
-#: geonode/templates/announcements/announcement_form.html:25
+#: geonode/templates/announcements/announcement_confirm_delete.html:21
+#: geonode/templates/announcements/announcement_form.html:24
 #: geonode/templates/user_messages/_message_snippet.html:61
 msgid "Delete"
 msgstr "ลบ"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:47
+#: geonode/layers/templates/layers/layer_metadata_upload.html:46
 #: geonode/layers/templates/layers/layer_replace.html:36
-#: geonode/layers/templates/layers/layer_style_upload.html:47
+#: geonode/layers/templates/layers/layer_style_upload.html:46
 #: geonode/layers/templates/upload/layer_upload.html:53
 msgid "Are you sure you want to delete this upload?"
 msgstr "คุณแน่ใจแล้วหรือว่าต้องการลบไฟล์ที่จะอัพโหลดนี้?"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:49
+#: geonode/layers/templates/layers/layer_metadata_upload.html:48
 #: geonode/layers/templates/layers/layer_replace.html:39
-#: geonode/layers/templates/layers/layer_style_upload.html:49
+#: geonode/layers/templates/layers/layer_style_upload.html:48
 #: geonode/layers/templates/upload/layer_upload.html:55
 #: geonode/layers/templates/upload/layer_upload_crs.html:55
 #: geonode/layers/templates/upload/layer_upload_csv.html:57
 #: geonode/layers/templates/upload/layer_upload_time.html:119
 #: geonode/maps/templates/maps/map_download.html:58
-#: geonode/templates/_comments.html:66
+#: geonode/templates/_comments.html:64
 #: geonode/templates/_permissions_form.html:15
-#: geonode/templates/announcements/announcement_confirm_delete.html:21
-#: geonode/templates/announcements/announcement_form.html:23
+#: geonode/templates/announcements/announcement_confirm_delete.html:20
+#: geonode/templates/announcements/announcement_form.html:22
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: geonode/layers/templates/layers/layer_metadata_upload.html:50
+#: geonode/layers/templates/layers/layer_metadata_upload.html:49
 #: geonode/layers/templates/layers/layer_replace.html:41
-#: geonode/layers/templates/layers/layer_style_upload.html:50
+#: geonode/layers/templates/layers/layer_style_upload.html:49
 #: geonode/layers/templates/upload/layer_upload.html:56
 msgid "Delete, and don't ask me again."
 msgstr "ลบ และไม่ต้องถามฉันอีก"
@@ -2896,13 +2924,13 @@ msgstr ""
 msgid "Update Available Styles"
 msgstr "แก้ไขสไตล์ที่สามารถใช้ได้"
 
-#: geonode/layers/templates/layers/layer_style_upload.html:27
+#: geonode/layers/templates/layers/layer_style_upload.html:26
 #, fuzzy
 #| msgid "Upload Layer Step 2"
 msgid "Upload Layer Style"
 msgstr "อัพโหลดชั้นข้อมูล ขั้นตอนที่ 2"
 
-#: geonode/layers/templates/layers/layer_style_upload.html:27
+#: geonode/layers/templates/layers/layer_style_upload.html:26
 msgid "(SLD - Style Layer Descriptor 1.0, 1.1)"
 msgstr ""
 
@@ -3442,52 +3470,52 @@ msgstr "หรือเพียงแค่ไป"
 msgid "now"
 msgstr "เดี๋ยวนี้"
 
-#: geonode/layers/views.py:99
+#: geonode/layers/views.py:104
 msgid ""
 "There was an error while attempting to upload your data. Please try again, "
 "or contact and administrator if the problem continues."
 msgstr ""
 "เกิดปัญหาขณะอัพโหลดข้อมูลของคุณ กรุณาลองอีกครั้ง หรือติดต่อผู้ดูแลระบบถ้าหากยังคงพบปัญหาอยู่"
 
-#: geonode/layers/views.py:102
+#: geonode/layers/views.py:107
 msgid ""
 "Note: this layer's orginal metadata was populated and preserved by importing "
 "a metadata XML file. This metadata cannot be edited."
 msgstr ""
 
-#: geonode/layers/views.py:105
+#: geonode/layers/views.py:110
 msgid "You are not permitted to delete this layer"
 msgstr "คุณไม่มีสิทธิ์ลบชั้นข้อมูลนี้"
 
-#: geonode/layers/views.py:106
+#: geonode/layers/views.py:111
 msgid "You do not have permissions for this layer."
 msgstr "คุณไม่มีสิทธิ์ในชั้นข้อมูลนี้"
 
-#: geonode/layers/views.py:107
+#: geonode/layers/views.py:112
 msgid "You are not permitted to modify this layer"
 msgstr "คุณไม่มีสิทธิ์แก้ไขชั้นข้อมูลนี้"
 
-#: geonode/layers/views.py:109
+#: geonode/layers/views.py:114
 msgid "You are not permitted to modify this layer's metadata"
 msgstr "คุณไม่มีสิทธิ์แก้ไขคำอธิบายข้อมูลของชั้นข้อมูลนี้"
 
-#: geonode/layers/views.py:110
+#: geonode/layers/views.py:115
 msgid "You are not permitted to view this layer"
 msgstr "คุณไม่มีสิทธิ์ดูชั้นข้อมูลนี้"
 
-#: geonode/layers/views.py:1022
+#: geonode/layers/views.py:1175
 msgid "You are attempting to replace a vector layer with a raster."
 msgstr "คุณกำลังพยายามที่จะแทนที่ชั้นข้อมูลเวกเตอร์ด้วยชั้นข้อมูลแรสเตอร์"
 
-#: geonode/layers/views.py:1026
+#: geonode/layers/views.py:1179
 msgid "You are attempting to replace a raster layer with a vector."
 msgstr "คุณกำลังพยายามที่จะแทนที่ชั้นข้อมูลแรสเตอร์ด้วยชั้นข้อมูลเวกเตอร์"
 
-#: geonode/layers/views.py:1098 geonode/layers/views.py:1143
+#: geonode/layers/views.py:1264 geonode/layers/views.py:1307
 msgid "Unable to delete layer"
 msgstr "ไม่สามารถลบชั้นข้อมูลได้"
 
-#: geonode/layers/views.py:1102 geonode/layers/views.py:1147
+#: geonode/layers/views.py:1268 geonode/layers/views.py:1311
 msgid ""
 "This layer is a member of a layer group, you must remove the layer from the "
 "group before deleting."
@@ -3555,79 +3583,79 @@ msgstr "ให้คะแนนแผนที่"
 msgid "A rating was given to a map"
 msgstr "แผนที่ได้รับการให้คะแนนแล้ว"
 
-#: geonode/maps/models.py:61
+#: geonode/maps/models.py:64
 msgid "zoom"
 msgstr "ซูม"
 
-#: geonode/maps/models.py:65
+#: geonode/maps/models.py:68
 msgid "projection"
 msgstr "projection"
 
-#: geonode/maps/models.py:69
+#: geonode/maps/models.py:72
 msgid "center X"
 msgstr "จุดกึ่งกลาง X"
 
-#: geonode/maps/models.py:73
+#: geonode/maps/models.py:76
 msgid "center Y"
 msgstr "จุดกึ่งกลาง Y"
 
-#: geonode/maps/models.py:80
+#: geonode/maps/models.py:83
 msgid "Site URL"
 msgstr "URL ของเว็บไซต์"
 
-#: geonode/maps/models.py:85
+#: geonode/maps/models.py:88
 msgid "Featured Map URL"
 msgstr "URL ของแผนที่แนะนำ"
 
-#: geonode/maps/models.py:397
+#: geonode/maps/models.py:404
 msgid "stack order"
 msgstr "ลำดับการซ้อนทับ"
 
-#: geonode/maps/models.py:402
+#: geonode/maps/models.py:409
 msgid "format"
 msgstr "รูปแบบ"
 
-#: geonode/maps/models.py:409
+#: geonode/maps/models.py:416
 msgid "name"
 msgstr "ชื่อ"
 
-#: geonode/maps/models.py:416
+#: geonode/maps/models.py:423
 msgid "opacity"
 msgstr "ความทีบแสง"
 
-#: geonode/maps/models.py:420
+#: geonode/maps/models.py:427
 msgid "styles"
 msgstr "สไตล์"
 
-#: geonode/maps/models.py:426
+#: geonode/maps/models.py:433
 msgid "transparent"
 msgstr "ความโปร่งใส"
 
-#: geonode/maps/models.py:430
+#: geonode/maps/models.py:437
 msgid "fixed"
 msgstr "คงที่"
 
-#: geonode/maps/models.py:434
+#: geonode/maps/models.py:441
 msgid "group"
 msgstr "กลุ่ม"
 
-#: geonode/maps/models.py:438
+#: geonode/maps/models.py:445
 msgid "visibility"
 msgstr "การมองเห็น"
 
-#: geonode/maps/models.py:441
+#: geonode/maps/models.py:448
 msgid "ows URL"
 msgstr "URL ของ ows"
 
-#: geonode/maps/models.py:444
+#: geonode/maps/models.py:451
 msgid "layer params"
 msgstr "layer params"
 
-#: geonode/maps/models.py:451
+#: geonode/maps/models.py:458
 msgid "source params"
 msgstr "source params"
 
-#: geonode/maps/models.py:545
+#: geonode/maps/models.py:552
 msgid "JSON Configuration"
 msgstr "JSON การกำหนดค่า"
 
@@ -3707,7 +3735,7 @@ msgid "WMS layer group for local map layers"
 msgstr "กลุ่มชั้นข้อมูล WMS ของชั้นข้อมูลแผนที่"
 
 #: geonode/maps/templates/maps/map_detail.html:253
-#: geonode/social/templatetags/social_tags.py:68 geonode/social/tests.py:128
+#: geonode/social/templatetags/social_tags.py:68 geonode/social/tests.py:126
 msgid "on"
 msgstr "บน"
 
@@ -3803,12 +3831,12 @@ msgstr "ดาวน์โหลดเสร็จสิ้น"
 msgid "Download Failed"
 msgstr "ดาวน์โหลดล้มเหลว"
 
-#: geonode/maps/templates/maps/map_metadata.html:21
+#: geonode/maps/templates/maps/map_metadata.html:20
 #, python-format
 msgid "for %(map_title)s"
 msgstr ""
 
-#: geonode/maps/templates/maps/map_metadata.html:39
+#: geonode/maps/templates/maps/map_metadata.html:38
 #: geonode/maps/templates/maps/map_metadata_advanced.html:28
 msgid ""
 "Note: this map's orginal metadata was populated by importing a metadata XML "
@@ -3853,67 +3881,67 @@ msgstr ""
 "คุณแน่ใจแล้วหรือว่าต้องการลบ <a href=\"%(map.get_absolute_url)s\">%(map_title)s</"
 "a>?"
 
-#: geonode/maps/views.py:92
+#: geonode/maps/views.py:93
 msgid "You are not permitted to delete this map."
 msgstr "คุณไม่มีสิทธิ์ลบแผนที่นี้"
 
-#: geonode/maps/views.py:93
+#: geonode/maps/views.py:94
 msgid "You do not have permissions for this map."
 msgstr "คุณไม่มีสิทธิ์ในแผนที่นี้"
 
-#: geonode/maps/views.py:94
+#: geonode/maps/views.py:95
 msgid "You must be logged in to save this map"
 msgstr "คุณต้องลงชื่อเข้าใช้เพื่อบันทึกแผนที่นี้"
 
-#: geonode/maps/views.py:95
+#: geonode/maps/views.py:96
 msgid "You are not permitted to save or edit this map."
 msgstr "คุณไม่มีสิทธิ์บันทึกหรือแก้ไขแผนที่นี้"
 
-#: geonode/maps/views.py:97
+#: geonode/maps/views.py:98
 msgid "You are not allowed to modify this map's metadata."
 msgstr "คุณไม่ได้รับอนุญาตให้แก้ไขคำอธิบายข้อมูลของแผนที่นี้"
 
-#: geonode/maps/views.py:98
+#: geonode/maps/views.py:99
 msgid "You are not allowed to view this map."
 msgstr "คุณไม่ได้รับอนุญาตให้ดูแผนที่นี้"
 
-#: geonode/maps/views.py:99
+#: geonode/maps/views.py:100
 msgid "An unknown error has occured."
 msgstr "เกิดข้อผิดพลาดที่ไม่รู้จัก"
 
-#: geonode/people/__init__.py:32
+#: geonode/people/__init__.py:26
 msgid "User following you"
 msgstr "ผู้ใช้ที่กำลังติดตามคุณ"
 
-#: geonode/people/__init__.py:32
+#: geonode/people/__init__.py:26
 msgid "Another user has started following you"
 msgstr "ผู้ใช้คนอื่นเริ่มติดตามคุณแล้ว"
 
-#: geonode/people/__init__.py:33
+#: geonode/people/__init__.py:27
 msgid "User requested access"
 msgstr "ผู้ใช้ได้ร้องขอการเข้าถึง"
 
-#: geonode/people/__init__.py:34
+#: geonode/people/__init__.py:28
 msgid "A new user has requested access to the site"
 msgstr "ผู้ใช้ใหม่ได้ร้องขอการเข้าถึงเว็บไซต์"
 
-#: geonode/people/__init__.py:35
+#: geonode/people/__init__.py:29
 msgid "Account activated"
 msgstr "บัญชีได้เปิดใช้งานแล้ว"
 
-#: geonode/people/__init__.py:36
+#: geonode/people/__init__.py:30
 msgid "This account is now active and can log in the site"
 msgstr "บัญชีได้เปิดใช้งานแล้วและสามารถเข้าใช้งานเว็บไซต์ได้"
 
-#: geonode/people/admin.py:54
+#: geonode/people/admin.py:55
 msgid "Personal info"
 msgstr "ข้อมูลส่วนบุคคล"
 
-#: geonode/people/admin.py:57
+#: geonode/people/admin.py:58
 msgid "Important dates"
 msgstr "วันสำคัญ"
 
-#: geonode/people/admin.py:58
+#: geonode/people/admin.py:59
 msgid "Extended profile"
 msgstr ""
 
@@ -3988,8 +4016,8 @@ msgstr "ชื่อองค์กร"
 msgid "name of the responsible organization"
 msgstr "ชื่อองค์กรที่รับผิดชอบ"
 
-#: geonode/people/models.py:56 geonode/templates/500.html:219
-#: geonode/templates/base.html:142
+#: geonode/people/models.py:56 geonode/templates/500.html:264
+#: geonode/templates/base.html:144
 msgid "Profile"
 msgstr "โปรไฟล์"
 
@@ -4006,7 +4034,7 @@ msgid "role or position of the responsible person"
 msgstr "บทบาทหรือตำแหน่งของผู้รับผิดชอบ"
 
 #: geonode/people/models.py:66
-#: geonode/people/templates/people/profile_detail.html:88
+#: geonode/people/templates/people/profile_detail.html:89
 #: geonode/templates/metadata_detail.html:142
 #: geonode/templates/metadata_detail.html:284
 #: geonode/templates/metadata_detail.html:360
@@ -4074,7 +4102,7 @@ msgid ""
 msgstr ""
 "คำที่ใช้ทั่วไป หรือคำทางการ หรือวลี ที่ใช้สำหรับอธิบายหัวเรื่อง (เว้นวรรค หรือคั่นด้วยจุลภาค)"
 
-#: geonode/people/templates/people/_profile_about_item.html:18
+#: geonode/people/templates/people/_profile_about_item.html:17
 msgid "No Group"
 msgstr "ไม่มีกลุ่ม"
 
@@ -4083,8 +4111,8 @@ msgid "All contents"
 msgstr "เนื้อหาทั้งหมด"
 
 #: geonode/people/templates/people/_profile_filters.html:7
-#: geonode/templates/500.html:62 geonode/templates/base.html:66
-#: geonode/templates/base.html.py:207
+#: geonode/templates/500.html:62 geonode/templates/500.html:153
+#: geonode/templates/base.html:66 geonode/templates/base.html:215
 msgid "Documents"
 msgstr "เอกสาร"
 
@@ -4103,131 +4131,125 @@ msgstr "กรอกอีเมล์แอดเดรสของคุณแ
 msgid "Create Profile"
 msgstr "สร้างโปรไฟล์"
 
-#: geonode/people/templates/people/profile_detail.html:7
+#: geonode/people/templates/people/profile_detail.html:8
 msgid "Profile of "
 msgstr "โปรไฟล์ของ"
 
-#: geonode/people/templates/people/profile_detail.html:70
-#: geonode/people/templates/people/profile_detail.html:76
-#: geonode/people/templates/people/profile_detail.html:80
-#: geonode/people/templates/people/profile_detail.html:85
-#: geonode/people/templates/people/profile_detail.html:97
-#: geonode/people/templates/people/profile_detail.html:101
+#: geonode/people/templates/people/profile_detail.html:71
+#: geonode/people/templates/people/profile_detail.html:77
+#: geonode/people/templates/people/profile_detail.html:81
+#: geonode/people/templates/people/profile_detail.html:86
+#: geonode/people/templates/people/profile_detail.html:98
+#: geonode/people/templates/people/profile_detail.html:102
 msgid "Not provided."
 msgstr "ไม่มีการระบุ"
 
-#: geonode/people/templates/people/profile_detail.html:75
+#: geonode/people/templates/people/profile_detail.html:76
 #: geonode/templates/metadata_detail.html:133
 #: geonode/templates/metadata_detail.html:275
 #: geonode/templates/metadata_detail.html:351
 msgid "Position"
 msgstr "ตำแหน่ง"
 
-#: geonode/people/templates/people/profile_detail.html:79
+#: geonode/people/templates/people/profile_detail.html:80
 #: geonode/templates/metadata_detail.html:136
 #: geonode/templates/metadata_detail.html:278
 #: geonode/templates/metadata_detail.html:354
 msgid "Organization"
 msgstr "องค์กร"
 
-#: geonode/people/templates/people/profile_detail.html:84
+#: geonode/people/templates/people/profile_detail.html:85
 #: geonode/templates/metadata_detail.html:139
 #: geonode/templates/metadata_detail.html:281
 #: geonode/templates/metadata_detail.html:357
 msgid "Location"
 msgstr "ตำแหน่ง"
 
-#: geonode/people/templates/people/profile_detail.html:96
+#: geonode/people/templates/people/profile_detail.html:97
 #: geonode/templates/metadata_detail.html:145
 #: geonode/templates/metadata_detail.html:287
 #: geonode/templates/metadata_detail.html:363
 msgid "Fax"
 msgstr "โทรศัพท์"
 
-#: geonode/people/templates/people/profile_detail.html:112
-#: geonode/services/serviceprocessors/wms.py:85
+#: geonode/people/templates/people/profile_detail.html:113
+#: geonode/services/serviceprocessors/arcgis.py:109
+#: geonode/services/serviceprocessors/wms.py:150
 msgid "Not provided"
 msgstr "ไม่มีการระบุ"
 
-#: geonode/people/templates/people/profile_detail.html:125
+#: geonode/people/templates/people/profile_detail.html:126
 msgid "User layers WMS GetCapabilities document"
 msgstr ""
 
-#: geonode/people/templates/people/profile_detail.html:131
+#: geonode/people/templates/people/profile_detail.html:132
 msgid "Message User"
 msgstr "ส่งข้อความถึงผู้ใช้"
 
-#: geonode/people/templates/people/profile_detail.html:135
-#: geonode/people/templates/people/profile_detail.html:172
+#: geonode/people/templates/people/profile_detail.html:136
+#: geonode/people/templates/people/profile_detail.html:167
 msgid "Edit profile"
 msgstr "แก้ไขโปรไฟล์"
 
-#: geonode/people/templates/people/profile_detail.html:136
+#: geonode/people/templates/people/profile_detail.html:137
 msgid "Connected social accounts"
 msgstr ""
 
-#: geonode/people/templates/people/profile_detail.html:137
+#: geonode/people/templates/people/profile_detail.html:138
 msgid "Associated e-mails"
 msgstr ""
 
-#: geonode/people/templates/people/profile_detail.html:138
+#: geonode/people/templates/people/profile_detail.html:139
 #, fuzzy
 #| msgid "Change password"
 msgid "Set/Change password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: geonode/people/templates/people/profile_detail.html:141
+#: geonode/people/templates/people/profile_detail.html:142
 msgid "Upload new layers"
 msgstr "อัพโหลดชั้นข้อมูล"
 
-#: geonode/people/templates/people/profile_detail.html:143
+#: geonode/people/templates/people/profile_detail.html:144
 #, fuzzy
 #| msgid "Create a new map"
 msgid "Create a new layer"
 msgstr "สร้างแผนที่"
 
-#: geonode/people/templates/people/profile_detail.html:145
+#: geonode/people/templates/people/profile_detail.html:146
 msgid "Create a new map"
 msgstr "สร้างแผนที่"
 
-#: geonode/people/templates/people/profile_detail.html:146
+#: geonode/people/templates/people/profile_detail.html:147
 msgid "My Activities"
 msgstr "กิจกรรมของฉัน"
 
-#: geonode/people/templates/people/profile_detail.html:150
-#: geonode/templates/500.html:223
+#: geonode/people/templates/people/profile_detail.html:151
+#: geonode/templates/500.html:268
 msgid "Notifications"
 msgstr "การแจ้งเตือน"
 
-#: geonode/people/templates/people/profile_detail.html:153
-#: geonode/templates/500.html:226
-#: geonode/templates/announcements/announcement_list.html:6
-#: geonode/templates/announcements/announcement_list.html:13
-#: geonode/templates/base.html:97 geonode/templates/base.html.py:234
+#: geonode/people/templates/people/profile_detail.html:154
+#: geonode/templates/500.html:183 geonode/templates/500.html:271
+#: geonode/templates/announcements/announcement_list.html:5
+#: geonode/templates/announcements/announcement_list.html:12
+#: geonode/templates/base.html:99 geonode/templates/base.html:245
 msgid "Announcements"
 msgstr "ประกาศ"
 
-#: geonode/people/templates/people/profile_detail.html:157
-#: geonode/templates/500.html:228 geonode/templates/base.html:100
-#: geonode/templates/base.html.py:236
+#: geonode/people/templates/people/profile_detail.html:158
+#: geonode/templates/500.html:185 geonode/templates/500.html:273
+#: geonode/templates/base.html:102 geonode/templates/base.html:247
 #: geonode/templates/invitations/forms/_invite.html:7
 #, fuzzy
 #| msgid "Invite User"
 msgid "Invite Users"
 msgstr "เชิญผู้ใช้"
 
-#: geonode/people/templates/people/profile_detail.html:159
-#: geonode/services/templates/services/service_list.html:9
-#: geonode/templates/500.html:230 geonode/templates/base.html:68
-#: geonode/templates/base.html.py:209
-msgid "Remote Services"
-msgstr "บริการระยะไกล"
-
-#: geonode/people/templates/people/profile_detail.html:176
+#: geonode/people/templates/people/profile_detail.html:171
 msgid "User Activities"
 msgstr "กิจกรรมของผู้ใช้"
 
-#: geonode/people/templates/people/profile_detail.html:189
+#: geonode/people/templates/people/profile_detail.html:177
 msgid "Resources"
 msgstr "แหล่งข้อมูล"
 
@@ -4252,31 +4274,37 @@ msgstr "แก้ไขโปรไฟล์"
 msgid "Explore People"
 msgstr "สำรวจผู้คน"
 
-#: geonode/people/views.py:93
+#: geonode/people/views.py:91
 msgid "Your username for "
 msgstr "ชื่อผู้ใช้ของคุณสำหรับ"
 
-#: geonode/people/views.py:107
+#: geonode/people/views.py:105
 msgid "Your username has been emailed to you."
 msgstr "ชื่อผู้ใช้งานจะถูกส่งถึงคุณผ่านอีเมล์"
 
-#: geonode/people/views.py:109
+#: geonode/people/views.py:107
 msgid "No user could be found with that email address."
 msgstr "ไม่พบผู้ใช้ที่มีอีเมล์แอดเดรสนั้นเลย"
 
-#: geonode/qgis_server/models.py:194
+#: geonode/proxy/views.py:240
+#, fuzzy
+#| msgid "You are not permitted to save or edit this map."
+msgid "You are not permitted to save or edit this resource."
+msgstr "คุณไม่มีสิทธิ์บันทึกหรือแก้ไขแผนที่นี้"
+
+#: geonode/qgis_server/models.py:196
 #, fuzzy
 #| msgid "style name"
 msgid "style xml"
 msgstr "ชื่อสไตล์"
 
-#: geonode/qgis_server/models.py:195
+#: geonode/qgis_server/models.py:197
 #, fuzzy
 #| msgid "sld url"
 msgid "style url"
 msgstr "url ของ sld"
 
-#: geonode/qgis_server/models.py:197
+#: geonode/qgis_server/models.py:199
 #, fuzzy
 #| msgid "sld url"
 msgid "style legend url"
@@ -4291,7 +4319,7 @@ msgid "You may also use browser reload."
 msgstr ""
 
 #: geonode/qgis_server/templates/qgis_server/forms/qml_style.html:19
-#: geonode/services/templates/services/service_resources_harvest.html:27
+#: geonode/services/templates/services/service_resources_harvest.html:28
 #: geonode/templates/metadata_detail.html:127
 #: geonode/templates/metadata_detail.html:269
 #: geonode/templates/metadata_detail.html:345
@@ -4326,12 +4354,60 @@ msgstr "ลบชั้นข้อมูล"
 msgid "Reload to see changes"
 msgstr ""
 
-#: geonode/qgis_server/views.py:260
+#: geonode/qgis_server/views.py:265
 #, python-brace-format
 msgid ""
 "You should use a GIS software or a library which support TMS service to use "
 "this URL : {url}"
 msgstr ""
+
+#: geonode/services/enumerations.py:45
+msgid "Auto-detect"
+msgstr "ตรวจหาอัตโนมัติ"
+
+#: geonode/services/enumerations.py:46
+msgid "Paired WMS/WFS/WCS"
+msgstr "คู่ WMS/WFS/WCS"
+
+#: geonode/services/enumerations.py:47 geonode/services/forms.py:54
+msgid "Web Map Service"
+msgstr "Web Map Service"
+
+#: geonode/services/enumerations.py:48
+msgid "Catalogue Service"
+msgstr "Catalogue Service"
+
+#: geonode/services/enumerations.py:49 geonode/services/forms.py:58
+#, fuzzy
+#| msgid "ArcGIS REST Service"
+msgid "ArcGIS REST MapServer"
+msgstr "ArcGIS REST Service"
+
+#: geonode/services/enumerations.py:50
+#, fuzzy
+#| msgid "ArcGIS REST Service"
+msgid "ArcGIS REST ImageServer"
+msgstr "ArcGIS REST Service"
+
+#: geonode/services/enumerations.py:51 geonode/services/models.py:51
+msgid "OpenGeoPortal"
+msgstr "OpenGeoPortal"
+
+#: geonode/services/enumerations.py:52
+msgid "Harvard Geospatial Library"
+msgstr "Harvard Geospatial Library"
+
+#: geonode/services/enumerations.py:53 geonode/services/forms.py:55
+#, fuzzy
+#| msgid "GeoNode's Web Services"
+msgid "GeoNode (Web Map Service)"
+msgstr "เว็บเซอร์วิสของ GeoNode"
+
+#: geonode/services/enumerations.py:54
+#, fuzzy
+#| msgid "Catalogue Service"
+msgid "GeoNode (Catalogue Service)"
+msgstr "Catalogue Service"
 
 #: geonode/services/forms.py:37
 msgid "Service URL"
@@ -4341,75 +4417,47 @@ msgstr "URL ของเซอร์วิส"
 msgid "Service Type"
 msgstr "ชนิดของเซอร์วิส"
 
-#: geonode/services/forms.py:54 geonode/services/models.py:41
-msgid "Web Map Service"
-msgstr "Web Map Service"
-
-#: geonode/services/forms.py:68
+#: geonode/services/forms.py:71
 #, python-format
 msgid "Service %(url)s is already registered"
 msgstr ""
 
-#: geonode/services/forms.py:84
+#: geonode/services/forms.py:87
 #, python-format
 msgid "Could not connect to the service at %(url)s"
 msgstr ""
 
-#: geonode/services/forms.py:89
+#: geonode/services/forms.py:92
 #, python-format
 msgid "Could not find importable resources for the service at %(url)s"
 msgstr ""
 
-#: geonode/services/forms.py:96
+#: geonode/services/forms.py:99
 #, python-format
 msgid "Found service of type %(found_type)s instead of %(service_type)s"
 msgstr ""
 
-#: geonode/services/models.py:39
-msgid "Auto-detect"
-msgstr "ตรวจหาอัตโนมัติ"
-
-#: geonode/services/models.py:40
-msgid "Paired WMS/WFS/WCS"
-msgstr "คู่ WMS/WFS/WCS"
-
-#: geonode/services/models.py:42
-msgid "Catalogue Service"
-msgstr "Catalogue Service"
-
-#: geonode/services/models.py:43
-msgid "ArcGIS REST Service"
-msgstr "ArcGIS REST Service"
-
-#: geonode/services/models.py:44 geonode/services/models.py:56
-msgid "OpenGeoPortal"
-msgstr "OpenGeoPortal"
-
-#: geonode/services/models.py:45
-msgid "Harvard Geospatial Library"
-msgstr "Harvard Geospatial Library"
-
-#: geonode/services/models.py:51
+#: geonode/services/models.py:46
 msgid "Local"
 msgstr "ท้องถิ่น"
 
-#: geonode/services/models.py:52
+#: geonode/services/models.py:47
 msgid "Cascaded"
 msgstr "ลดหลั่นกัน"
 
-#: geonode/services/models.py:53
+#: geonode/services/models.py:48
 msgid "Harvested"
 msgstr "การเก็บเกี่ยว"
 
-#: geonode/services/models.py:54
+#: geonode/services/models.py:49
 msgid "Indexed"
 msgstr "การจัดทำดัชนี"
 
-#: geonode/services/models.py:55
+#: geonode/services/models.py:50
 msgid "Live"
 msgstr "สด"
 
-#: geonode/services/models.py:195
+#: geonode/services/models.py:214
 #, fuzzy
 #| msgid "Resources"
 msgid "Resource is queued"
@@ -4467,7 +4515,7 @@ msgstr "ได้รับการร้องขอการดาวน์โ
 
 #: geonode/services/templates/services/service_detail.html:118
 #: geonode/services/templates/services/service_register.html:24
-#: geonode/services/templates/services/service_resources_harvest.html:78
+#: geonode/services/templates/services/service_resources_harvest.html:80
 msgid "Connecting to service..."
 msgstr ""
 
@@ -4492,6 +4540,12 @@ msgstr "แก้ไขเซอร์วิส"
 #: geonode/services/templates/services/service_list.html:8
 msgid "Register a new Service"
 msgstr "ลงทะเบียนเซอร์วิสใหม่"
+
+#: geonode/services/templates/services/service_list.html:9
+#: geonode/templates/500.html:154 geonode/templates/base.html:67
+#: geonode/templates/base.html:216
+msgid "Remote Services"
+msgstr "บริการระยะไกล"
 
 #: geonode/services/templates/services/service_register.html:13
 msgid "Register New Service"
@@ -4531,61 +4585,65 @@ msgstr ""
 msgid "- These will be cascaded through your local geoserver instance"
 msgstr ""
 
-#: geonode/services/templates/services/service_resources_harvest.html:44
+#: geonode/services/templates/services/service_resources_harvest.html:27
+msgid "Id"
+msgstr ""
+
+#: geonode/services/templates/services/service_resources_harvest.html:46
 msgid "Back to service details"
 msgstr ""
 
-#: geonode/services/templates/services/service_resources_harvest.html:45
+#: geonode/services/templates/services/service_resources_harvest.html:47
 #, fuzzy
 #| msgid "Resources"
 msgid "Import Resources"
 msgstr "แหล่งข้อมูล"
 
-#: geonode/services/templates/services/service_resources_harvest.html:72
+#: geonode/services/templates/services/service_resources_harvest.html:74
 #, fuzzy
 #| msgid "A resource's download has been requested"
 msgid "All resources have already been imported"
 msgstr "ได้รับการร้องขอการดาวน์โหลดทรัพยากรแล้ว"
 
-#: geonode/services/templates/services/service_resources_harvest.html:93
+#: geonode/services/templates/services/service_resources_harvest.html:95
 msgid "Harvesting resources..."
 msgstr ""
 
-#: geonode/services/templates/services/service_resources_harvest.html:119
+#: geonode/services/templates/services/service_resources_harvest.html:121
 msgid "Re-scan Service for new Resources"
 msgstr ""
 
-#: geonode/services/views.py:79
+#: geonode/services/views.py:96
 msgid "Service registered successfully"
 msgstr ""
 
-#: geonode/services/views.py:163
+#: geonode/services/views.py:181
 msgid "The selected resources are being imported"
 msgstr ""
 
-#: geonode/services/views.py:164
+#: geonode/services/views.py:182
 msgid "The selected resources have been imported"
 msgstr ""
 
-#: geonode/services/views.py:194
+#: geonode/services/views.py:212
 msgid "Resource is already being processed"
 msgstr ""
 
-#: geonode/services/views.py:200
+#: geonode/services/views.py:218
 msgid "Resource {} is being processed"
 msgstr ""
 
-#: geonode/services/views.py:229
+#: geonode/services/views.py:247
 #, fuzzy
 #| msgid "Password changed successfully."
 msgid "Service rescanned successfully"
 msgstr "เปลี่ยนรหัสผ่านเสร็จแล้ว"
 
-#: geonode/services/views.py:324
+#: geonode/services/views.py:340
 msgid "You are not permitted to remove this service."
 msgstr "คุณไม่มีสิทธิ์ลบเซอร์วิสนี้"
 
-#: geonode/services/views.py:335
+#: geonode/services/views.py:351
 #, fuzzy
 #| msgid "Service has been created:"
 msgid "Service {} has been deleted"
@@ -4595,7 +4653,7 @@ msgstr "สร้างเซอร์วิสเสร็จแล้ว:"
 msgid "created"
 msgstr "สร้างแล้ว"
 
-#: geonode/social/signals.py:82 geonode/social/tests.py:105
+#: geonode/social/signals.py:82 geonode/social/tests.py:103
 msgid "deleted"
 msgstr "ลบแล้ว"
 
@@ -4603,7 +4661,7 @@ msgstr "ลบแล้ว"
 msgid "updated"
 msgstr "แก้ไขแล้ว"
 
-#: geonode/social/signals.py:94 geonode/social/tests.py:125
+#: geonode/social/signals.py:94 geonode/social/tests.py:123
 msgid "added a comment"
 msgstr "เพิ่มความคิดเห็นแล้ว"
 
@@ -4611,7 +4669,7 @@ msgstr "เพิ่มความคิดเห็นแล้ว"
 msgid "updated a comment"
 msgstr "แก้ไขความคิดเห็นแล้ว"
 
-#: geonode/social/signals.py:98 geonode/social/tests.py:79
+#: geonode/social/signals.py:98 geonode/social/tests.py:77
 msgid "uploaded"
 msgstr "อัพโหลดแล้ว"
 
@@ -4670,18 +4728,18 @@ msgstr ""
 "\n"
 "ไม่มีหน้าเว็บที่คุณเรียก ถ้าคุณใช้บุ๊คมาร์คบางทีลิงค์ที่เรียกอาจจะไม่มีอยู่แล้ว "
 
-#: geonode/templates/500.html:67 geonode/templates/base.html:93
-#: geonode/templates/base.html.py:231
+#: geonode/templates/500.html:67 geonode/templates/500.html:180
+#: geonode/templates/base.html:95 geonode/templates/base.html:242
 msgid "People"
 msgstr "ผู้คน"
 
-#: geonode/templates/500.html:90 geonode/templates/base.html:126
+#: geonode/templates/500.html:90 geonode/templates/base.html:128
 msgid "Register"
 msgstr "ลงทะเบียน"
 
-#: geonode/templates/500.html:101 geonode/templates/500.html.py:201
-#: geonode/templates/base.html:161 geonode/templates/base.html.py:276
-#: geonode/templates/base.html:300
+#: geonode/templates/500.html:101 geonode/templates/500.html:246
+#: geonode/templates/base.html:165 geonode/templates/base.html:290
+#: geonode/templates/base.html:314
 msgid "Sign in"
 msgstr "เข้าสู่ระบบ"
 
@@ -4705,56 +4763,77 @@ msgstr ""
 "ให้เปิดใช้งาน debug mode เพื่อดูข้อผิดพลาดที่เกิดขึ้นแล้วแก้ไขมันหรือส่งปัญหาไปที่ <a href="
 "\"http://github.com/GeoNode/geonode/issues\">GeoNode's issue tracker</a>"
 
-#: geonode/templates/500.html:150 geonode/templates/base.html:245
+#: geonode/templates/500.html:164 geonode/templates/base.html:77
+#: geonode/templates/base.html:226
+#, fuzzy
+#| msgid "Remote Services"
+msgid "Add Remote Service"
+msgstr "บริการระยะไกล"
+
+#: geonode/templates/500.html:173 geonode/templates/base.html:86
+#: geonode/templates/base.html:235
+#, fuzzy
+#| msgid "Create a Map"
+msgid "Create Map"
+msgstr "สร้างแผนที่"
+
+#: geonode/templates/500.html:187 geonode/templates/base.html:104
+#: geonode/templates/base.html:249
+#, fuzzy
+#| msgid "Add layers"
+msgid "Add User"
+msgstr "เพิ่มชั้นข้อมูล"
+
+#: geonode/templates/500.html:197 geonode/templates/base.html:259
 msgid "Powered by"
 msgstr "ขับเคลื่อนด้วย"
 
-#: geonode/templates/500.html:150 geonode/templates/base.html:245
+#: geonode/templates/500.html:197 geonode/templates/base.html:259
 msgid "version"
 msgstr "รุ่น"
 
-#: geonode/templates/500.html:151 geonode/templates/base.html:246
+#: geonode/templates/500.html:198 geonode/templates/base.html:260
 msgid "Developers"
 msgstr "นักพัฒนา"
 
-#: geonode/templates/500.html:189 geonode/templates/500.html.py:190
-#: geonode/templates/base.html:288 geonode/templates/base.html.py:289
+#: geonode/templates/500.html:234 geonode/templates/500.html:235
+#: geonode/templates/base.html:302 geonode/templates/base.html:303
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
 
-#: geonode/templates/500.html:193 geonode/templates/base.html:292
-#: geonode/templates/base.html.py:293
+#: geonode/templates/500.html:238 geonode/templates/base.html:306
+#: geonode/templates/base.html:307
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: geonode/templates/500.html:197 geonode/templates/base.html:296
+#: geonode/templates/500.html:242 geonode/templates/base.html:310
 msgid "Remember Me"
 msgstr "จดจำ"
 
-#: geonode/templates/500.html:213
+#: geonode/templates/500.html:258
 msgid "Menu"
 msgstr "เมนู"
 
-#: geonode/templates/500.html:220 geonode/templates/base.html:143
+#: geonode/templates/500.html:265 geonode/templates/base.html:145
 msgid "Recent Activity"
 msgstr "กิจกรรมล่าสุด"
 
-#: geonode/templates/500.html:221 geonode/templates/base.html:144
+#: geonode/templates/500.html:266 geonode/templates/base.html:146
 #: geonode/templates/user_messages/inbox.html:15
 msgid "Inbox"
 msgstr "กล่องขาเข้า"
 
-#: geonode/templates/500.html:240 geonode/templates/base.html:155
+#: geonode/templates/500.html:282 geonode/templates/base.html:159
 msgid "Help"
 msgstr "ช่วยเหลือ"
 
-#: geonode/templates/500.html:246 geonode/templates/account/logout.html:6
-#: geonode/templates/account/logout.html:12
-#: geonode/templates/account/logout.html:17
+#: geonode/templates/500.html:288 geonode/templates/account/logout.html:5
+#: geonode/templates/account/logout.html:11
+#: geonode/templates/account/logout.html:16
 msgid "Log out"
 msgstr "ออกจากระบบ"
 
-#: geonode/templates/500.html:281 geonode/templates/base.html:337
+#: geonode/templates/500.html:323 geonode/templates/base.html:351
 msgid "Type your search here ..."
 msgstr "พิมพ์คำค้นหาที่นี่ ..."
 
@@ -4791,19 +4870,19 @@ msgstr "ตั้งค่าสิทธิ์ในแหล่งข้อม
 msgid "Apply Changes"
 msgstr "ใช้การเปลี่ยนแปลงนี้"
 
-#: geonode/templates/_comments.html:17 geonode/templates/_comments.html:58
+#: geonode/templates/_comments.html:15 geonode/templates/_comments.html:56
 msgid "Add Comment"
 msgstr "เขียนความคิดเห็น"
 
-#: geonode/templates/_comments.html:21
+#: geonode/templates/_comments.html:19
 msgid "Log in to add a comment"
 msgstr "เข้าสู่ระบบเพื่อเขียนความคิดเห็น"
 
-#: geonode/templates/_comments.html:33
+#: geonode/templates/_comments.html:31
 msgid "By"
 msgstr "โดย"
 
-#: geonode/templates/_comments.html:67
+#: geonode/templates/_comments.html:65
 msgid "Submit Comment"
 msgstr "ส่งความคิดเห็น"
 
@@ -4867,7 +4946,7 @@ msgstr "เลือกผู้ใช้..."
 msgid "Choose groups..."
 msgstr "เลือกกลุ่ม..."
 
-#: geonode/templates/about.html:4 geonode/templates/about.html.py:8
+#: geonode/templates/about.html:4 geonode/templates/about.html:8
 msgid "About GeoNode"
 msgstr "เกี่ยวกับ GeoNode"
 
@@ -4888,12 +4967,12 @@ msgstr "บัญชีได้เปิดใช้งานแล้ว"
 msgid "This account is inactive."
 msgstr "บัญชีของคุณได้เปิดใช้งานแล้ว"
 
-#: geonode/templates/account/admin_approval_sent.html:6
-#: geonode/templates/account/admin_approval_sent.html:11
+#: geonode/templates/account/admin_approval_sent.html:5
+#: geonode/templates/account/admin_approval_sent.html:10
 msgid "Account Pending Approval"
 msgstr "บัญชีผู้ใช้อยู่ระหว่างการอนุมัติ"
 
-#: geonode/templates/account/admin_approval_sent.html:14
+#: geonode/templates/account/admin_approval_sent.html:13
 #, python-format
 msgid ""
 "We have sent the administrators a notice to approve your account associated "
@@ -5059,15 +5138,15 @@ msgid ""
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
-#: geonode/templates/account/login.html:8
+#: geonode/templates/account/login.html:7
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
 
-#: geonode/templates/account/login.html:12
+#: geonode/templates/account/login.html:11
 msgid "Log in to an existing account"
 msgstr "เข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว"
 
-#: geonode/templates/account/login.html:21
+#: geonode/templates/account/login.html:20
 #, python-format
 msgid ""
 "Please sign in with one\n"
@@ -5076,74 +5155,74 @@ msgid ""
 "      for a %(site_name)s account and sign in below:"
 msgstr ""
 
-#: geonode/templates/account/login.html:29
+#: geonode/templates/account/login.html:28
 msgid "or"
 msgstr ""
 
-#: geonode/templates/account/login.html:35
+#: geonode/templates/account/login.html:34
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
 "      <a href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
-#: geonode/templates/account/login.html:45
+#: geonode/templates/account/login.html:44
 #, fuzzy
 #| msgid "Forgot your password?"
 msgid "Forgot Password?"
 msgstr "คุณลืมรหัสผ่าน?"
 
-#: geonode/templates/account/login.html:47
+#: geonode/templates/account/login.html:46
 #, fuzzy
 #| msgid "Sign in"
 msgid "Sign In"
 msgstr "เข้าสู่ระบบ"
 
-#: geonode/templates/account/logout.html:15
+#: geonode/templates/account/logout.html:14
 msgid "Are you sure you want to log out?"
 msgstr "คุณแน่ใจแล้วหรือว่าต้องการออกจากระบบ?"
 
-#: geonode/templates/account/password_change.html:7
+#: geonode/templates/account/password_change.html:6
 msgid "Password change"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: geonode/templates/account/password_change.html:11
+#: geonode/templates/account/password_change.html:10
 msgid "Password Change"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: geonode/templates/account/password_change.html:15
+#: geonode/templates/account/password_change.html:14
 msgid "Change your password here"
 msgstr "เปลี่ยนรหัสผ่านของคุณที่นี่"
 
-#: geonode/templates/account/password_change.html:21
+#: geonode/templates/account/password_change.html:20
 msgid "Change my password"
 msgstr "เปลี่ยนรหัสผ่านของฉัน"
 
-#: geonode/templates/account/password_reset.html:8
+#: geonode/templates/account/password_reset.html:7
 msgid "Password reset"
 msgstr "ตั้งรหัสผ่านใหม่"
 
-#: geonode/templates/account/password_reset.html:14
+#: geonode/templates/account/password_reset.html:13
 #: geonode/templates/account/password_reset_done.html:6
 #: geonode/templates/account/password_reset_done.html:9
 msgid "Password Reset"
 msgstr "ตั้งรหัสผ่านใหม่"
 
-#: geonode/templates/account/password_reset.html:21
+#: geonode/templates/account/password_reset.html:20
 msgid "Forgotten your password?"
 msgstr "คุณลืมรหัสผ่าน?"
 
-#: geonode/templates/account/password_reset.html:22
+#: geonode/templates/account/password_reset.html:21
 msgid ""
 "Enter your email address below, and we'll send you an email allowing you to "
 "reset it."
 msgstr "กรอกอีเมล์แอดเดรสของคุณด้านล่าง แล้วเราจะส่งอีเมล์เพื่อให้คุณตั้งค่าใหม่"
 
-#: geonode/templates/account/password_reset.html:28
+#: geonode/templates/account/password_reset.html:27
 msgid "Reset my password"
 msgstr "ตั้งรหัสผ่านของฉันใหม่"
 
-#: geonode/templates/account/password_reset.html:32
+#: geonode/templates/account/password_reset.html:31
 #, python-format
 msgid ""
 "If you have any trouble resetting your password, contact us at <a href="
@@ -5193,37 +5272,37 @@ msgstr "เปลี่ยนรหัสผ่าน"
 msgid "Your password is now changed."
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: geonode/templates/account/password_set.html:7
+#: geonode/templates/account/password_set.html:6
 #, fuzzy
 #| msgid "Password"
 msgid "Set Password"
 msgstr "รหัสผ่าน"
 
-#: geonode/templates/account/password_set.html:11
+#: geonode/templates/account/password_set.html:10
 #, fuzzy
 #| msgid "Password reset"
 msgid "Password Set"
 msgstr "ตั้งรหัสผ่านใหม่"
 
-#: geonode/templates/account/password_set.html:16
+#: geonode/templates/account/password_set.html:15
 #, fuzzy
 #| msgid "Change your password here"
 msgid "Set your password here"
 msgstr "เปลี่ยนรหัสผ่านของคุณที่นี่"
 
-#: geonode/templates/account/password_set.html:22
+#: geonode/templates/account/password_set.html:21
 #, fuzzy
 #| msgid "Reset my password"
 msgid "Set password"
 msgstr "ตั้งรหัสผ่านของฉันใหม่"
 
-#: geonode/templates/account/signup.html:8
-#: geonode/templates/account/signup.html:12
-#: geonode/templates/account/signup.html:34
+#: geonode/templates/account/signup.html:7
+#: geonode/templates/account/signup.html:11
+#: geonode/templates/account/signup.html:33
 msgid "Sign up"
 msgstr "ลงทะเบียน"
 
-#: geonode/templates/account/signup.html:17
+#: geonode/templates/account/signup.html:16
 msgid ""
 "Sign up with one\n"
 "              of your existing third party accounts"
@@ -5247,14 +5326,14 @@ msgstr "Note"
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
-#: geonode/templates/account/verification_sent.html:6
-#: geonode/templates/account/verification_sent.html:11
+#: geonode/templates/account/verification_sent.html:5
+#: geonode/templates/account/verification_sent.html:10
 #, fuzzy
 #| msgid "Confirm your email address"
 msgid "Verify your email address"
 msgstr "ยืนยันอีเมล์แอดเดรสของคุณ"
 
-#: geonode/templates/account/verification_sent.html:14
+#: geonode/templates/account/verification_sent.html:13
 #, fuzzy
 #| msgid ""
 #| "We have sent you an email to <b>%(email)s</b> for verification. Follow "
@@ -5314,39 +5393,39 @@ msgstr "ผู้ดูแลระบบ GeoNode"
 msgid "GeoNode administration"
 msgstr "การจัดการ GeoNode"
 
-#: geonode/templates/announcements/announcement_confirm_delete.html:10
+#: geonode/templates/announcements/announcement_confirm_delete.html:9
 msgid "Delete Announcement?"
 msgstr "ลบประกาศ?"
 
-#: geonode/templates/announcements/announcement_confirm_delete.html:13
+#: geonode/templates/announcements/announcement_confirm_delete.html:12
 msgid "Are you sure you want to delete this announcement?"
 msgstr "คุณแน่ใจแล้วหรือว่าต้องการลบประกาศนี้?"
 
-#: geonode/templates/announcements/announcement_form.html:11
+#: geonode/templates/announcements/announcement_form.html:10
 msgid "Edit Announcement"
 msgstr "แก้ไขประกาศ"
 
-#: geonode/templates/announcements/announcement_form.html:11
+#: geonode/templates/announcements/announcement_form.html:10
 msgid "Create Announcement"
 msgstr "เขียนประกาศ"
 
-#: geonode/templates/announcements/announcement_list.html:12
+#: geonode/templates/announcements/announcement_list.html:11
 msgid "New Announcement"
 msgstr "ประกาศใหม่"
 
-#: geonode/templates/announcements/announcement_list.html:21
+#: geonode/templates/announcements/announcement_list.html:20
 msgid "Level"
 msgstr "ระดับ"
 
-#: geonode/templates/announcements/announcement_list.html:22
+#: geonode/templates/announcements/announcement_list.html:21
 msgid "Announcement"
 msgstr "ประกาศ"
 
-#: geonode/templates/announcements/announcement_list.html:23
+#: geonode/templates/announcements/announcement_list.html:22
 msgid "Published From"
 msgstr "ประกาศเมื่อ"
 
-#: geonode/templates/announcements/announcement_list.html:38
+#: geonode/templates/announcements/announcement_list.html:37
 #, python-format
 msgid ""
 "\n"
@@ -5408,25 +5487,7 @@ msgstr "ลบรูปนี้"
 msgid "Data"
 msgstr ""
 
-#: geonode/templates/base.html:75 geonode/templates/base.html.py:215
-#, fuzzy
-#| msgid "Remote Services"
-msgid "Add Remote Service"
-msgstr "บริการระยะไกล"
-
-#: geonode/templates/base.html:84 geonode/templates/base.html.py:224
-#, fuzzy
-#| msgid "Create a Map"
-msgid "Create Map"
-msgstr "สร้างแผนที่"
-
-#: geonode/templates/base.html:102 geonode/templates/base.html.py:238
-#, fuzzy
-#| msgid "Add layers"
-msgid "Add User"
-msgstr "เพิ่มชั้นข้อมูล"
-
-#: geonode/templates/developer.html:4 geonode/templates/developer.html.py:8
+#: geonode/templates/developer.html:4 geonode/templates/developer.html:8
 msgid "Information for Developers"
 msgstr "ข้อมูลสำหรับนักพัฒนา"
 
@@ -5879,7 +5940,7 @@ msgstr "การเรียบเรียงแผนที่"
 msgid "Welcome!"
 msgstr "ยินดีต้อนรับ!"
 
-#: geonode/templates/index.html:18
+#: geonode/templates/index.html:22
 msgid ""
 "If you have any questions about the software or service, join our <a href="
 "\"http://lists.osgeo.org/cgi-bin/mailman/listinfo/geonode-users\">mailing "
@@ -5888,19 +5949,19 @@ msgstr ""
 "หากมีคำถามใดๆเกี่ยวกับซอฟต์แวร์หรือบริการ เข้าร่วม <a href=\"http://lists.osgeo.org/"
 "cgi-bin/mailman/listinfo/geonode-users\">เมลลิงลิสต์</a> ของเรา"
 
-#: geonode/templates/index.html:19
+#: geonode/templates/index.html:23
 #, fuzzy
 #| msgid "Getting Started"
 msgid "Get Started &raquo;"
 msgstr "เริ่มต้นการใช้งาน"
 
-#: geonode/templates/index.html:28
+#: geonode/templates/index.html:37
 #, fuzzy
 #| msgid "Search"
 msgid "Search for Data."
 msgstr "ค้นหา"
 
-#: geonode/templates/index.html:261
+#: geonode/templates/index.html:271
 #, fuzzy
 #| msgid ""
 #| "Data is available for browsing, aggregating and styling to generate maps "
@@ -5913,25 +5974,25 @@ msgstr ""
 "ข้อมูลพร้อมสำหรับการเรียกดู, "
 "นำมารวมและใส่สไตล์สร้างเป็นแผนที่ซึ่งสามารถเผยแพร่สู่สาธารณะหรือเฉพาะผู้ใช้ที่เลือกเท่านั้น"
 
-#: geonode/templates/index.html:271
+#: geonode/templates/index.html:281
 msgid ""
 "As for the layers and maps GeoNode allows to publish tabular and text data, "
 "manage theirs metadata and associated documents."
 msgstr ""
 
-#: geonode/templates/index.html:273
+#: geonode/templates/index.html:283
 #, fuzzy
 #| msgid "Add Comment"
 msgid "Add documents"
 msgstr "เขียนความคิดเห็น"
 
-#: geonode/templates/index.html:275
+#: geonode/templates/index.html:285
 #, fuzzy
 #| msgid "Explore Documents"
 msgid "Explore documents"
 msgstr "สำรวจเอกสาร"
 
-#: geonode/templates/index.html:281
+#: geonode/templates/index.html:291
 #, fuzzy
 #| msgid ""
 #| "GeoNode allows registered users to easily upload geospatial data in "
@@ -5984,12 +6045,16 @@ msgid "Identification Image"
 msgstr ""
 
 #: geonode/templates/metadata_detail.html:174
-msgid "Spatial Resolution"
-msgstr ""
+#, fuzzy
+#| msgid "Temporal Extent"
+msgid "Spatial Extent"
+msgstr "ขอบเขตชั่วขณะ"
 
 #: geonode/templates/metadata_detail.html:177
-msgid "Projetion System"
-msgstr ""
+#, fuzzy
+#| msgid "projection"
+msgid "Projection System"
+msgstr "projection"
 
 #: geonode/templates/metadata_detail.html:180
 msgid "Extension x0"
@@ -6382,46 +6447,46 @@ msgstr "กรุณาไปที่หน้าทรัพยากรแล
 msgid "A resource's download has been requested"
 msgstr "ได้รับการร้องขอการดาวน์โหลดทรัพยากรแล้ว"
 
-#: geonode/templates/relationships/_list_connections.html:3
-#: geonode/templates/relationships/_manage_connections.html:6
+#: geonode/templates/relationships/_list_connections.html:4
+#: geonode/templates/relationships/_manage_connections.html:5
 msgid "Following"
 msgstr "กำลังติดตาม"
 
-#: geonode/templates/relationships/_list_connections.html:9
+#: geonode/templates/relationships/_list_connections.html:10
 msgid "This user is not following anyone"
 msgstr "ผู้ใช้คนนี้ไม่ได้ติดตามใครเลย"
 
-#: geonode/templates/relationships/_list_connections.html:11
+#: geonode/templates/relationships/_list_connections.html:12
 msgid "Followers"
 msgstr "ผู้ติดตาม"
 
-#: geonode/templates/relationships/_list_connections.html:17
+#: geonode/templates/relationships/_list_connections.html:18
 msgid "No one is following this user"
 msgstr "ไม่มีใครติดตามผู้ใช้คนนี้"
 
-#: geonode/templates/relationships/_manage_connections.html:4
+#: geonode/templates/relationships/_manage_connections.html:3
 msgid "Manage Connections"
 msgstr "จัดการความสัมพันธ์"
 
-#: geonode/templates/relationships/_manage_connections.html:7
+#: geonode/templates/relationships/_manage_connections.html:6
 msgid "Blocking"
 msgstr "กำลังปิดกั้น"
 
-#: geonode/templates/relationships/_profile_follow.html:6
+#: geonode/templates/relationships/_profile_follow.html:5
 #: geonode/templates/relationships/relationship_list.html:16
 msgid "Unfollow"
 msgstr "เลิกติดตาม"
 
-#: geonode/templates/relationships/_profile_follow.html:9
+#: geonode/templates/relationships/_profile_follow.html:8
 msgid "Follow"
 msgstr "ติดตาม"
 
-#: geonode/templates/relationships/_profile_follow.html:14
+#: geonode/templates/relationships/_profile_follow.html:13
 #: geonode/templates/relationships/relationship_list.html:20
 msgid "Unblock"
 msgstr "ยกเลิกการปิดกั้น"
 
-#: geonode/templates/relationships/_profile_follow.html:17
+#: geonode/templates/relationships/_profile_follow.html:16
 msgid "Block"
 msgstr "ปิดกั้น"
 
@@ -6536,8 +6601,8 @@ msgstr "ข้อความ"
 msgid "Search by text"
 msgstr "ค้นหา"
 
-#: geonode/templates/search/search.html:6
-#: geonode/templates/search/search.html:12
+#: geonode/templates/search/search.html:5
+#: geonode/templates/search/search.html:11
 msgid "Search"
 msgstr "ค้นหา"
 
@@ -6670,33 +6735,33 @@ msgstr ""
 msgid "Invalid kmz file detected"
 msgstr ""
 
-#: geonode/upload/upload_validators.py:102
+#: geonode/upload/upload_validators.py:103
 msgid "Only one shapefile per zip is allowed"
 msgstr ""
 
-#: geonode/upload/upload_validators.py:158
+#: geonode/upload/upload_validators.py:159
 msgid "Only one kml file per kmz is allowed"
 msgstr ""
 
-#: geonode/upload/upload_validators.py:164
+#: geonode/upload/upload_validators.py:165
 #, fuzzy
 #| msgid "Could not find any layers in a compatible projection."
 msgid "Could not find any kml files inside the uploaded kmz"
 msgstr "ไม่พบชั้นใด ๆ ในการฉายที่เข้ากันได้"
 
-#: geonode/upload/upload_validators.py:184
+#: geonode/upload/upload_validators.py:185
 msgid "kml files with more than one GroundOverlay are not supported"
 msgstr ""
 
-#: geonode/upload/upload_validators.py:195
+#: geonode/upload/upload_validators.py:196
 msgid "Ground overlay image declared in kml file cannot be found"
 msgstr ""
 
-#: geonode/utils.py:69
+#: geonode/utils.py:73
 msgid "Invalid permission level."
 msgstr "ระดับการอนุญาตไม่ถูกต้อง"
 
-#: geonode/utils.py:697
+#: geonode/utils.py:755
 msgid "Permission Denied"
 msgstr "ไม่ได้รับอนุญาต"
 
@@ -6811,9 +6876,6 @@ msgstr "ไม่ได้รับอนุญาต"
 
 #~ msgid "Add Layers"
 #~ msgstr "เพิ่มชั้นข้อมูล"
-
-#~ msgid "Services"
-#~ msgstr "เซอร์วิส"
 
 #~ msgid "This CSW server contains the following services"
 #~ msgstr "เซิร์ฟเวอร์ CSW นี้ประกอบไปด้วยเซอร์วิสดังต่อไปนี้"
