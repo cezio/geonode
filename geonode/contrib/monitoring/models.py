@@ -28,8 +28,8 @@ from socket import gethostbyname
 from datetime import datetime, timedelta
 from decimal import Decimal
 
-from django.db import models
 from django import forms
+from django.db import models
 from django.conf import settings
 from django.http import Http404
 from jsonfield import JSONField
@@ -120,7 +120,7 @@ class Service(models.Model):
     host = models.ForeignKey(Host, null=False)
     check_interval = models.DurationField(
         null=False, blank=False, default=timedelta(seconds=60))
-    last_check = models.DateTimeField(null=True, blank=True)
+    last_check = models.DateTimeField(null=True, blank=True, auto_now_add=True)
     service_type = models.ForeignKey(ServiceType, null=False)
     active = models.BooleanField(null=False, blank=False, default=True)
     notes = models.TextField(null=True, blank=True)
@@ -509,7 +509,10 @@ class RequestEvent(models.Model):
 
         from dateutil.tz import tzlocal
         utc = pytz.utc
-        local_tz = pytz.timezone(datetime.now(tzlocal()).tzname())
+        try:
+            local_tz = pytz.timezone(datetime.now(tzlocal()).tzname())
+        except:
+            local_tz = pytz.timezone(settings.TIME_ZONE)
 
         start_time = parse_datetime(rd['startTime'])
         # Assuming GeoServer stores dates @ UTC
@@ -1592,6 +1595,7 @@ def do_autoconfigure():
                 name=geonode[0],
                 url=geonode[1],
                 host=host,
+                last_check=datetime.now(),
                 service_type=geonode_type)
         service.save()
 
@@ -1603,6 +1607,7 @@ def do_autoconfigure():
                 host=host,
                 service_type=hostgeonode_type,
                 url=geonode[1],
+                last_check=datetime.now(),
                 name=shost_name)
         service.save()
 
@@ -1620,6 +1625,7 @@ def do_autoconfigure():
                 name=geoserver[0],
                 url=geoserver[1],
                 host=host,
+                last_check=datetime.now(),
                 service_type=geoserver_type)
         service.save()
 
@@ -1631,6 +1637,7 @@ def do_autoconfigure():
                 host=host,
                 service_type=hostgeoserver_type,
                 url=geoserver[1],
+                last_check=datetime.now(),
                 name=shost_name)
         service.save()
 
