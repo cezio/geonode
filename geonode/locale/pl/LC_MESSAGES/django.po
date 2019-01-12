@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-17 21:40+0200\n"
-"PO-Revision-Date: 2018-04-18 11:31+0100\n"
+"PO-Revision-Date: 2018-11-17 19:45+0100\n"
 "Last-Translator: Cezary Statkiewicz <cezio@thelirium.net>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -89,12 +89,14 @@ msgid_plural ""
 "          Here are all the %(member_count)s bands in the hall of fame:\n"
 "          "
 msgstr[0] ""
+"\n"
+"       Tutaj jest tylko jedna kapela w galerii sław:\n"
 msgstr[1] ""
 msgstr[2] ""
 
 #: docs/tutorials/devel/django_overview/getting_started_w_django.txt:531
 msgid "This band can rock!"
-msgstr ""
+msgstr "Ta kapela daje czadu!"
 
 #: geonode/base/__init__.py:27
 msgid "Request to download a resource"
@@ -704,12 +706,12 @@ msgstr "Usługa jest"
 #: geonode/base/templates/base/_resourcebase_snippet.html:46
 #: geonode/layers/templates/layers/layer_detail.html:40
 msgid "online"
-msgstr ""
+msgstr "on-line"
 
 #: geonode/base/templates/base/_resourcebase_snippet.html:47
 #: geonode/layers/templates/layers/layer_detail.html:40
 msgid "offline"
-msgstr ""
+msgstr "offilne"
 
 #: geonode/base/templates/base/_resourcebase_snippet.html:63
 #: geonode/layers/templates/layers/layer_detail.html:585
@@ -2925,7 +2927,6 @@ msgid "Coordinate Reference System"
 msgstr "System współrzędnych odniesienia"
 
 #: geonode/layers/templates/upload/layer_upload_crs.html:23
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "        A coordinate reference system for this layer could not be "
@@ -5286,6 +5287,8 @@ msgid ""
 "Sign up with one\n"
 "              of your existing third party accounts"
 msgstr ""
+"Zarejestruj się za pomocą\n"
+"      konta z zewnętrznego serwisu"
 
 #: geonode/templates/account/signup_closed.html:5
 #: geonode/templates/account/signup_closed.html:8
@@ -5303,7 +5306,7 @@ msgstr "Note"
 #: geonode/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid "you are already logged in as %(user_display)s."
-msgstr ""
+msgstr "jesteś już zalogowany jako %(user_display)s."
 
 #: geonode/templates/account/verification_sent.html:5
 #: geonode/templates/account/verification_sent.html:10
@@ -5337,6 +5340,9 @@ msgid ""
 "you are who you claim to be. For this purpose, we require that you\n"
 "verify ownership of your e-mail address. "
 msgstr ""
+"Ta część serwisu wymaga abyśmy zweryfikowali\n"
+" czy jesteś tym za kogo się podałeś. Dlatego wymagamy sprawdzenia, czy\n"
+" jesteś właścicielem podanego adresu email."
 
 #: geonode/templates/account/verified_email_required.html:16
 msgid ""
@@ -5945,7 +5951,6 @@ msgid "Spatial Extent"
 msgstr "Granice przestrzenne"
 
 #: geonode/templates/metadata_detail.html:177
-#, fuzzy
 #| msgid "Projetion System"
 msgid "Projection System"
 msgstr "System projekcji"
