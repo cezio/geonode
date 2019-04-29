@@ -19,13 +19,13 @@
 # Translators:
 # Translators:
 # Andres Alfonso Lemon Gomez <lemon.andres@gmail.com>, 2014.
-# Cezary Statkiewicz <cezio@thelirium.net>, 2017, 2018.
+# Cezary Statkiewicz <cezio@thelirium.net>, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-25 02:28-0500\n"
-"PO-Revision-Date: 2018-02-26 13:51+0100\n"
+"PO-Revision-Date: 2019-04-28 16:19+0200\n"
 "Last-Translator: Cezary Statkiewicz <cezio@thelirium.net>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10"
 " || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.3\n"
 
 #: geonode/static/geonode/js/search/search.js:373
 msgid "Enter your text here ..."
@@ -97,31 +97,31 @@ msgstr ""
 
 #: geonode/static/geonode/js/upload/FileTypes.js:82
 msgid "CADRG-Global Navigation Chart"
-msgstr ""
+msgstr "Globalna mapa nawigacyjna w formacie CADRG"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:89
 msgid "CADRG-Jet Navigation Chart"
-msgstr ""
+msgstr "Lotnicza mapa nawigacyjna w formacie CADRG"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:96
 msgid "CADRG-Operational Navigation Chart"
-msgstr ""
+msgstr "Operacyjna mapa nawigacyjna w formacie CADRG"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:103
 msgid "CADRG-Tactical Pilotage Chart"
-msgstr ""
+msgstr "Mapa nawigacyjna dla lotów taktycznych w formacie CADRG"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:110
 msgid "CADRG-Joint Operations Graphic"
-msgstr ""
+msgstr "Mapa działań połączonych w formacie CADRG"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:117
 msgid "CADRG-Topographic Line Map 100K"
-msgstr ""
+msgstr "Mapa topograficzna w formacie CADRG w skali 1:100k"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:124
 msgid "CADRG-Topographic Line Map 50K"
-msgstr ""
+msgstr "Mapa topograficzna w formacie CADRG w skali 1:50k"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:131
 msgid "JPEG2000"
@@ -129,7 +129,7 @@ msgstr ""
 
 #: geonode/static/geonode/js/upload/FileTypes.js:136
 msgid "MrSID-Multi-resolution Seamless Image Database"
-msgstr ""
+msgstr "MrSID- Wielorozdzielcza Baza Obrazów"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:331
 msgid "Layer Info"
@@ -180,10 +180,6 @@ msgstr "Wykonywanie kroku konfiguracji GeoServera"
 #: geonode/static/geonode/js/upload/LayerInfo.js:516
 msgid "Layer files uploaded, configuring in GeoServer"
 msgstr "Pliki warstwy dodane, konfigurowanie GeoServera"
-
-#: geonode/static/geonode/js/upload/LayerInfo.js:532
-msgid "Select or create a Geogig repository."
-msgstr "Wybierz lub utwórz repozytorium Geogig."
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:695
 msgid "Remove"
