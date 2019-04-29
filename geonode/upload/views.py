@@ -52,7 +52,7 @@ from django.utils.html import escape
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.views.generic import CreateView, DeleteView
-from geonode.utils import unzip_file
+from geonode.utils import fixup_shp_columnnames
 from geonode.base.enumerations import CHARSETS
 
 from .forms import (
@@ -62,9 +62,11 @@ from .forms import (
     UploadFileForm,
 )
 from .models import Upload, UploadFile
-from .files import get_scan_hint
-from .files import scan_file
+from .files import (get_scan_hint,
+                    scan_file
+                    )
 from .utils import (
+    _ALLOW_TIME_STEP,
     _SUPPORTED_CRS,
     _ASYNC_UPLOAD,
     _geoserver_down_error_msg,
@@ -131,11 +133,10 @@ def _select_relevant_files(allowed_extensions, files):
     :param files: list of django files with the files to be filtered
 
     """
-
     result = []
     for django_file in files:
         extension = os.path.splitext(django_file.name)[-1].lower()[1:]
-        if extension in allowed_extensions:
+        if extension in allowed_extensions or get_scan_hint(allowed_extensions):
             already_selected = django_file.name in (f.name for f in result)
             if not already_selected:
                 result.append(django_file)
@@ -156,18 +157,22 @@ def save_step_view(req, session):
     form = LayerUploadForm(req.POST, req.FILES)
     if form.is_valid():
         tempdir = tempfile.mkdtemp(dir=settings.FILE_UPLOAD_TEMP_DIR)
+        logger.info("valid_extensions: {}".format(form.cleaned_data["valid_extensions"]))
         relevant_files = _select_relevant_files(
             form.cleaned_data["valid_extensions"],
             req.FILES.itervalues()
         )
+        logger.info("relevant_files: {}".format(relevant_files))
         _write_uploaded_files_to_disk(tempdir, relevant_files)
         base_file = os.path.join(tempdir, form.cleaned_data["base_file"].name)
         name, ext = os.path.splitext(os.path.basename(base_file))
         logger.debug('Name: {0}, ext: {1}'.format(name, ext))
         logger.debug("base_file: {}".format(base_file))
+        scan_hint = get_scan_hint(form.cleaned_data["valid_extensions"])
         spatial_files = scan_file(
             base_file,
-            scan_hint=get_scan_hint(form.cleaned_data["valid_extensions"])
+            scan_hint=scan_hint,
+            charset=form.cleaned_data["charset"]
         )
         logger.info("spatial_files: {}".format(spatial_files))
         import_session = save_step(
@@ -175,7 +180,7 @@ def save_step_view(req, session):
             name,
             spatial_files,
             overwrite=False,
-            mosaic=form.cleaned_data['mosaic'],
+            mosaic=form.cleaned_data['mosaic'] or scan_hint == 'zip-mosaic',
             append_to_mosaic_opts=form.cleaned_data['append_to_mosaic_opts'],
             append_to_mosaic_name=form.cleaned_data['append_to_mosaic_name'],
             mosaic_time_regex=form.cleaned_data['mosaic_time_regex'],
@@ -187,14 +192,15 @@ def save_step_view(req, session):
         )
 
         sld = None
-
         if spatial_files[0].sld_files:
             sld = spatial_files[0].sld_files[0]
         if not os.path.isfile(os.path.join(tempdir, spatial_files[0].base_file)):
             tmp_files = [f for f in os.listdir(tempdir) if os.path.isfile(os.path.join(tempdir, f))]
             for f in tmp_files:
                 if zipfile.is_zipfile(os.path.join(tempdir, f)):
-                    unzip_file(os.path.join(tempdir, f), '.shp', tempdir=tempdir)
+                    fixup_shp_columnnames(os.path.join(tempdir, f),
+                                          form.cleaned_data["charset"],
+                                          tempdir=tempdir)
 
         _log('provided sld is %s' % sld)
         # upload_type = get_upload_type(base_file)
@@ -208,8 +214,6 @@ def save_step_view(req, session):
             permissions=form.cleaned_data["permissions"],
             import_sld_file=sld,
             upload_type=spatial_files[0].file_type.code,
-            geogig=form.cleaned_data['geogig'],
-            geogig_store=form.cleaned_data['geogig_store'],
             time=form.cleaned_data['time'],
             mosaic=form.cleaned_data['mosaic'],
             append_to_mosaic_opts=form.cleaned_data['append_to_mosaic_opts'],
@@ -336,11 +340,14 @@ def csv_step_view(request, upload_session):
         for candidate in attributes:
             if not isinstance(candidate.name, basestring):
                 non_str_in_headers.append(str(candidate.name))
-            if candidate.name in point_candidates:
-                if is_latitude(candidate.name):
-                    lat_candidate = candidate.name
-                elif is_longitude(candidate.name):
-                    lng_candidate = candidate.name
+            if is_latitude(candidate.name):
+                lat_candidate = candidate.name
+                if lat_candidate and lat_candidate not in point_candidates:
+                    point_candidates.append(lat_candidate)
+            elif is_longitude(candidate.name):
+                lng_candidate = candidate.name
+                if lng_candidate and lng_candidate not in point_candidates:
+                    point_candidates.append(lng_candidate)
         if request.method == 'POST':
             guessed_lat_or_lng = False
             selected_lat = lat_field
@@ -371,9 +378,9 @@ def csv_step_view(request, upload_session):
     elif request.method == 'POST':
         if not lat_field or not lng_field:
             error = 'Please choose which columns contain the latitude and longitude data.'
-        elif (lat_field not in point_candidates or
-              lng_field not in point_candidates):
-            error = 'Invalid latitude/longitude columns'
+        # elif (lat_field not in point_candidates or
+        #       lng_field not in point_candidates):
+        #     error = 'Invalid latitude/longitude columns'
         elif lat_field == lng_field:
             error = 'You cannot select the same column for latitude and longitude data.'
 
@@ -411,7 +418,7 @@ def check_step_view(request, upload_session):
                     upload_session.completed_step = 'check'
                 else:
                     # This command skip completely 'time' configuration
-                    upload_session.completed_step = 'time'
+                    upload_session.completed_step = 'time' if _ALLOW_TIME_STEP else 'check'
     elif request.method != 'POST':
         raise Exception()
     return next_step_response(request, upload_session)
@@ -459,13 +466,14 @@ def time_step_view(request, upload_session):
                     'layer_attributes': layer_values[0].keys(),
                     'async_upload': is_async_step(upload_session)
                 }
+                upload_session.completed_step = 'check'
                 return render(request, 'upload/layer_upload_time.html', context=context)
             else:
-                upload_session.completed_step = 'time'
+                upload_session.completed_step = 'time' if _ALLOW_TIME_STEP else 'check'
                 return next_step_response(request, upload_session)
         else:
             # TODO: Error
-            upload_session.completed_step = 'time'
+            upload_session.completed_step = 'check'
             return next_step_response(request, upload_session)
     elif request.method != 'POST':
         raise Exception()
@@ -499,10 +507,9 @@ def time_step_view(request, upload_session):
     upload_session.import_session = import_session.reload()
 
     if start_attribute_and_type:
-        upload_session.completed_step = 'check'
-
         def tx(type_name):
-            return None if type_name is None or type_name == 'Date' \
+            # return None if type_name is None or type_name == 'Date' \
+            return None if type_name is None \
                 else 'DateFormatTransform'
         end_attribute, end_type = cleaned.get('end_attribute', (None, None))
         time_step(
@@ -517,9 +524,8 @@ def time_step_view(request, upload_session):
             precision_value=cleaned['precision_value'],
             precision_step=cleaned['precision_step'],
         )
-    else:
-        upload_session.completed_step = 'time'
 
+    upload_session.completed_step = 'check'
     return next_step_response(request, upload_session)
 
 

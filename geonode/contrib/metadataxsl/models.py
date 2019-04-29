@@ -18,6 +18,8 @@
 #
 #########################################################################
 
+from urlparse import urljoin
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import signals
@@ -44,16 +46,16 @@ def add_xsl_link(resourcebase):
     """
 
     urlpath = reverse('prefix_xsl_line', args=[resourcebase.id])
-
-    url = '{}{}'.format(settings.SITEURL, urlpath)
+    site_url = settings.SITEURL.rstrip('/') if settings.SITEURL.startswith('http') else settings.SITEURL
+    url = urljoin(site_url, urlpath)
 
     link, created = Link.objects.get_or_create(
-                        resource=resourcebase,
-                        url=url,
-                        defaults=dict(name=ISO_XSL_NAME,
-                                      extension='xml',
-                                      mime='text/xml',
-                                      link_type='metadata'))
+        resource=resourcebase,
+        url=url,
+        defaults=dict(name=ISO_XSL_NAME,
+                      extension='xml',
+                      mime='text/xml',
+                      link_type='metadata'))
     return created
 
 

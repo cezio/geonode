@@ -92,14 +92,15 @@ class ProfileAdmin(admin.ModelAdmin):
                 'form': self.add_form,
                 'fields': admin.utils.flatten_fieldsets(self.add_fieldsets),
             })
+
         defaults.update(kwargs)
         return super(ProfileAdmin, self).get_form(request, obj, **defaults)
 
     def get_urls(self):
         return [  # '',
-                url(r'^(\d+)/password/$',
-                    self.admin_site.admin_view(self.user_change_password))
-               ] + super(ProfileAdmin, self).get_urls()
+            url(r'^(\d+)/password/$',
+                self.admin_site.admin_view(self.user_change_password))
+        ] + super(ProfileAdmin, self).get_urls()
 
     def lookup_allowed(self, lookup, value):
         # See #20078: we don't want to allow any lookups involving passwords.
@@ -130,6 +131,7 @@ class ProfileAdmin(admin.ModelAdmin):
         if extra_context is None:
             extra_context = {}
         username_field = self.model._meta.get_field(self.model.USERNAME_FIELD)
+
         defaults = {
             'auto_populated_fields': (),
             'username_help_text': username_field.help_text,
@@ -194,7 +196,10 @@ class ProfileAdmin(admin.ModelAdmin):
         # * The user has pressed the 'Save and add another' button
         # * We are adding a user in a popup
         if '_addanother' not in request.POST and IS_POPUP_VAR not in request.POST:
+            mutable = request.POST._mutable
+            request.POST._mutable = True
             request.POST['_continue'] = 1
+            request.POST._mutable = mutable
         return super(ProfileAdmin, self).response_add(request, obj,
                                                       post_url_continue)
 

@@ -17,7 +17,7 @@
   {{ block.super }}
 {% endblock %}
 
-{% block body_class %}people explore{% endblock %}
+{% block body_class %}{% trans "people explore" %}{% endblock %}
 
 {% block body %}
 
@@ -35,7 +35,7 @@
 {% if user == profile %}
   {% for group in profile.group_list_all %}
   <div ng-if="group.logo != ''" class="col-xs-1 pull-right group-logo">
-    <a href="{{ group.get_absolute_url }}" ><img src="/uploaded/{{ group.logo }}" alt="{{ group.title }}" /></a>
+    <a href="{{ group.get_absolute_url }}" ><img src="{% get_media_prefix %}{{ group.logo }}" alt="{{ group.title }}" /></a>
   </div>
   <!-- <div class="col-xs-6 col-md-8">
     <h5>
@@ -47,7 +47,7 @@
 {% else %}
   {% for group in profile.group_list_public %}
   <div ng-if="group.logo != ''" class="col-xs-1 pull-right group-logo">
-    <a href="{{ group.get_absolute_url }}" ><img src="/uploaded/{{ group.logo }}" alt="{{ group.title }}" /></a>
+    <a href="{{ group.get_absolute_url }}" ><img src="{% get_media_prefix %}{{ group.logo }}" alt="{{ group.title }}" /></a>
   </div>
   <!-- <div class="col-xs-6 col-md-8">
     <h5>
@@ -90,7 +90,7 @@
         {% if profile.voice %}
             <td><a href="tel:{{ profile.voice }}">{{ profile.voice }}</a></td>
         {% else %}
-            <td>Not provided.</td>
+            <td>{% trans "Not provided" %}.</td>
         {% endif %}
       </tr>
       <tr>

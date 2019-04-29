@@ -8,6 +8,7 @@ MANIFEST
 dist
 .idea/
 .vscode/
+.pytest_cache/
 # supporting stuff pulled in by paver script
 geonode/development.db
 /geoserver/
@@ -80,3 +81,8 @@ celerybeat-schedule.*
 geonode\.tests\.bdd\.e2e\.test_login/
 
 *.log
+
+/celerybeat.pid
+/celerybeat-schedule
+
+scripts/spcgeonode/_volume_*

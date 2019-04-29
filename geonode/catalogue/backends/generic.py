@@ -160,10 +160,10 @@ class Catalogue(CatalogueServiceWeb):
         id_pname = 'dc:identifier'
         if self.type == 'deegree':
             id_pname = 'apiso:Identifier'
-
+        site_url = settings.SITEURL.rstrip('/') if settings.SITEURL.startswith('http') else settings.SITEURL
         tpl = get_template(template)
         ctx = {'layer': layer,
-               'SITEURL': settings.SITEURL[:-1],
+               'SITEURL': site_url,
                'id_pname': id_pname,
                'LICENSES_METADATA': getattr(settings,
                                             'LICENSES',
@@ -401,7 +401,7 @@ class Catalogue(CatalogueServiceWeb):
 
         links = []
         # extract subset of description value for user-friendly display
-        format_re = re.compile(".*\((.*)(\s*Format*\s*)\).*?")
+        format_re = re.compile(r".*\((.*)(\s*Format*\s*)\).*?")
 
         if not hasattr(rec, 'distribution'):
             return None
@@ -409,7 +409,7 @@ class Catalogue(CatalogueServiceWeb):
             return None
 
         for link_el in rec.distribution.online:
-            if link_el.protocol == 'WWW:DOWNLOAD-1.0-http--download':
+            if 'WWW:DOWNLOAD' in link_el.protocol:
                 try:
                     extension = link_el.name.split('.')[-1]
                     format = format_re.match(link_el.description).groups()[0]

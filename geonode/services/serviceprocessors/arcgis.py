@@ -24,7 +24,6 @@ import logging
 import traceback
 
 from uuid import uuid4
-from urlparse import urlsplit
 
 from django.conf import settings
 from django.template.defaultfilters import slugify, safe
@@ -87,7 +86,7 @@ class ArcMapServiceHandler(base.ServiceHandlerBase):
         # ])
 
         self.indexing_method = INDEXED
-        self.name = slugify(urlsplit(self.url).netloc)[:40]
+        self.name = slugify(self.url)[:255]
         self.title = _title
 
     def create_cascaded_store(self):
@@ -139,7 +138,7 @@ class ArcMapServiceHandler(base.ServiceHandlerBase):
         """
         try:
             return self._parse_layers(self.parsed_service.layers)
-        except:
+        except BaseException:
             return None
 
     def _parse_layers(self, layers):
@@ -284,6 +283,10 @@ class ArcMapServiceHandler(base.ServiceHandlerBase):
         Link.objects.get_or_create(
             resource=geonode_layer.resourcebase_ptr,
             url=geonode_layer.ows_url,
+            name="ESRI {}: {} Service".format(
+                geonode_layer.remote_service.type,
+                geonode_layer.store
+            ),
             defaults={
                 "extension": "html",
                 "name": "ESRI {}: {} Service".format(
@@ -324,5 +327,5 @@ class ArcImageServiceHandler(ArcMapServiceHandler):
         # ])
 
         self.indexing_method = INDEXED
-        self.name = slugify(urlsplit(self.url).netloc)[:40]
+        self.name = slugify(self.url)[:255]
         self.title = _title

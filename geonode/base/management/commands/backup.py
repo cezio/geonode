@@ -85,7 +85,7 @@ class Command(BaseCommand):
 
     def create_geoserver_backup(self, settings, target_folder):
         # Create GeoServer Backup
-        url = settings.OGC_SERVER['default']['PUBLIC_LOCATION']
+        url = settings.OGC_SERVER['default']['LOCATION']
         user = settings.OGC_SERVER['default']['USER']
         passwd = settings.OGC_SERVER['default']['PASSWORD']
         geoserver_bk_file = os.path.join(target_folder, 'geoserver_catalog.zip')
@@ -345,7 +345,14 @@ class Command(BaseCommand):
                     print "Saved Static Files from '"+static_files_folder+"'."
 
                 # Store Template Folders
-                template_folders = settings.TEMPLATE_DIRS
+                template_folders = []
+                try:
+                    template_folders = settings.TEMPLATE_DIRS
+                except:
+                    try:
+                        template_folders = settings.TEMPLATES[0]['DIRS']
+                    except:
+                        pass
                 template_files_folders = os.path.join(target_folder, helpers.TEMPLATE_DIRS)
                 if not os.path.exists(template_files_folders):
                     os.makedirs(template_files_folders)

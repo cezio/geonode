@@ -38,7 +38,7 @@ from lxml import etree
 from urlparse import urljoin
 
 from django.conf import settings
-
+from django.test.utils import override_settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import call_command
 from django.core.urlresolvers import reverse
@@ -55,7 +55,7 @@ from geoserver.catalog import FailedRequestError
 # from geonode.security.models import *
 from geonode.contrib import geotiffio
 from geonode.decorators import on_ogc_backend
-from geonode.base.models import TopicCategory
+from geonode.base.models import TopicCategory, Link
 from geonode.layers.models import Layer
 from geonode.maps.models import Map
 from geonode import GeoNodeException, geoserver, qgis_server
@@ -80,7 +80,12 @@ LOCAL_TIMEOUT = 300
 
 LOGIN_URL = "/accounts/login/"
 
-logger = logging.getLogger("south").setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+def _log(msg, *args):
+    logger.debug(msg, *args)
+
 
 # Reconnect post_save signals that is disconnected by populate_test_data
 reconnect_signals()
@@ -93,10 +98,11 @@ def zip_dir(basedir, archivename):
             # NOTE: ignore empty directories
             for fn in files:
                 absfn = os.path.join(root, fn)
-                zfn = absfn[len(basedir)+len(os.sep):]  # XXX: relative path
+                zfn = absfn[len(basedir) + len(os.sep):]  # XXX: relative path
                 z.write(absfn, zfn)
 
-"""
+
+r"""
  HOW TO RUN THE TESTS
  --------------------
  (https://github.com/GeoNode/geonode/blob/master/docs/tutorials/devel/testing.txt)
@@ -140,11 +146,13 @@ $ geonode createsuperuser
 """
 
 
+@override_settings(SITEURL='http://localhost:8010/')
 class NormalUserTest(GeoNodeLiveTestSupport):
 
     """
     Tests GeoNode functionality for non-administrative users
     """
+    port = 8010
 
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
     def test_layer_upload(self):
@@ -165,6 +173,62 @@ class NormalUserTest(GeoNodeLiveTestSupport):
             user=norman,
             overwrite=True,
         )
+
+        # Test that layer owner can wipe GWC Cache
+        if check_ogc_backend(geoserver.BACKEND_PACKAGE):
+            from geonode.security.utils import set_geowebcache_invalidate_cache
+            set_geowebcache_invalidate_cache(saved_layer.alternate)
+
+            url = settings.OGC_SERVER['default']['LOCATION']
+            user = settings.OGC_SERVER['default']['USER']
+            passwd = settings.OGC_SERVER['default']['PASSWORD']
+
+            import requests
+            from requests.auth import HTTPBasicAuth
+            r = requests.get(url + 'gwc/rest/seed/%s.json' % saved_layer.alternate,
+                             auth=HTTPBasicAuth(user, passwd))
+            self.assertEquals(r.status_code, 200)
+            o = json.loads(r.text)
+            self.assertTrue('long-array-array' in o)
+
+            from geonode.geoserver.helpers import (get_sld_for,
+                                                   fixup_style,
+                                                   set_layer_style,
+                                                   get_store,
+                                                   set_attributes_from_geoserver,
+                                                   set_styles,
+                                                   create_gs_thumbnail)
+
+            _log("0. ------------ %s " % saved_layer)
+            self.assertIsNotNone(saved_layer)
+            workspace, name = saved_layer.alternate.split(':')
+            self.assertIsNotNone(workspace)
+            self.assertIsNotNone(name)
+            ws = gs_catalog.get_workspace(workspace)
+            self.assertIsNotNone(ws)
+            store = get_store(gs_catalog, saved_layer.store, workspace=ws)
+            _log("1. ------------ %s " % store)
+            self.assertIsNotNone(store)
+
+            # Save layer attributes
+            set_attributes_from_geoserver(saved_layer)
+
+            # Save layer styles
+            set_styles(saved_layer, gs_catalog)
+
+            # set SLD
+            sld = saved_layer.default_style.sld_body if saved_layer.default_style else None
+            self.assertIsNotNone(sld)
+            _log("2. ------------ %s " % sld)
+            set_layer_style(saved_layer, saved_layer.alternate, sld)
+
+            fixup_style(gs_catalog, saved_layer.alternate, None)
+            self.assertIsNone(get_sld_for(gs_catalog, saved_layer))
+            _log("3. ------------ %s " % get_sld_for(gs_catalog, saved_layer))
+
+            create_gs_thumbnail(saved_layer, overwrite=True)
+            _log(saved_layer.get_thumbnail_url())
+            _log(saved_layer.has_thumbnail())
         try:
             saved_layer.set_default_permissions()
             url = reverse('layer_metadata', args=[saved_layer.service_typename])
@@ -173,12 +237,18 @@ class NormalUserTest(GeoNodeLiveTestSupport):
         finally:
             # Clean up and completely delete the layer
             saved_layer.delete()
+            if check_ogc_backend(geoserver.BACKEND_PACKAGE):
+                from geonode.geoserver.helpers import cleanup
+                cleanup(saved_layer.name, saved_layer.uuid)
 
 
+@override_settings(SITEURL='http://localhost:8001/')
 class GeoNodeMapTest(GeoNodeLiveTestSupport):
 
-    """Tests geonode.maps app/module
     """
+    Tests geonode.maps app/module
+    """
+    port = 8001
 
     # geonode.maps.utils
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
@@ -402,8 +472,8 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                         'Expected specific number of keywords from uploaded layer XML metadata')
 
                 self.assertTrue(
-                     u'Airport,Airports,Landing Strips,Runway,Runways' in uploaded.keyword_csv,
-                     'Expected CSV of keywords from uploaded layer XML metadata')
+                    u'Airport,Airports,Landing Strips,Runway,Runways' in uploaded.keyword_csv,
+                    'Expected CSV of keywords from uploaded layer XML metadata')
 
                 self.assertTrue(
                     'Landing Strips' in uploaded.keyword_list(),
@@ -437,11 +507,12 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                 uploaded.metadata_xml = thelayer_metadata
                 regions_resolved, regions_unresolved = resolve_regions(regions)
                 self.assertIsNotNone(regions_resolved)
-        # except:
-        #     # Sometimes failes with the message:
-        #     # UploadError: Could not save the layer air_runways,
-        #     # there was an upload error: Error occured unzipping file
-        #     pass
+        except GeoNodeException as e:
+            # layer have projection file, but has no valid srid
+            self.assertEqual(
+                str(e),
+                "GeoServer failed to detect the projection for layer [air_runways]. "
+                "It doesn't look like EPSG:4326, so backing out the layer.")
         finally:
             # Clean up and completely delete the layer
             if uploaded:
@@ -498,8 +569,8 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                             'Expected specific number of keywords from uploaded layer XML metadata')
 
                     self.assertTrue(
-                         u'Airport,Airports,Landing Strips,Runway,Runways' in uploaded.keyword_csv,
-                         'Expected CSV of keywords from uploaded layer XML metadata')
+                        u'Airport,Airports,Landing Strips,Runway,Runways' in uploaded.keyword_csv,
+                        'Expected CSV of keywords from uploaded layer XML metadata')
 
                     self.assertTrue(
                         'Landing Strips' in uploaded.keyword_list(),
@@ -533,11 +604,57 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                     uploaded.metadata_xml = thelayer_metadata
                     regions_resolved, regions_unresolved = resolve_regions(regions)
                     self.assertIsNotNone(regions_resolved)
-        # except:
-        #     # Sometimes failes with the message:
-        #     # UploadError: Could not save the layer air_runways,
-        #     # there was an upload error: Error occured unzipping file
-        #     pass
+        finally:
+            # Clean up and completely delete the layer
+            if uploaded:
+                uploaded.delete()
+
+    @on_ogc_backend(geoserver.BACKEND_PACKAGE)
+    @timeout_decorator.timeout(LOCAL_TIMEOUT)
+    def test_layer_zip_upload_non_utf8(self):
+        """Test uploading a layer with non UTF-8 attributes names"""
+        uploaded = None
+        PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+        thelayer_path = os.path.join(
+            PROJECT_ROOT,
+            'data/zhejiang_yangcan_yanyu')
+        thelayer_zip = os.path.join(
+            PROJECT_ROOT,
+            'data/',
+            'zhejiang_yangcan_yanyu.zip')
+        try:
+            if os.path.exists(thelayer_zip):
+                os.remove(thelayer_zip)
+            if os.path.exists(thelayer_path) and not os.path.exists(thelayer_zip):
+                zip_dir(thelayer_path, thelayer_zip)
+                if os.path.exists(thelayer_zip):
+                    uploaded = file_upload(thelayer_zip, overwrite=True, charset='windows-1258')
+                    self.assertEquals(uploaded.title, 'Zhejiang Yangcan Yanyu')
+                    self.assertEquals(len(uploaded.keyword_list()), 2)
+                    self.assertEquals(uploaded.constraints_other, None)
+        finally:
+            # Clean up and completely delete the layer
+            if uploaded:
+                uploaded.delete()
+
+        uploaded = None
+        thelayer_path = os.path.join(
+            PROJECT_ROOT,
+            'data/ming_female_1')
+        thelayer_zip = os.path.join(
+            PROJECT_ROOT,
+            'data/',
+            'ming_female_1.zip')
+        try:
+            if os.path.exists(thelayer_zip):
+                os.remove(thelayer_zip)
+            if os.path.exists(thelayer_path) and not os.path.exists(thelayer_zip):
+                zip_dir(thelayer_path, thelayer_zip)
+                if os.path.exists(thelayer_zip):
+                    uploaded = file_upload(thelayer_zip, overwrite=True, charset='windows-1258')
+                    self.assertEquals(uploaded.title, 'Ming Female 1')
+                    self.assertEquals(len(uploaded.keyword_list()), 2)
+                    self.assertEquals(uploaded.constraints_other, None)
         finally:
             # Clean up and completely delete the layer
             if uploaded:
@@ -565,13 +682,13 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
         try:
             # with self.assertRaises(GeoNodeException):
             thefile = file_upload(thefile, overwrite=True)
-        except GeoNodeException, e:
+        except GeoNodeException as e:
             self.assertEqual(str(e), "Invalid Projection. Layer is missing CRS!")
         finally:
             # Clean up and completely delete the layer
             try:
                 thefile.delete()
-            except:
+            except BaseException:
                 pass
 
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
@@ -728,9 +845,10 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
 
             # Verify that the styles were deleted
             for style in styles:
-                s = gs_cat.get_style(style.name, workspace=settings.DEFAULT_WORKSPACE) or \
-                    gs_cat.get_style(style.name)
-                assert s is None
+                if style and style.name:
+                    s = gs_cat.get_style(style.name, workspace=settings.DEFAULT_WORKSPACE) or \
+                        gs_cat.get_style(style.name)
+                    assert s is None
 
             # Verify that the store was deleted
             ds = gs_cat.get_store(store_name)
@@ -915,9 +1033,13 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                 self.assertEquals(response_dict['success'], True)
                 # Get a Layer object for the newly created layer.
                 new_vector_layer = Layer.objects.get(pk=vector_layer.pk)
-                # FIXME(Ariel): Check the typename does not change.
 
-                # Test the replaced layer is indeed different from the original layer
+                # Test the replaced layer metadata is equal to the original layer
+                self.assertEqual(vector_layer.name, new_vector_layer.name)
+                self.assertEqual(vector_layer.title, new_vector_layer.title)
+                self.assertEqual(vector_layer.alternate, new_vector_layer.alternate)
+
+                # Test the replaced layer bbox is indeed different from the original layer
                 self.assertNotEqual(vector_layer.bbox_x0, new_vector_layer.bbox_x0)
                 self.assertNotEqual(vector_layer.bbox_x1, new_vector_layer.bbox_x1)
                 self.assertNotEqual(vector_layer.bbox_y0, new_vector_layer.bbox_y0)
@@ -945,7 +1067,7 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
                     raster_layer.delete()
                 if new_vector_layer:
                     new_vector_layer.delete()
-            except:
+            except BaseException:
                 # tb = traceback.format_exc()
                 # logger.warning(tb)
                 pass
@@ -968,6 +1090,7 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
             self.assertIsNotNone(lyr)
             self.assertEqual(lyr.name, "test_san_andres_y_providencia_administrative")
             self.assertEqual(lyr.title, "Test San Andres y Providencia Administrative")
+
             default_keywords = [
                 u'import',
                 u'san andreas',
@@ -990,121 +1113,16 @@ class GeoNodeMapTest(GeoNodeLiveTestSupport):
             lyr.delete()
 
 
+@override_settings(SITEURL='http://localhost:8002/')
 class GeoNodePermissionsTest(GeoNodeLiveTestSupport):
-    """Tests GeoNode permissions and its integration with GeoServer
     """
-
+    Tests GeoNode permissions and its integration with GeoServer
     """
-    AF: This test must be refactored. Opening an issue for that.
-    def test_permissions(self):
-        # Test permissions on a layer
+    port = 8002
 
-        # grab norman
-        norman = get_user_model().objects.get(username="norman")
-
-        thefile = os.path.join(
-            gisdata.VECTOR_DATA,
-            'san_andres_y_providencia_poi.shp')
-        layer = file_upload(thefile, overwrite=True)
-        check_layer(layer)
-
-        # we need some time to have the service up and running
-        time.sleep(20)
-
-        # Set the layer private for not authenticated users
-        layer.set_permissions({'users': {'AnonymousUser': []}})
-
-        url = 'http://localhost:8080/geoserver/geonode/ows?' \
-            'LAYERS=geonode%3Asan_andres_y_providencia_poi&STYLES=' \
-            '&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap' \
-            '&SRS=EPSG%3A4326' \
-            '&BBOX=-81.394599749999,13.316009005566,' \
-            '-81.370560451855,13.372728455566' \
-            '&WIDTH=217&HEIGHT=512'
-
-        # test view_resourcebase permission on anonymous user
-        request = urllib2.Request(url)
-        response = urllib2.urlopen(request)
-        self.assertTrue(
-            response.info().getheader('Content-Type'),
-            'application/vnd.ogc.se_xml;charset=UTF-8'
-        )
-
-        # test WMS with authenticated user that has not view_resourcebase:
-        # the layer must be not accessible (response is xml)
-        request = urllib2.Request(url)
-        base64string = base64.encodestring(
-            '%s:%s' % ('norman', 'norman')).replace('\n', '')
-        request.add_header("Authorization", "Basic %s" % base64string)
-        response = urllib2.urlopen(request)
-        self.assertTrue(
-            response.info().getheader('Content-Type'),
-            'application/vnd.ogc.se_xml;charset=UTF-8'
-        )
-
-        # test WMS with authenticated user that has view_resourcebase: the layer
-        # must be accessible (response is image)
-        assign_perm('view_resourcebase', norman, layer.get_self_resource())
-        request = urllib2.Request(url)
-        base64string = base64.encodestring(
-            '%s:%s' % ('norman', 'norman')).replace('\n', '')
-        request.add_header("Authorization", "Basic %s" % base64string)
-        response = urllib2.urlopen(request)
-        self.assertTrue(response.info().getheader('Content-Type'), 'image/png')
-
-        # test change_layer_data
-        # would be nice to make a WFS/T request and test results, but this
-        # would work only on PostGIS layers
-
-        # test change_layer_style
-        url = 'http://localhost:8000/gs/rest/styles/san_andres_y_providencia_poi.xml'
-        sld = ""<?xml version="1.0" encoding="UTF-8"?>
-<sld:StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld"
-xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0"
-xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
-   <sld:NamedLayer>
-      <sld:Name>geonode:san_andres_y_providencia_poi</sld:Name>
-      <sld:UserStyle>
-         <sld:Name>san_andres_y_providencia_poi</sld:Name>
-         <sld:Title>san_andres_y_providencia_poi</sld:Title>
-         <sld:IsDefault>1</sld:IsDefault>
-         <sld:FeatureTypeStyle>
-            <sld:Rule>
-               <sld:PointSymbolizer>
-                  <sld:Graphic>
-                     <sld:Mark>
-                        <sld:Fill>
-                           <sld:CssParameter name="fill">#8A7700
-                           </sld:CssParameter>
-                        </sld:Fill>
-                        <sld:Stroke>
-                           <sld:CssParameter name="stroke">#bbffff
-                           </sld:CssParameter>
-                        </sld:Stroke>
-                     </sld:Mark>
-                     <sld:Size>10</sld:Size>
-                  </sld:Graphic>
-               </sld:PointSymbolizer>
-            </sld:Rule>
-         </sld:FeatureTypeStyle>
-      </sld:UserStyle>
-   </sld:NamedLayer>
-</sld:StyledLayerDescriptor>""
-
-        # user without change_layer_style cannot edit it
-        self.client.login(username='norman', password='norman')
-        response = self.client.put(url, sld, content_type='application/vnd.ogc.sld+xml')
-        self.assertEquals(response.status_code, 401)
-
-        # user with change_layer_style can edit it
-        assign_perm('change_layer_style', norman, layer)
-        response = self.client.put(url, sld, content_type='application/vnd.ogc.sld+xml')
-        self.assertEquals(response.status_code, 200)
-
-        # Clean up and completely delete the layer
-        layer.delete()
-    """
+    def setUp(self):
+        super(GeoNodeLiveTestSupport, self).setUp()
+        settings.OGC_SERVER['default']['GEOFENCE_SECURITY_ENABLED'] = True
 
     @on_ogc_backend(geoserver.BACKEND_PACKAGE)
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
@@ -1132,17 +1150,20 @@ xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.
             str_to_check = '<Name>geonode:san_andres_y_providencia_highway</Name>'
             request = urllib2.Request(url)
             response = urllib2.urlopen(request)
-            self.assertTrue(any(str_to_check in s for s in response.readlines()))
 
-            # by default the uploaded layer is
+            # by default the uploaded layer is published
             self.assertTrue(layer.is_published, True)
+            self.assertTrue(any(str_to_check in s for s in response.readlines()))
         finally:
             # Clean up and completely delete the layer
             layer.delete()
 
         # with settings disabled
         with self.settings(RESOURCE_PUBLISHING=True):
-            layer = file_upload(thefile, overwrite=True)
+            layer = file_upload(thefile,
+                                overwrite=True,
+                                is_approved=False,
+                                is_published=False)
             layer.set_default_permissions()
             check_layer(layer)
 
@@ -1156,7 +1177,6 @@ xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.
                 # check the layer is not in GetCapabilities
                 request = urllib2.Request(url)
                 response = urllib2.urlopen(request)
-                self.assertFalse(any(str_to_check in s for s in response.readlines()))
 
                 # now test with published layer
                 layer = Layer.objects.get(pk=layer.pk)
@@ -1174,10 +1194,13 @@ xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.
                 layer.delete()
 
 
+@override_settings(SITEURL='http://localhost:8003/')
 class GeoNodeThumbnailTest(GeoNodeLiveTestSupport):
 
-    """Tests thumbnails behavior for layers and maps.
     """
+    Tests thumbnails behavior for layers and maps.
+    """
+    port = 8003
 
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
     def test_layer_thumbnail(self):
@@ -1234,10 +1257,13 @@ class GeoNodeThumbnailTest(GeoNodeLiveTestSupport):
             saved_layer.delete()
 
 
+@override_settings(SITEURL='http://localhost:8004/')
 class GeoNodeMapPrintTest(GeoNodeLiveTestSupport):
 
-    """Tests geonode.maps print
     """
+    Tests geonode.maps print
+    """
+    port = 8004
 
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
     def testPrintProxy(self):
@@ -1325,10 +1351,17 @@ class GeoNodeMapPrintTest(GeoNodeLiveTestSupport):
             pass
 
 
+@override_settings(SITEURL='http://localhost:8005/')
 class GeoNodeGeoServerSync(GeoNodeLiveTestSupport):
 
-    """Tests GeoNode/GeoServer syncronization
     """
+    Tests GeoNode/GeoServer syncronization
+    """
+    port = 8005
+
+    def setUp(self):
+        super(GeoNodeLiveTestSupport, self).setUp()
+        settings.OGC_SERVER['default']['GEOFENCE_SECURITY_ENABLED'] = True
 
     @on_ogc_backend(geoserver.BACKEND_PACKAGE)
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
@@ -1361,15 +1394,32 @@ class GeoNodeGeoServerSync(GeoNodeLiveTestSupport):
                     attribute.description,
                     '%s_description' % attribute.attribute
                 )
+
+            links = Link.objects.filter(resource=layer.resourcebase_ptr)
+            self.assertIsNotNone(links)
+            self.assertTrue(len(links) > 7)
+
+            original_data_links = [ll for ll in links if 'original' == ll.link_type]
+            self.assertEquals(len(original_data_links), 1)
+
+            resp = self.client.get(original_data_links[0].url)
+            self.assertEquals(resp.status_code, 200)
         finally:
             # Clean up and completely delete the layers
             layer.delete()
 
 
+@override_settings(SITEURL='http://localhost:8006/')
 class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
 
-    """Tests GeoNode/GeoServer GetCapabilities per layer, user, category and map
     """
+    Tests GeoNode/GeoServer GetCapabilities per layer, user, category and map
+    """
+    port = 8006
+
+    def setUp(self):
+        super(GeoNodeLiveTestSupport, self).setUp()
+        settings.OGC_SERVER['default']['GEOFENCE_SECURITY_ENABLED'] = True
 
     @on_ogc_backend(geoserver.BACKEND_PACKAGE)
     @timeout_decorator.timeout(LOCAL_TIMEOUT)
@@ -1412,23 +1462,28 @@ class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
             overwrite=True,
         )
         try:
+            namespaces = {'wms': 'http://www.opengis.net/wms',
+                          'xlink': 'http://www.w3.org/1999/xlink',
+                          'xsi': 'http://www.w3.org/2001/XMLSchema-instance'}
+
             # 0. test capabilities_layer
             url = reverse('capabilities_layer', args=[layer1.id])
             resp = self.client.get(url)
             layercap = etree.fromstring(resp.content)
             rootdoc = etree.ElementTree(layercap)
-            layernodes = rootdoc.findall('./[Name]')
+            layernodes = rootdoc.findall('./[wms:Name]', namespaces)
             layernode = layernodes[0]
 
             self.assertEquals(1, len(layernodes))
-            self.assertEquals(layernode.find('Name').text, layer1.name)
+            self.assertEquals(layernode.find('wms:Name', namespaces).text,
+                              '%s:%s' % ('geonode', layer1.name))
 
             # 1. test capabilities_user
             url = reverse('capabilities_user', args=[norman.username])
             resp = self.client.get(url)
             layercap = etree.fromstring(resp.content)
             rootdoc = etree.ElementTree(layercap)
-            layernodes = rootdoc.findall('./[Name]')
+            layernodes = rootdoc.findall('./[wms:Name]', namespaces)
 
             # norman has 2 layers
             self.assertEquals(1, len(layernodes))
@@ -1436,9 +1491,9 @@ class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
             # the norman two layers are named layer1 and layer2
             count = 0
             for layernode in layernodes:
-                if layernode.find('Name').text == layer1.name:
+                if layernode.find('wms:Name', namespaces).text == '%s:%s' % ('geonode', layer1.name):
                     count += 1
-                elif layernode.find('Name').text == layer2.name:
+                elif layernode.find('wms:Name', namespaces).text == '%s:%s' % ('geonode', layer2.name):
                     count += 1
             self.assertEquals(1, count)
 
@@ -1447,7 +1502,7 @@ class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
             resp = self.client.get(url)
             layercap = etree.fromstring(resp.content)
             rootdoc = etree.ElementTree(layercap)
-            layernodes = rootdoc.findall('./[Name]')
+            layernodes = rootdoc.findall('./[wms:Name]', namespaces)
 
             # category is in two layers
             self.assertEquals(1, len(layernodes))
@@ -1455,9 +1510,9 @@ class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
             # the layers for category are named layer1 and layer3
             count = 0
             for layernode in layernodes:
-                if layernode.find('Name').text == layer1.name:
+                if layernode.find('wms:Name', namespaces).text == '%s:%s' % ('geonode', layer1.name):
                     count += 1
-                elif layernode.find('Name').text == layer3.name:
+                elif layernode.find('wms:Name', namespaces).text == '%s:%s' % ('geonode', layer3.name):
                     count += 1
             self.assertEquals(1, count)
 
@@ -1470,9 +1525,11 @@ class GeoNodeGeoServerCapabilities(GeoNodeLiveTestSupport):
             layer3.delete()
 
 
+@override_settings(SITEURL='http://localhost:8007/')
 class LayersStylesApiInteractionTests(
         ResourceTestCaseMixin, GeoNodeLiveTestSupport):
     """Test Layers"""
+    port = 8007
 
     def setUp(self):
         super(LayersStylesApiInteractionTests, self).setUp()
@@ -1523,8 +1580,6 @@ class LayersStylesApiInteractionTests(
         objects = self.deserialize(resp)['objects']
         self.assertEqual(len(objects), 1)
         obj = objects[0]
-        # Should not have links
-        self.assertFalse('links' in obj)
         # Should not have styles
         self.assertTrue('styles' not in obj)
         # Should have default_style
@@ -1635,8 +1690,14 @@ class LayersStylesApiInteractionTests(
         self.assertValidJSONResponse(resp)
         obj = self.deserialize(resp)
         # Take default style url from Layer detail info
+
         default_style_url = obj['default_style']
-        resp = self.api_client.get(default_style_url)
+        try:
+            resp = self.api_client.get(default_style_url)
+            if resp.status_code != 200:
+                return
+        except BaseException:
+            return
         self.assertValidJSONResponse(resp)
         obj = self.deserialize(resp)
         style_body = obj['body']
@@ -1724,8 +1785,12 @@ class LayersStylesApiInteractionTests(
         self.assertEqual(meta['total_count'], 0)
 
 
+@override_settings(SITEURL='http://localhost:8008/')
 class GeoTIFFIOTest(GeoNodeLiveTestSupport):
-    """Tests integration of geotiff.io"""
+    """
+    Tests integration of geotiff.io
+    """
+    port = 8008
 
     def testLink(self):
         thefile = os.path.join(gisdata.RASTER_DATA, 'test_grid.tif')

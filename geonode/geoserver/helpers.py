@@ -17,7 +17,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #########################################################################
-
 from collections import namedtuple, defaultdict
 import datetime
 from decimal import Decimal
@@ -25,6 +24,7 @@ import errno
 from itertools import cycle, izip
 import json
 import logging
+import traceback
 import os
 from os.path import basename, splitext, isfile
 import re
@@ -32,12 +32,9 @@ import sys
 from threading import local
 import time
 import uuid
-import base64
-import httplib2
 
 import urllib
-from urlparse import urlparse
-from urlparse import urlsplit
+from urlparse import urlsplit, urlparse, urljoin
 
 from agon_ratings.models import OverallRating
 from bs4 import BeautifulSoup
@@ -57,15 +54,15 @@ from geoserver.support import DimensionInfo
 from geoserver.workspace import Workspace
 from gsimporter import Client
 from lxml import etree
-from owslib.util import http_post
 from owslib.wcs import WebCoverageService
 from owslib.wms import WebMapService
-
 from geonode import GeoNodeException
-from geonode.layers.enumerations import LAYER_ATTRIBUTE_NUMERIC_DATA_TYPES
+from geonode.base.auth import get_or_create_token
+from geonode.utils import http_client
 from geonode.layers.models import Layer, Attribute, Style
+from geonode.layers.enumerations import LAYER_ATTRIBUTE_NUMERIC_DATA_TYPES
 from geonode.security.views import _perms_info_json
-from geonode.utils import set_attributes
+from geonode.security.utils import set_geowebcache_invalidate_cache
 import xml.etree.ElementTree as ET
 from django.utils.module_loading import import_string
 
@@ -84,11 +81,12 @@ def check_geoserver_is_up():
     """Verifies all geoserver is running,
        this is needed to be able to upload.
     """
-    url = "%sweb/" % ogc_server_settings.LOCATION
-    resp, content = http_client.request(url, "GET")
+    url = "%s" % ogc_server_settings.LOCATION
+    req, content = http_client.get(url)
     msg = ('Cannot connect to the GeoServer at %s\nPlease make sure you '
-           'have started it.' % ogc_server_settings.LOCATION)
-    assert resp['status'] == '200', msg
+           'have started it.' % url)
+    logger.debug(req)
+    assert req.status_code == 200, msg
 
 
 def _add_sld_boilerplate(symbolizer):
@@ -241,16 +239,28 @@ def get_sld_for(gs_catalog, layer):
     # GeoServer sometimes fails to associate a style with the data, so
     # for now we default to using a point style.(it works for lines and
     # polygons, hope this doesn't happen for rasters  though)
-    if layer.default_style is None:
+    gs_layer = None
+    _default_style = None
+    try:
+        _default_style = layer.default_style
+    except BaseException:
+        traceback.print_exc()
+        pass
+
+    if _default_style is None:
         gs_catalog._cache.clear()
-        gs_layer = gs_catalog.get_layer(layer.name)
-        name = gs_layer.default_style.name if gs_layer.default_style is not None else "raster"
+        try:
+            gs_layer = gs_catalog.get_layer(layer.name)
+            name = gs_layer.default_style.name if gs_layer.default_style is not None else "raster"
+        except BaseException:
+            traceback.print_exc()
+            name = None
     else:
-        name = layer.default_style.name if layer.default_style is not None else "raster"
+        name = _default_style.name
 
     # Detect geometry type if it is a FeatureType
-    if layer.resource and layer.resource.resource_type == 'featureType':
-        res = layer.resource
+    if gs_layer and gs_layer.resource and gs_layer.resource.resource_type == 'featureType':
+        res = gs_layer.resource
         res.fetch()
         ft = res.store.get_resources(res.name)
         ft.fetch()
@@ -285,7 +295,7 @@ def fixup_style(cat, resource, style):
     for lyr in layers:
         if lyr.default_style.name in _style_templates:
             logger.info("%s uses a default style, generating a new one", lyr)
-            name = _style_name(resource)
+            name = _style_name(lyr)
             if style is None:
                 sld = get_sld_for(cat, lyr)
             else:
@@ -296,10 +306,6 @@ def fixup_style(cat, resource, style):
             lyr.default_style = style
             logger.info("Saving changes to %s", lyr)
             cat.save(lyr)
-
-            # Invalidate GeoWebCache for the updated resource
-            _invalidate_geowebcache_layer(resource)
-
             logger.info("Successfully updated %s", lyr)
 
 
@@ -337,6 +343,7 @@ def set_layer_style(saved_layer, title, sld, base_file=None):
                 layer.default_style = style
                 cat.save(layer)
                 saved_layer.default_style = save_style(style)
+                set_geowebcache_invalidate_cache(saved_layer.alternate)
         except Exception as e:
             logger.exception(e)
     else:
@@ -352,11 +359,9 @@ def set_layer_style(saved_layer, title, sld, base_file=None):
                 layer.default_style = style
                 cat.save(layer)
                 saved_layer.default_style = save_style(style)
+                set_geowebcache_invalidate_cache(saved_layer.alternate)
         except Exception as e:
             logger.exception(e)
-
-    # Invalidate GeoWebCache for the updated resource
-    _invalidate_geowebcache_layer(saved_layer.alternate)
 
 
 def cascading_delete(cat, layer_name):
@@ -394,15 +399,15 @@ def cascading_delete(cat, layer_name):
                    'to save information for layer "%s"' % (
                        ogc_server_settings.LOCATION, layer_name)
                    )
-            logger.warn(msg)
+            logger.debug(msg)
             return None
         else:
             raise e
 
     if resource is None:
-            # If there is no associated resource,
-            # this method can not delete anything.
-            # Let's return and make a note in the log.
+        # If there is no associated resource,
+        # this method can not delete anything.
+        # Let's return and make a note in the log.
         logger.debug(
             'cascading_delete was called with a non existent resource')
         return
@@ -410,17 +415,22 @@ def cascading_delete(cat, layer_name):
     lyr = cat.get_layer(resource_name)
     if(lyr is not None):  # Already deleted
         store = resource.store
-        styles = lyr.styles + [lyr.default_style]
+        styles = lyr.styles
+        try:
+            styles = styles + [lyr.default_style]
+        except BaseException:
+            pass
         gs_styles = [x for x in cat.get_styles()]
         if settings.DEFAULT_WORKSPACE:
             gs_styles = gs_styles + [x for x in cat.get_styles(workspace=settings.DEFAULT_WORKSPACE)]
             ws_styles = []
             for s in styles:
-                m = re.search(r'\d+$', s.name)
-                _name = s.name[:-len(m.group())] if m else s.name
-                _s = "%s_%s" % (settings.DEFAULT_WORKSPACE, _name)
-                for _gs in gs_styles:
-                    if _s in _gs.name and _gs not in styles:
+                if s is not None and s.name not in _default_style_names:
+                    m = re.search(r'\d+$', s.name)
+                    _name = s.name[:-len(m.group())] if m else s.name
+                    _s = "%s_%s" % (settings.DEFAULT_WORKSPACE, _name)
+                    for _gs in gs_styles:
+                        if _s in _gs.name and _gs not in styles:
                             ws_styles.append(_gs)
             styles = styles + ws_styles
         cat.delete(lyr)
@@ -429,7 +439,8 @@ def cascading_delete(cat, layer_name):
                 try:
                     logger.info("Trying to delete Style [%s]" % s.name)
                     cat.delete(s, purge='true')
-                    workspace, name = layer_name.split(':')
+                    workspace, name = layer_name.split(':') if ':' in layer_name else \
+                        (settings.DEFAULT_WORKSPACE, layer_name)
                 except FailedRequestError as e:
                     # Trying to delete a shared style will fail
                     # We'll catch the exception and log it.
@@ -440,7 +451,7 @@ def cascading_delete(cat, layer_name):
         #       with GS 2.7+
         try:
             cat.delete(resource, recurse=True)  # This may fail
-        except:
+        except BaseException:
             cat._cache.clear()
             cat.reset()
         #    cat.reload()  # this preservers the integrity of geoserver
@@ -448,10 +459,6 @@ def cascading_delete(cat, layer_name):
         if store.resource_type == 'dataStore' and 'dbtype' in store.connection_parameters and \
                 store.connection_parameters['dbtype'] == 'postgis':
             delete_from_postgis(resource_name, store)
-        elif store.type and store.type.lower() == 'geogig':
-            # Prevent the entire store from being removed when the store is a
-            # GeoGig repository.
-            return
         else:
             if store.resource_type == 'coverageStore':
                 try:
@@ -791,6 +798,89 @@ def get_stores(store_type=None):
     return store_list
 
 
+def set_attributes(
+        layer,
+        attribute_map,
+        overwrite=False,
+        attribute_stats=None):
+    """ *layer*: a geonode.layers.models.Layer instance
+        *attribute_map*: a list of 2-lists specifying attribute names and types,
+            example: [ ['id', 'Integer'], ... ]
+        *overwrite*: replace existing attributes with new values if name/type matches.
+        *attribute_stats*: dictionary of return values from get_attribute_statistics(),
+            of the form to get values by referencing attribute_stats[<layer_name>][<field_name>].
+    """
+    # we need 3 more items; description, attribute_label, and display_order
+    attribute_map_dict = {
+        'field': 0,
+        'ftype': 1,
+        'description': 2,
+        'label': 3,
+        'display_order': 4,
+    }
+    for attribute in attribute_map:
+        attribute.extend((None, None, 0))
+
+    attributes = layer.attribute_set.all()
+    # Delete existing attributes if they no longer exist in an updated layer
+    for la in attributes:
+        lafound = False
+        for attribute in attribute_map:
+            field, ftype, description, label, display_order = attribute
+            if field == la.attribute:
+                lafound = True
+                # store description and attribute_label in attribute_map
+                attribute[attribute_map_dict['description']] = la.description
+                attribute[attribute_map_dict['label']] = la.attribute_label
+                attribute[attribute_map_dict['display_order']
+                          ] = la.display_order
+        if overwrite or not lafound:
+            logger.debug(
+                "Going to delete [%s] for [%s]",
+                la.attribute,
+                layer.name.encode('utf-8'))
+            la.delete()
+
+    # Add new layer attributes if they don't already exist
+    if attribute_map is not None:
+        iter = len(Attribute.objects.filter(layer=layer)) + 1
+        for attribute in attribute_map:
+            field, ftype, description, label, display_order = attribute
+            if field is not None:
+                la, created = Attribute.objects.get_or_create(
+                    layer=layer, attribute=field, attribute_type=ftype,
+                    description=description, attribute_label=label,
+                    display_order=display_order)
+                if created:
+                    if (not attribute_stats or layer.name not in attribute_stats or
+                            field not in attribute_stats[layer.name]):
+                        result = None
+                    else:
+                        result = attribute_stats[layer.name][field]
+
+                    if result is not None:
+                        logger.debug("Generating layer attribute statistics")
+                        la.count = result['Count']
+                        la.min = result['Min']
+                        la.max = result['Max']
+                        la.average = result['Average']
+                        la.median = result['Median']
+                        la.stddev = result['StandardDeviation']
+                        la.sum = result['Sum']
+                        la.unique_values = result['unique_values']
+                        la.last_stats_updated = datetime.datetime.now(timezone.get_current_timezone())
+                    la.visible = ftype.find("gml:") != 0
+                    la.display_order = iter
+                    la.save()
+                    iter += 1
+                    logger.debug(
+                        "Created [%s] attribute for [%s]",
+                        field,
+                        layer.name.encode('utf-8'))
+    else:
+        logger.debug("No attributes found")
+
+
 def set_attributes_from_geoserver(layer, overwrite=False):
     """
     Retrieve layer attribute names & types from Geoserver,
@@ -803,13 +893,16 @@ def set_attributes_from_geoserver(layer, overwrite=False):
         dft_url = server_url + ("%s?f=json" % layer.alternate)
         try:
             # The code below will fail if http_client cannot be imported
-            body = json.loads(http_client.request(dft_url)[1])
+            req, body = http_client.get(dft_url)
+            body = json.loads(body)
             attribute_map = [[n["name"], _esri_types[n["type"]]]
                              for n in body["fields"] if n.get("name") and n.get("type")]
-        except Exception:
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
             attribute_map = []
     elif layer.storeType in ["dataStore", "remoteStore", "wmsStore"]:
-        dft_url = re.sub("\/wms\/?$",
+        dft_url = re.sub(r"\/wms\/?$",
                          "/",
                          server_url) + "ows?" + urllib.urlencode({"service": "wfs",
                                                                   "version": "1.0.0",
@@ -819,13 +912,15 @@ def set_attributes_from_geoserver(layer, overwrite=False):
         try:
             # The code below will fail if http_client cannot be imported  or
             # WFS not supported
-            body = http_client.request(dft_url)[1]
+            req, body = http_client.get(dft_url)
             doc = etree.fromstring(body)
             path = ".//{xsd}extension/{xsd}sequence/{xsd}element".format(
                 xsd="{http://www.w3.org/2001/XMLSchema}")
             attribute_map = [[n.attrib["name"], n.attrib["type"]] for n in doc.findall(
                 path) if n.attrib.get("name") and n.attrib.get("type")]
-        except Exception:
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
             attribute_map = []
             # Try WMS instead
             dft_url = server_url + "?" + urllib.urlencode({
@@ -844,7 +939,7 @@ def set_attributes_from_geoserver(layer, overwrite=False):
                 "y": 1
             })
             try:
-                body = http_client.request(dft_url)[1]
+                req, body = http_client.get(dft_url)
                 soup = BeautifulSoup(body)
                 for field in soup.findAll('th'):
                     if(field.string is None):
@@ -852,7 +947,9 @@ def set_attributes_from_geoserver(layer, overwrite=False):
                     else:
                         field_name = field.string
                     attribute_map.append([field_name, "xsd:string"])
-            except Exception:
+            except BaseException:
+                tb = traceback.format_exc()
+                logger.debug(tb)
                 attribute_map = []
 
     elif layer.storeType in ["coverageStore"]:
@@ -863,12 +960,14 @@ def set_attributes_from_geoserver(layer, overwrite=False):
             "identifiers": layer.alternate.encode('utf-8')
         })
         try:
-            response, body = http_client.request(dc_url)
+            req, body = http_client.get(dc_url)
             doc = etree.fromstring(body)
             path = ".//{wcs}Axis/{wcs}AvailableKeys/{wcs}Key".format(
                 wcs="{http://www.opengis.net/wcs/1.1.1}")
             attribute_map = [[n.text, "raster"] for n in doc.findall(path)]
-        except Exception:
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
             attribute_map = []
 
     # Get attribute statistics & package for call to really_set_attributes()
@@ -902,24 +1001,53 @@ def set_styles(layer, gs_catalog):
     if not gs_layer:
         gs_layer = gs_catalog.get_layer(layer.alternate)
 
-    if gs_layer.default_style:
-        default_style = gs_layer.default_style
-    else:
-        default_style = gs_catalog.get_style(layer.name, workspace=settings.DEFAULT_WORKSPACE) \
-                        or gs_catalog.get_style(layer.name)
+    if gs_layer:
+        default_style = None
         try:
-            gs_layer.default_style = default_style
-            gs_catalog.save(gs_layer)
-        except:
-            logger.exception("GeoServer Layer Default Style issues!")
-    layer.default_style = save_style(default_style)
-    # FIXME: This should remove styles that are no longer valid
-    style_set.append(layer.default_style)
+            default_style = gs_layer.default_style or None
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
+            pass
 
-    alt_styles = gs_layer.styles
+        if not default_style:
+            try:
+                default_style = gs_catalog.get_style(layer.name, workspace=layer.workspace) \
+                    or gs_catalog.get_style(layer.name)
+                gs_layer.default_style = default_style
+                gs_catalog.save(gs_layer)
+            except BaseException:
+                tb = traceback.format_exc()
+                logger.debug(tb)
+                logger.exception("GeoServer Layer Default Style issues!")
 
-    for alt_style in alt_styles:
-        style_set.append(save_style(alt_style))
+        if default_style:
+            # make sure we are not using a defaul SLD (which won't be editable)
+            if not default_style.workspace or default_style.workspace != layer.workspace:
+                sld_body = default_style.sld_body
+                try:
+                    gs_catalog.create_style(layer.name, sld_body, raw=True, workspace=layer.workspace)
+                except BaseException:
+                    tb = traceback.format_exc()
+                    logger.debug(tb)
+                    pass
+                style = gs_catalog.get_style(layer.name, workspace=layer.workspace)
+            else:
+                style = default_style
+            if style:
+                layer.default_style = save_style(style)
+                # FIXME: This should remove styles that are no longer valid
+                style_set.append(layer.default_style)
+        try:
+            if gs_layer.styles:
+                alt_styles = gs_layer.styles
+                for alt_style in alt_styles:
+                    if alt_style:
+                        style_set.append(save_style(alt_style))
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
+            pass
 
     layer.styles = style_set
 
@@ -927,15 +1055,18 @@ def set_styles(layer, gs_catalog):
     to_update = {
         'default_style': layer.default_style
     }
+
     Layer.objects.filter(id=layer.id).update(**to_update)
-    return layer
+    layer.refresh_from_db()
 
 
 def save_style(gs_style):
     style, created = Style.objects.get_or_create(name=gs_style.name)
     try:
         style.sld_title = gs_style.sld_title
-    except:
+    except BaseException:
+        tb = traceback.format_exc()
+        logger.debug(tb)
         style.sld_title = gs_style.name
     finally:
         style.sld_body = gs_style.sld_body
@@ -974,7 +1105,9 @@ def get_attribute_statistics(layer_name, field):
         return None
     try:
         return wps_execute_layer_attribute_statistics(layer_name, field)
-    except Exception:
+    except BaseException:
+        tb = traceback.format_exc()
+        logger.debug(tb)
         logger.exception('Error generating layer aggregate statistics')
 
 
@@ -1054,18 +1187,18 @@ def cleanup(name, uuid):
     if gs_layer is not None:
         try:
             cat.delete(gs_layer)
-        except:
+        except BaseException:
             logger.warning("Couldn't delete GeoServer layer during cleanup()")
     if gs_resource is not None:
         try:
             cat.delete(gs_resource)
-        except:
+        except BaseException:
             msg = 'Couldn\'t delete GeoServer resource during cleanup()'
             logger.warning(msg)
     if gs_store is not None:
         try:
             cat.delete(gs_store)
-        except:
+        except BaseException:
             logger.warning("Couldn't delete GeoServer store during cleanup()")
 
     logger.warning('Deleting dangling Catalogue record for [%s] '
@@ -1082,14 +1215,20 @@ def cleanup(name, uuid):
 def _create_featurestore(name, data, overwrite=False, charset="UTF-8", workspace=None):
 
     cat = gs_catalog
-    cat.create_featurestore(name, data, overwrite=overwrite, charset=charset)
+    try:
+        cat.create_featurestore(name, data, overwrite=overwrite, charset=charset)
+    except BaseException as e:
+        logger.exception(e)
     store = get_store(cat, name, workspace=workspace)
     return store, cat.get_resource(name, store=store, workspace=workspace)
 
 
 def _create_coveragestore(name, data, overwrite=False, charset="UTF-8", workspace=None):
     cat = gs_catalog
-    cat.create_coveragestore(name, data, overwrite=overwrite)
+    try:
+        cat.create_coveragestore(name, data, overwrite=overwrite)
+    except BaseException as e:
+        logger.exception(e)
     store = get_store(cat, name, workspace=workspace)
     return store, cat.get_resource(name, store=store, workspace=workspace)
 
@@ -1102,7 +1241,8 @@ def _create_db_featurestore(name, data, overwrite=False, charset="UTF-8", worksp
     """
     cat = gs_catalog
     db = ogc_server_settings.datastore_db
-    dsname = ogc_server_settings.DATASTORE
+    # dsname = ogc_server_settings.DATASTORE
+    dsname = db['NAME']
 
     ds_exists = False
     try:
@@ -1134,10 +1274,14 @@ def _create_db_featurestore(name, data, overwrite=False, charset="UTF-8", worksp
     ds = get_store(cat, dsname, workspace=workspace)
 
     try:
-        cat.add_data_to_store(ds, name, data,
+        cat.add_data_to_store(ds,
+                              name,
+                              data,
                               overwrite=overwrite,
+                              workspace=workspace,
                               charset=charset)
         resource = cat.get_resource(name, store=ds, workspace=workspace)
+        assert resource is not None
         return ds, resource
     except Exception:
         msg = _("An exception occurred loading data to PostGIS")
@@ -1159,25 +1303,31 @@ def get_store(cat, name, workspace=None):
 
     if workspace is None:
         workspace = cat.get_default_workspace()
-    try:
-        store = cat.get_xml('%s/%s.xml' % (workspace.datastore_url[:-4], name))
-    except FailedRequestError:
+
+    if workspace:
         try:
-            store = cat.get_xml('%s/%s.xml' % (workspace.coveragestore_url[:-4], name))
+            store = cat.get_xml('%s/%s.xml' % (workspace.datastore_url[:-4], name))
         except FailedRequestError:
             try:
-                store = cat.get_xml('%s/%s.xml' % (workspace.wmsstore_url[:-4], name))
+                store = cat.get_xml('%s/%s.xml' % (workspace.coveragestore_url[:-4], name))
             except FailedRequestError:
-                raise FailedRequestError("No store found named: " + name)
+                try:
+                    store = cat.get_xml('%s/%s.xml' % (workspace.wmsstore_url[:-4], name))
+                except FailedRequestError:
+                    raise FailedRequestError("No store found named: " + name)
+        if store:
+            if store.tag == 'dataStore':
+                store = datastore_from_index(cat, workspace, store)
+            elif store.tag == 'coverageStore':
+                store = coveragestore_from_index(cat, workspace, store)
+            elif store.tag == 'wmsStore':
+                store = wmsstore_from_index(cat, workspace, store)
 
-    if store.tag == 'dataStore':
-        store = datastore_from_index(cat, workspace, store)
-    elif store.tag == 'coverageStore':
-        store = coveragestore_from_index(cat, workspace, store)
-    elif store.tag == 'wmsStore':
-        store = wmsstore_from_index(cat, workspace, store)
-
-    return store
+            return store
+        else:
+            raise FailedRequestError("No store found named: " + name)
+    else:
+        raise FailedRequestError("No store found named: " + name)
 
 
 class ServerDoesNotExist(Exception):
@@ -1226,15 +1376,14 @@ class OGC_Server(object):
         The Open Web Service url for the server.
         """
         location = self.PUBLIC_LOCATION if self.PUBLIC_LOCATION else self.LOCATION
-        return self.OWS_LOCATION if self.OWS_LOCATION else location + 'ows'
+        return self.OWS_LOCATION if self.OWS_LOCATION else urljoin(location, 'ows')
 
     @property
     def rest(self):
         """
         The REST endpoint for the server.
         """
-        return self.LOCATION + \
-            'rest' if not self.REST_LOCATION else self.REST_LOCATION
+        return urljoin(self.LOCATION, 'rest') if not self.REST_LOCATION else self.REST_LOCATION
 
     @property
     def public_url(self):
@@ -1249,14 +1398,14 @@ class OGC_Server(object):
         The Open Web Service url for the server used by GeoNode internally.
         """
         location = self.LOCATION
-        return location + 'ows'
+        return urljoin(location, 'ows')
 
     @property
     def internal_rest(self):
         """
         The internal REST endpoint for the server.
         """
-        return self.LOCATION + 'rest'
+        return urljoin(self.LOCATION, 'rest')
 
     @property
     def hostname(self):
@@ -1326,13 +1475,12 @@ class OGC_Servers_Handler(object):
         server.setdefault('USER', 'admin')
         server.setdefault('PASSWORD', 'geoserver')
         server.setdefault('DATASTORE', str())
-        server.setdefault('GEOGIG_DATASTORE_DIR', str())
 
         for option in ['MAPFISH_PRINT_ENABLED', 'PRINT_NG_ENABLED', 'GEONODE_SECURITY_ENABLED',
                        'GEOFENCE_SECURITY_ENABLED', 'BACKEND_WRITE_ENABLED']:
             server.setdefault(option, True)
 
-        for option in ['GEOGIG_ENABLED', 'WMST_ENABLED', 'WPS_ENABLED']:
+        for option in ['WMST_ENABLED', 'WPS_ENABLED']:
             server.setdefault(option, False)
 
     def __getitem__(self, alias):
@@ -1359,21 +1507,7 @@ class OGC_Servers_Handler(object):
 def get_wms():
     wms_url = ogc_server_settings.internal_ows + \
         "?service=WMS&request=GetCapabilities&version=1.1.0"
-    netloc = urlparse(wms_url).netloc
-    http = httplib2.Http()
-    http.add_credentials(_user, _password)
-    http.authorizations.append(
-        httplib2.BasicAuthentication(
-            (_user, _password),
-            netloc,
-            wms_url,
-            {},
-            None,
-            None,
-            http
-        )
-    )
-    body = http.request(wms_url)[1]
+    req, body = http_client.get(wms_url)
     _wms = WebMapService(wms_url, xml=body)
     return _wms
 
@@ -1382,24 +1516,30 @@ def wps_execute_layer_attribute_statistics(layer_name, field):
     """Derive aggregate statistics from WPS endpoint"""
 
     # generate statistics using WPS
-    url = '%s/ows' % (ogc_server_settings.LOCATION)
-
-    # TODO: use owslib.wps.WebProcessingService for WPS interaction
-    # this requires GeoServer's WPS gs:Aggregate function to
-    # return a proper wps:ExecuteResponse
+    url = urljoin(ogc_server_settings.LOCATION, 'ows')
 
     request = render_to_string('layers/wps_execute_gs_aggregate.xml', {
                                'layer_name': layer_name,
                                'field': field
                                })
-    response = http_post(
-        url,
-        request,
-        timeout=ogc_server_settings.TIMEOUT,
-        username=ogc_server_settings.credentials.username,
-        password=ogc_server_settings.credentials.password)
+    u = urlsplit(url)
 
-    exml = etree.fromstring(response)
+    headers = {
+        'User-Agent': 'OWSLib (https://geopython.github.io/OWSLib)',
+        'Content-type': 'text/xml',
+        'Accept': 'text/xml',
+        'Accept-Language': 'en-US',
+        'Accept-Encoding': 'gzip,deflate',
+        'Host': u.netloc,
+    }
+
+    response, content = http_client.request(
+        url,
+        method='POST',
+        data=request,
+        headers=headers)
+
+    exml = etree.fromstring(content)
 
     result = {}
 
@@ -1420,44 +1560,58 @@ def wps_execute_layer_attribute_statistics(layer_name, field):
 
     return result
 
-    # TODO: find way of figuring out threshold better
-    # Looks incomplete what is the purpose if the nex lines?
 
-    # if result['Count'] < 10000:
-    #     request = render_to_string('layers/wps_execute_gs_unique.xml', {
-    #                                'layer_name': 'geonode:%s' % layer_name,
-    #                                'field': field
-    #                                })
+def _stylefilterparams_geowebcache_layer(layer_name):
+    headers = {
+        "Content-Type": "text/xml"
+    }
+    url = '%sgwc/rest/layers/%s.xml' % (ogc_server_settings.LOCATION, layer_name)
 
-    #     response = http_post(
-    #     url,
-    #     request,
-    #     timeout=ogc_server_settings.TIMEOUT,
-    #     username=ogc_server_settings.credentials.username,
-    #     password=ogc_server_settings.credentials.password)
-    #     exml = etree.fromstring(response)
+    # read GWC configuration
+    req, content = http_client.get(url, headers=headers)
+    if req.status_code != 200:
+        line = "Error {0} reading Style Filter Params GeoWebCache at {1}".format(
+            req.status_code, url
+        )
+        logger.error(line)
+        return
+
+    # check/write GWC filter parameters
+    import xml.etree.ElementTree as ET
+    body = None
+    tree = ET.fromstring(_)
+    param_filters = tree.findall('parameterFilters')
+    if param_filters and len(param_filters) > 0:
+        if not param_filters[0].findall('styleParameterFilter'):
+            style_filters_xml = "<styleParameterFilter><key>STYLES</key>\
+                <defaultValue></defaultValue></styleParameterFilter>"
+            style_filters_elem = ET.fromstring(style_filters_xml)
+            param_filters[0].append(style_filters_elem)
+            body = ET.tostring(tree)
+    if body:
+        req, content = http_client.post(url, data=body, headers=headers)
+        if req.status_code != 200:
+            line = "Error {0} writing Style Filter Params GeoWebCache at {1}".format(
+                req.status_code, url
+            )
+            logger.error(line)
 
 
 def _invalidate_geowebcache_layer(layer_name, url=None):
-    http = httplib2.Http()
-    username, password = ogc_server_settings.credentials
-    auth = base64.encodestring(username + ':' + password)
     # http.add_credentials(username, password)
-    method = "POST"
     headers = {
         "Content-Type": "text/xml",
-        "Authorization": "Basic " + auth
     }
     body = """
         <truncateLayer><layerName>{0}</layerName></truncateLayer>
         """.strip().format(layer_name)
     if not url:
         url = '%sgwc/rest/masstruncate' % ogc_server_settings.LOCATION
-    response, _ = http.request(url, method, body=body, headers=headers)
+    req, content = http_client.post(url, data=body, headers=headers)
 
-    if response.status != 200:
+    if req.status_code != 200:
         line = "Error {0} invalidating GeoWebCache at {1}".format(
-            response.status, url
+            req.status_code, url
         )
         logger.error(line)
 
@@ -1474,49 +1628,83 @@ def style_update(request, url):
     request.body, which is in this format:
     """
     affected_layers = []
-    if request.method in ('POST', 'PUT'):  # we need to parse xml
+    if request.method in ('POST', 'PUT', 'DELETE'):  # we need to parse xml
         # Need to remove NSx from IE11
         if "HTTP_USER_AGENT" in request.META:
             if ('Trident/7.0' in request.META['HTTP_USER_AGENT'] and
-               'rv:11.0' in request.META['HTTP_USER_AGENT']):
+                    'rv:11.0' in request.META['HTTP_USER_AGENT']):
                 txml = re.sub(r'xmlns:NS[0-9]=""', '', request.body)
                 txml = re.sub(r'NS[0-9]:', '', txml)
                 request._body = txml
-        tree = ET.ElementTree(ET.fromstring(request.body))
-        elm_namedlayer_name = tree.findall(
-            './/{http://www.opengis.net/sld}Name')[0]
-        elm_user_style_name = tree.findall(
-            './/{http://www.opengis.net/sld}Name')[1]
-        elm_user_style_title = tree.find(
-            './/{http://www.opengis.net/sld}Title')
-        if not elm_user_style_title:
-            elm_user_style_title = elm_user_style_name
-        layer_name = elm_namedlayer_name.text
-        style_name = elm_user_style_name.text
-        sld_body = '<?xml version="1.0" encoding="UTF-8"?>%s' % request.body
+        style_name = os.path.basename(request.path)
+        elm_user_style_title = style_name
+        sld_body = None
+        layer_name = None
+        if 'name' in request.GET:
+            style_name = request.GET['name']
+            sld_body = request.body
+        elif request.method == 'DELETE':
+            style_name = os.path.basename(request.path)
+        else:
+            try:
+                tree = ET.ElementTree(ET.fromstring(request.body))
+                elm_namedlayer_name = tree.findall(
+                    './/{http://www.opengis.net/sld}Name')[0]
+                elm_user_style_name = tree.findall(
+                    './/{http://www.opengis.net/sld}Name')[1]
+                elm_user_style_title = tree.find(
+                    './/{http://www.opengis.net/sld}Title')
+                if not elm_user_style_title:
+                    elm_user_style_title = elm_user_style_name.text
+                layer_name = elm_namedlayer_name.text
+                style_name = elm_user_style_name.text
+                sld_body = '<?xml version="1.0" encoding="UTF-8"?>%s' % request.body
+            except BaseException:
+                logger.warn("Could not recognize Style and Layer name from Request!")
         # add style in GN and associate it to layer
+        if request.method == 'DELETE':
+            if style_name:
+                try:
+                    style = Style.objects.get(name=style_name)
+                    style.delete()
+                except BaseException:
+                    pass
         if request.method == 'POST':
-            style = Style(name=style_name, sld_body=sld_body, sld_url=url)
-            style.save()
-            layer = Layer.objects.get(alternate=layer_name)
-            style.layer_styles.add(layer)
-            style.save()
-            affected_layers.append(layer)
-        elif request.method == 'PUT':  # update style in GN
-            style = Style.objects.get(name=style_name)
-            style.sld_body = sld_body
-            style.sld_url = url
-            if len(elm_user_style_title.text) > 0:
-                style.sld_title = elm_user_style_title.text
-            style.save()
-            for layer in style.layer_styles.all():
-                layer.save()
+            if style_name:
+                style, created = Style.objects.get_or_create(name=style_name)
+                style.sld_body = sld_body
+                style.sld_url = url
+                style.save()
+            layer = None
+            if layer_name:
+                try:
+                    layer = Layer.objects.get(name=layer_name)
+                except BaseException:
+                    try:
+                        layer = Layer.objects.get(alternate=layer_name)
+                    except BaseException:
+                        pass
+            if layer:
+                style.layer_styles.add(layer)
+                style.save()
                 affected_layers.append(layer)
+        elif request.method == 'PUT':  # update style in GN
+            if style_name:
+                style, created = Style.objects.get_or_create(name=style_name)
+                style.sld_body = sld_body
+                style.sld_url = url
+                if elm_user_style_title and len(elm_user_style_title) > 0:
+                    style.sld_title = elm_user_style_title
+                style.save()
+                for layer in style.layer_styles.all():
+                    layer.save()
+                    affected_layers.append(layer)
 
         # Invalidate GeoWebCache so it doesn't retain old style in tiles
         try:
+            _stylefilterparams_geowebcache_layer(layer_name)
             _invalidate_geowebcache_layer(layer_name)
-        except:
+        except BaseException:
             pass
 
     elif request.method == 'DELETE':  # delete style from GN
@@ -1546,7 +1734,12 @@ def set_time_info(layer, attribute, end_attribute, presentation,
     layer = gs_catalog.get_layer(layer.name)
     if layer is None:
         raise ValueError('no such layer: %s' % layer.name)
-    resource = layer.resource
+    resource = layer.resource if layer else None
+    if not resource:
+        resources = gs_catalog.get_resources(store=layer.name)
+        if resources:
+            resource = resources[0]
+
     resolution = None
     if precision_value and precision_step:
         resolution = '%s %s' % (precision_value, precision_step)
@@ -1557,6 +1750,7 @@ def set_time_info(layer, attribute, end_attribute, presentation,
     else:
         metadata = dict({})
     metadata['time'] = info
+
     if resource and resource.metadata:
         resource.metadata = metadata
     if resource:
@@ -1573,7 +1767,12 @@ def get_time_info(layer):
     layer = gs_catalog.get_layer(layer.name)
     if layer is None:
         raise ValueError('no such layer: %s' % layer.name)
-    resource = layer.resource
+    resource = layer.resource if layer else None
+    if not resource:
+        resources = gs_catalog.get_resources(store=layer.name)
+        if resources:
+            resource = resources[0]
+
     info = resource.metadata.get('time', None) if resource.metadata else None
     vals = None
     if info:
@@ -1597,23 +1796,6 @@ ogc_server_settings = OGC_Servers_Handler(settings.OGC_SERVER)['default']
 _wms = None
 _csw = None
 _user, _password = ogc_server_settings.credentials
-
-http_client = httplib2.Http()
-http_client.add_credentials(_user, _password)
-http_client.add_credentials(_user, _password)
-_netloc = urlparse(ogc_server_settings.LOCATION).netloc
-http_client.authorizations.append(
-    httplib2.BasicAuthentication(
-        (_user, _password),
-        _netloc,
-        ogc_server_settings.LOCATION,
-        {},
-        None,
-        None,
-        http_client
-    )
-)
-
 
 url = ogc_server_settings.rest
 gs_catalog = Catalog(url, _user, _password)
@@ -1652,11 +1834,11 @@ _esri_types = {
     "esriFieldTypeXML": "xsd:anyType"}
 
 
-def _render_thumbnail(req_body):
+def _render_thumbnail(req_body, width=240, height=180):
     spec = _fixup_ows_url(req_body)
     url = "%srest/printng/render.png" % ogc_server_settings.LOCATION
     hostname = urlparse(settings.SITEURL).hostname
-    params = dict(width=240, height=180, auth="%s,%s,%s" % (hostname, _user, _password))
+    params = dict(width=width, height=height, auth="%s,%s,%s" % (hostname, _user, _password))
     url = url + "?" + urllib.urlencode(params)
 
     # @todo annoying but not critical
@@ -1665,20 +1847,178 @@ def _render_thumbnail(req_body):
     # to a unicode en-dash but is not uncoded properly during transmission
     # 'ignore' the error for now as controls are not being rendered...
     data = spec
-    if type(data) == unicode:
+    if isinstance(data, unicode):
         # make sure any stored bad values are wiped out
         # don't use keyword for errors - 2.6 compat
         # though unicode accepts them (as seen below)
         data = data.encode('ASCII', 'ignore')
     data = unicode(data, errors='ignore').encode('UTF-8')
     try:
-        resp, content = http_client.request(url, "POST", data, {
-            'Content-type': 'text/html'
-        })
-    except Exception:
+        req, content = http_client.post(
+            url, data=data, headers={'Content-type': 'text/html'})
+    except BaseException:
         logging.warning('Error generating thumbnail')
         return
     return content
+
+
+def _prepare_thumbnail_body_from_opts(request_body, request=None):
+    import mercantile
+    from geonode.utils import (_v,
+                               bbox_to_projection,
+                               bounds_to_zoom_level)
+    if isinstance(request_body, basestring):
+        request_body = json.loads(request_body)
+
+    # Defaults
+    _img_src_template = """<img src='{ogc_location}'
+    style='width: {width}px; height: {height}px;
+    left: {left}px; top: {top}px;
+    opacity: 1; visibility: inherit; position: absolute;'/>\n"""
+
+    def decimal_encode(bbox):
+        import decimal
+        _bbox = []
+        for o in [float(coord) for coord in bbox]:
+            if isinstance(o, decimal.Decimal):
+                o = (str(o) for o in [o])
+            _bbox.append(o)
+        # Must be in the form : [x0, x1, y0, y1
+        return [_bbox[0], _bbox[2], _bbox[1], _bbox[3]]
+
+    # Sanity Checks
+    if 'bbox' not in request_body:
+        return None
+    if 'srid' not in request_body:
+        return None
+    for coord in request_body['bbox']:
+        if not coord:
+            return None
+
+    width = 240
+    if 'width' in request_body:
+        width = request_body['width']
+    height = 200
+    if 'height' in request_body:
+        height = request_body['height']
+    smurl = None
+    if 'smurl' in request_body:
+        smurl = request_body['smurl']
+    if not smurl and getattr(settings, 'THUMBNAIL_GENERATOR_DEFAULT_BG', None):
+        smurl = settings.THUMBNAIL_GENERATOR_DEFAULT_BG
+
+    layers = None
+    thumbnail_create_url = None
+    if 'thumbnail_create_url' in request_body:
+        thumbnail_create_url = request_body['thumbnail_create_url']
+    elif 'layers' in request_body:
+        layers = request_body['layers']
+
+        wms_endpoint = getattr(ogc_server_settings, "WMS_ENDPOINT") or 'ows'
+        wms_version = getattr(ogc_server_settings, "WMS_VERSION") or '1.1.1'
+        wms_format = getattr(ogc_server_settings, "WMS_FORMAT") or 'image/png8'
+
+        params = {
+            'service': 'WMS',
+            'version': wms_version,
+            'request': 'GetMap',
+            'layers': layers,
+            'format': wms_format,
+            # 'TIME': '-99999999999-01-01T00:00:00.0Z/99999999999-01-01T00:00:00.0Z'
+        }
+
+        if request and request.user:
+            access_token = get_or_create_token(request.user)
+            if access_token and not access_token.is_expired():
+                params['access_token'] = access_token.token
+
+        _p = "&".join("%s=%s" % item for item in params.items())
+
+        import posixpath
+        thumbnail_create_url = posixpath.join(
+            ogc_server_settings.LOCATION,
+            wms_endpoint) + "?" + _p
+
+    # Compute Bounds
+    wgs84_bbox = decimal_encode(
+        bbox_to_projection([float(coord) for coord in request_body['bbox']] + [request_body['srid'], ],
+                           target_srid=4326)[:4])
+
+    # Fetch XYZ tiles - we are assuming Mercatore here
+    bounds = wgs84_bbox[0:4]
+    # Fixes bounds to tiles system
+    bounds[0] = _v(bounds[0], x=True, target_srid=4326)
+    bounds[2] = _v(bounds[2], x=True, target_srid=4326)
+    if bounds[3] > 85.051:
+        bounds[3] = 85.0
+    if bounds[1] < -85.051:
+        bounds[1] = -85.0
+    if 'zoom' in request_body:
+        zoom = request_body['zoom']
+    else:
+        zoom = bounds_to_zoom_level(bounds, width, height)
+
+    t_ll = mercantile.tile(bounds[0], bounds[1], zoom)
+    t_ur = mercantile.tile(bounds[2], bounds[3], zoom)
+
+    numberOfRows = t_ll.y - t_ur.y + 1
+
+    bounds_ll = mercantile.bounds(t_ll)
+    bounds_ur = mercantile.bounds(t_ur)
+
+    lat_res = abs(256 / (bounds_ur.north - bounds_ur.south))
+    lng_res = abs(256 / (bounds_ll.east - bounds_ll.west))
+    top = round(abs(bounds_ur.north - bounds[3]) * -lat_res)
+    left = round(abs(bounds_ll.west - bounds[0]) * -lng_res)
+
+    tmp_tile = mercantile.tile(bounds[0], bounds[3], zoom)
+    width_acc = 256 + left
+    first_row = [tmp_tile]
+    # Add tiles to fill image width
+    while width > width_acc:
+        c = mercantile.ul(tmp_tile.x + 1, tmp_tile.y, zoom)
+        lng = _v(c.lng, x=True, target_srid=4326)
+        if lng == 180.0:
+            lng = -180.0
+        tmp_tile = mercantile.tile(lng, bounds[3], zoom)
+        first_row.append(tmp_tile)
+        width_acc = width_acc + 256
+
+    # Build Image Request Template
+    _img_request_template = "<div style='height:{height}px; width:{width}px;'>\
+        <div style='position: absolute; top:{top}px; left:{left}px; z-index: 749; \
+        transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);'> \
+        \n"                      .format(height=height, width=width, top=top, left=left)
+
+    for row in range(0, numberOfRows):
+        for col in range(0, len(first_row)):
+            box = [col * 256, row * 256]
+            t = first_row[col]
+            y = t.y + row
+            if smurl:
+                imgurl = smurl.format(z=t.z, x=t.x, y=y)
+                _img_request_template += _img_src_template.format(ogc_location=imgurl,
+                                                                  height=256, width=256,
+                                                                  left=box[0], top=box[1])
+            xy_bounds = mercantile.xy_bounds(t.x, y, t.z)
+            params = {
+                'width': 256,
+                'height': 256,
+                'transparent': True,
+                'bbox': ",".join([str(xy_bounds.left), str(xy_bounds.bottom),
+                                  str(xy_bounds.right), str(xy_bounds.top)]),
+                'crs': 'EPSG:3857',
+
+            }
+            _p = "&".join("%s=%s" % item for item in params.items())
+
+            _img_request_template += \
+                _img_src_template.format(ogc_location=(thumbnail_create_url + '&' + _p),
+                                         height=256, width=256,
+                                         left=box[0], top=box[1])
+    _img_request_template += "</div></div>"
+    image = _render_thumbnail(_img_request_template, width=width, height=height)
+    return image
 
 
 def _fixup_ows_url(thumb_spec):
@@ -1702,10 +2042,11 @@ def mosaic_delete_first_granule(cat, layer):
     cat.mosaic_delete_granule(coverages['coverages']['coverage'][0]['name'], store, granule_id)
 
 
-def set_time_dimension(cat, layer, time_presentation, time_presentation_res, time_presentation_default_value,
+def set_time_dimension(cat, name, workspace, time_presentation, time_presentation_res, time_presentation_default_value,
                        time_presentation_reference_value):
     # configure the layer time dimension as LIST
     cat._cache.clear()
+    # cat.reload()
 
     presentation = time_presentation
     if not presentation:
@@ -1722,13 +2063,23 @@ def set_time_dimension(cat, layer, time_presentation, time_presentation_res, tim
     timeInfo = DimensionInfo("time", "true", presentation, resolution, "ISO8601", None, attribute="time",
                              strategy=strategy, reference_value=time_presentation_reference_value)
 
-    resource = cat.get_layer(layer).resource
+    layer = cat.get_layer(name)
+    resource = layer.resource if layer else None
+    if not resource:
+        resources = cat.get_resources(store=name) or cat.get_resources(store=name, workspace=workspace)
+        if resources:
+            resource = resources[0]
+
+    if not resource:
+        logger.exception("No resource could be found on GeoServer with name %s" % name)
+        raise Exception("No resource could be found on GeoServer with name %s" % name)
+
     resource.metadata = {'time': timeInfo}
     cat.save(resource)
 
 
 # main entry point to create a thumbnail - will use implementation
 # defined in settings.THUMBNAIL_GENERATOR (see settings.py)
-def create_gs_thumbnail(instance, overwrite=False):
+def create_gs_thumbnail(instance, overwrite=False, check_bbox=False):
     implementation = import_string(settings.THUMBNAIL_GENERATOR)
-    return implementation(instance, overwrite)
+    return implementation(instance, overwrite, check_bbox)

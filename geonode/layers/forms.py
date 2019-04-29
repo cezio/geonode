@@ -18,6 +18,7 @@
 #
 #########################################################################
 
+from geonode.base.forms import ResourceBaseForm
 import os
 import tempfile
 import zipfile
@@ -35,9 +36,7 @@ except ImportError:
 from geonode.utils import unzip_file
 from geonode.layers.models import Layer, Attribute
 
-autodiscover() # flake8: noqa
-
-from geonode.base.forms import ResourceBaseForm
+autodiscover()  # flake8: noqa
 
 
 class JSONField(forms.CharField):
@@ -157,7 +156,7 @@ class LayerUploadForm(forms.Form):
                     sld_file = cleaned["sld_file"].name
 
         if not cleaned["metadata_upload_form"] and not cleaned["style_upload_form"] and base_ext.lower() not in (
-                ".shp", ".tif", ".tiff", ".geotif", ".geotiff", ".asc", ".sld"):
+                ".shp", ".tif", ".tiff", ".geotif", ".geotiff", ".asc", ".sld", ".kml", ".kmz"):
             raise forms.ValidationError(
                 "Only Shapefiles, GeoTiffs, and ASCIIs are supported. You "
                 "uploaded a %s file" % base_ext)

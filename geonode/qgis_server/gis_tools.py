@@ -19,6 +19,7 @@
 #########################################################################
 
 import logging
+import traceback
 from urllib import urlencode, urlretrieve
 from os.path import splitext
 from math import atan, degrees, sinh, pi
@@ -71,7 +72,9 @@ def set_attributes(layer, overwrite=False):
                 [n.attrib['name'], n.attrib['type']] for n in doc.findall(
                     path) if n.attrib.get('name') and n.attrib.get('type')]
 
-        except:
+        except BaseException:
+            tb = traceback.format_exc()
+            logger.debug(tb)
             attribute_map = []
     else:
         attribute_map = []

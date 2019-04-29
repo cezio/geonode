@@ -21,12 +21,10 @@
 import os
 import logging
 
-from slugify import Slugify
+from slugify import slugify
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
-
-custom_slugify = Slugify(separator='_')
 
 ABSTRACT_TEMPLATE_MODEL_DATE_LATLON = "Image shot by {model} on {date} at {lat}, {lon} (latitude, longitude)"
 ABSTRACT_TEMPLATE_MODEL_DATE = "Image shot by {model} on {date}"
@@ -104,7 +102,7 @@ def exif_extract_dict(doc):
         if date:
             try:
                 date = convertExifDateToDjangoDate(date)
-            except:
+            except BaseException:
                 logger.error("Could not parse exif date")
                 date = None
 
@@ -162,16 +160,16 @@ def exif_extract_metadata_doc(doc):
         if date:
             try:
                 date = convertExifDateToDjangoDate(date)
-            except:
+            except BaseException:
                 logger.error("Could not parse exif date")
                 date = None
 
         if "Make" in exif_data:
-            keywords.append(custom_slugify(exif_data["Make"]))
+            keywords.append(slugify(exif_data["Make"]))
 
         if "Model" in exif_data:
             model = exif_data.get("Model", None)
-            keywords.append(custom_slugify(model))
+            keywords.append(slugify(model))
 
         if "GPSInfo" in exif_data:
             gpsinfo = {}

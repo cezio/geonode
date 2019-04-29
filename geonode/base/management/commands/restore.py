@@ -92,7 +92,7 @@ class Command(BaseCommand):
 
     def restore_geoserver_backup(self, settings, target_folder):
         """Restore GeoServer Catalog"""
-        url = settings.OGC_SERVER['default']['PUBLIC_LOCATION']
+        url = settings.OGC_SERVER['default']['LOCATION']
         user = settings.OGC_SERVER['default']['USER']
         passwd = settings.OGC_SERVER['default']['PASSWORD']
         geoserver_bk_file = os.path.join(target_folder, 'geoserver_catalog.zip')
@@ -288,7 +288,14 @@ class Command(BaseCommand):
                 static_folder = os.path.join(target_folder, helpers.STATIC_ROOT)
                 static_folders = settings.STATICFILES_DIRS
                 static_files_folders = os.path.join(target_folder, helpers.STATICFILES_DIRS)
-                template_folders = settings.TEMPLATE_DIRS
+                template_folders = []
+                try:
+                    template_folders = settings.TEMPLATE_DIRS
+                except:
+                    try:
+                        template_folders = settings.TEMPLATES[0]['DIRS']
+                    except:
+                        pass
                 template_files_folders = os.path.join(target_folder, helpers.TEMPLATE_DIRS)
                 locale_folders = settings.LOCALE_PATHS
                 locale_files_folders = os.path.join(target_folder, helpers.LOCALE_PATHS)

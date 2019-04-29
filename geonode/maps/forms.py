@@ -18,13 +18,12 @@
 #
 #########################################################################
 
+from geonode.base.forms import ResourceBaseForm
 from autocomplete_light.registry import autodiscover
 
 from geonode.maps.models import Map
 
-autodiscover() # flake8: noqa
-
-from geonode.base.forms import ResourceBaseForm
+autodiscover()  # flake8: noqa
 
 
 class MapForm(ResourceBaseForm):
